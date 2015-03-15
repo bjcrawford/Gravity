@@ -3,13 +3,10 @@
     <string name="app_name">Gravity</string>
 
 
-    <!-- Main menu activity strings -->
+  <!-- Main menu activity strings -->
     <string name="title_main_menu">Main Menu Activity</string>
-    <string name="button_play_game">Play Game</string>
-    <string name="button_options">Options</string>
-    <string name="button_exit">Exit</string>
 
-    <!-- Options activity strings -->
+  <!-- Options activity strings -->
     <string name="pref_category1">Preference Category 1</string>
     <string name="pref_category2">Preference Category 2</string>
 
@@ -32,5 +29,19 @@
         <item>Preference Item 3 Value</item>
     </string-array>
     <string name="pref_list_default">Preference Item 1 Value</string>
+
+  <!-- Play game activity strings -->
+    <string name="play_game_title">Play Game Activity</string>
+
+  <!-- Button strings -->
+    <string name="play_game_button">Play Game</string>
+    <string name="options_button">Options</string>
+    <string name="exit_button">Exit</string>
+    <string name="main_menu_button">Main Menu</string>
+    <string name="pause_button">Pause</string>
+    <string name="resume_button">Resume</string>
+
+  <!-- Pause dialog string -->
+    <string name="pause_dialog_title">Pause Menu</string>
 
 </resources>

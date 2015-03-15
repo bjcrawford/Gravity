@@ -26,6 +26,13 @@ public class MainMenuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // This handles receiving the exit intent from the play game activity and exiting
+        // the application. I'm not sure if this is the best place for it. Perhaps it
+        // should be in onStart on onResume instead.
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+
         // Rather than using System.out.println(), you can use the Log class
         // to print to the debug console. ".d" specifies a debug statement. Other
         // statements exists as well: ".e" is error, ".i" is info, etc
@@ -39,9 +46,9 @@ public class MainMenuActivity extends Activity {
 
         // Now we associate the button variables with their buttons on the layout
         // The view IDs are defined in the activity_main_menu.xml file
-        playGameButton = (Button) findViewById(R.id.playGameButton);
-        optionsButton = (Button) findViewById(R.id.optionsButton);
-        exitButton = (Button) findViewById(R.id.exitButton);
+        playGameButton = (Button) findViewById(R.id.play_game_button);
+        optionsButton = (Button) findViewById(R.id.options_button);
+        exitButton = (Button) findViewById(R.id.exit_button);
 
         // Set up event handling for the buttons
         // Play game button event handler
@@ -54,8 +61,8 @@ public class MainMenuActivity extends Activity {
                 // activity we're in and the second declares the activity we
                 // wish to launch.
 
-                //Intent playGameIntent = new Intent(MainMenuActivity.this, PlayGameActivity.class);
-                //startActivity(playGameIntent); // Launch the play game activity
+                Intent playGameIntent = new Intent(MainMenuActivity.this, PlayGameActivity.class);
+                startActivity(playGameIntent); // Launch the play game activity
             }
         });
 

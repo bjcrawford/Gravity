@@ -6,4 +6,8 @@
 
     </style>
 
+    <style name="OptionsTheme" parent="android:Theme.Holo.Light.Dialog">
+
+    </style>
+
 </resources>

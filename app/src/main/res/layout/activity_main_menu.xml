@@ -10,7 +10,7 @@
     tools:context=".MainMenuActivity">
 
     <TextView
-        android:id="@+id/activityTitle"
+        android:id="@+id/main_menu_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -18,29 +18,28 @@
         android:text="@string/title_main_menu"
         android:textSize="35sp" />
 
-
     <Button
-        android:id="@+id/playGameButton"
+        android:id="@+id/play_game_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/optionsButton"
-        android:text="@string/button_play_game" />
+        android:layout_above="@+id/options_button"
+        android:text="@string/play_game_button" />
 
     <Button
-        android:id="@+id/optionsButton"
+        android:id="@+id/options_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="@string/button_options" />
+        android:text="@string/options_button" />
 
     <Button
-        android:id="@+id/exitButton"
+        android:id="@+id/exit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/optionsButton"
+        android:layout_below="@+id/options_button"
         android:layout_centerHorizontal="true"
-        android:text="@string/button_exit" />
+        android:text="@string/exit_button" />
 
 </RelativeLayout>
