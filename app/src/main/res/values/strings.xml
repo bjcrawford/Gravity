@@ -9,4 +9,28 @@
     <string name="button_options">Options</string>
     <string name="button_exit">Exit</string>
 
+    <!-- Options activity strings -->
+    <string name="pref_category1">Preference Category 1</string>
+    <string name="pref_category2">Preference Category 2</string>
+
+    <string name="pref_checkbox">CheckBox Preference</string>
+    <string name="pref_checkbox_desc">CheckBox description</string>
+
+    <string name="pref_edittext">EditText Preference</string>
+    <string name="pref_edittext_desc">EditText description</string>
+    <string name="pref_edittext_default"></string>
+
+    <string name="pref_list">List Select Preference</string>
+    <string-array name="pref_list_entries">
+        <item>Preference Item 1</item>
+        <item>Preference Item 2</item>
+        <item>Preference Item 3</item>
+    </string-array>
+    <string-array name="pref_list_values">
+        <item>Preference Item 1 Value</item>
+        <item>Preference Item 2 Value</item>
+        <item>Preference Item 3 Value</item>
+    </string-array>
+    <string name="pref_list_default">Preference Item 1 Value</string>
+
 </resources>

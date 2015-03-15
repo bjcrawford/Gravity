@@ -1,6 +1,7 @@
 package edu.temple.cis3238.gravity.gravity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +48,7 @@ public class MainMenuActivity extends Activity {
         playGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Play game button clicked");
                 // Intents are used to pass data and declare your intentions
                 // when loading a new activity. The first parameter states the
                 // activity we're in and the second declares the activity we
@@ -54,7 +56,6 @@ public class MainMenuActivity extends Activity {
 
                 //Intent playGameIntent = new Intent(MainMenuActivity.this, PlayGameActivity.class);
                 //startActivity(playGameIntent); // Launch the play game activity
-                Log.d(TAG, "Play game button clicked");
             }
         });
 
@@ -62,9 +63,9 @@ public class MainMenuActivity extends Activity {
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent optionsIntent = new Intent(MainMenuActivity.this, OptionsActivity.class);
-                //startActivity(optionsIntent);
                 Log.d(TAG, "Options button clicked");
+                Intent optionsIntent = new Intent(MainMenuActivity.this, OptionsActivity.class);
+                startActivity(optionsIntent);
             }
         });
 
@@ -72,6 +73,7 @@ public class MainMenuActivity extends Activity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Exit button clicked");
                 // The finish method destroys the current activity only. If it is the only activity
                 // on the activity stack, the application will close. Otherwise, you would be
                 // returned to the previous activity on the stack. In this case, the main menu
