@@ -1,6 +1,12 @@
 <resources>
+
     <string name="app_name">Gravity</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+
+    <!-- Main menu activity strings -->
+    <string name="title_main_menu">Main Menu Activity</string>
+    <string name="button_play_game">Play Game</string>
+    <string name="button_options">Options</string>
+    <string name="button_exit">Exit</string>
+
 </resources>
