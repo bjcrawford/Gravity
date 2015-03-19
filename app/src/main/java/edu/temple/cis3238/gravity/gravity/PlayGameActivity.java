@@ -1,13 +1,23 @@
 package edu.temple.cis3238.gravity.gravity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,25 +26,25 @@ public class PlayGameActivity extends Activity {
 
     private static final String TAG ="PlayGameActivity";
 
-    private Button pauseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate() fired");
         setContentView(R.layout.activity_play_game);
+        MSurface surface0 =  new MSurface(this);
+
+        Canvas canvas0;
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.planet1);
+        bitmap = bitmap.copy(bitmap.getConfig(), false);
+        canvas0 = new Canvas(bitmap);
+        canvas0.drawBitmap(bitmap, 10, 10, new Paint());
+        surface0.draw(canvas0);
 
         // I don't think we will use the action bar at all.
         getActionBar().hide();
 
-        pauseButton = (Button) findViewById(R.id.pause_button);
-
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new PauseDialogFragment().show(getFragmentManager(), null);
-            }
-        });
     }
 
     @Override
@@ -87,5 +97,49 @@ public class PlayGameActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy() fired");
+    }
+
+
+    public class MSurface extends SurfaceView implements SurfaceHolder.Callback {
+
+        public MSurface(Context context) {
+            super(context);
+            getHolder().addCallback(this);
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.planet1);
+            canvas.drawColor(Color.TRANSPARENT);
+            canvas.drawBitmap(icon, 10, 10, new Paint());
+        }
+
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            //
+        }
+
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+            Canvas canvas = null;
+            try {
+                canvas = holder.lockCanvas(null);
+                synchronized (holder) {
+                    draw(canvas);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (canvas != null) {
+                    holder.unlockCanvasAndPost(canvas);
+                }
+            }
+        }
     }
 }
