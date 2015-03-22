@@ -1,6 +1,7 @@
 package models.physicd2d;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,21 +21,29 @@ public class Physics2D {
     /**A collection of bodies currently active in the world*/
     private List<Body> bodies;
 
+    /**A collection of landmarks currently active in the world*/
+    private List<Landmark> landmarks;
+
     /**A collection of phenomena currently active in the world*/
     private List<Phenomenon> phenomena;
 
 // Constructors ------------------------------------------------------------------------------------
 
-    //TODO: Define procedure for reading levels from persistent storage into physics object
-
     public Physics2D() {
-
+        this.idCtr = 0;
+        this.bodies = new ArrayList<Body>();
+        this.phenomena = new ArrayList<Phenomenon>();
     }
 
 // General Public Functions ------------------------------------------------------------------------
 
-    //TODO: Define procedure for reading levels from persistent storage into physics object
-    public void init() {
+    public void createBody() {
+
+        this.idCtr ++;
+    }
+
+    public void createPhenomenon() {
+
 
     }
 

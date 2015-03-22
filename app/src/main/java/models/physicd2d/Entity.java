@@ -12,12 +12,6 @@ public abstract class Entity {
 
 // Fields ------------------------------------------------------------------------------------------
 
-    /**The unique identifier of the entity.*/
-    private int id;
-
-    /**A set of points describing the grid spaces occupied by the entity.*/
-    private List<Point> occupiedSpace;
-
     /**The entity's current velocity in the x direction.*/
     private int dx;
 
@@ -30,10 +24,19 @@ public abstract class Entity {
     /**The acceleration in the y direction currently being experienced by this entity.*/
     private float d2y;
 
+    /**The unique identifier of the entity.*/
+    private int id;
+
     /**The time remaining until the entity expires.*/
     private int lifespan;
 
-    /**The orientation of the object*/
+    /**The x,y coordinates of the entity.*/
+    private Point position;
+
+    /**A set of points describing the grid spaces occupied by the entity.*/
+    private List<Point> shape;
+
+    /**The orientation of the object, defined by the entity's trajectory i.e acceleration unit vector*/
     private int orientation;
 
 // Constructors ------------------------------------------------------------------------------------
@@ -41,26 +44,19 @@ public abstract class Entity {
 // General Public Functions ------------------------------------------------------------------------
 
     /**
-     * Apply acceleration to the entity by manipulating its d2x and d2y fields.
-     * @param delta_d2x The value of acceleration in the x direction to be applied to the entity.
-     * @param delta_d2y The value of acceleration in the y direction to be applied to the entity.
-     * @param deltaT The time that has elapsed since the last call to the entity's update method.
-     * @param deltaTheta The change in the entity's orientation.
-     */
-    abstract public void update(float delta_d2x, float delta_d2y, float deltaT, int deltaTheta);
-
-
-// General Private Functions -----------------------------------------------------------------------
-
-    /**
      * Modify the values of acceleration being experienced by the entity.
      * @param delta_d2x The value of acceleration in the x direction to be applied to the entity.
      * @param delta_d2y The value of acceleration in the y direction to be applied to the entity.
      */
-    private void applyAcceleration(float delta_d2x, float delta_d2y) {
-        this.d2x += delta_d2x;
-        this.d2y += delta_d2y;
-    }
+    abstract public void applyAcceleratingForce(float delta_d2x, float delta_d2y);
+
+    /**
+     * Apply acceleration to the entity by manipulating its d2x and d2y fields.
+     * @param deltaT The time that has elapsed since the last call to the entity's update method.
+     */
+    abstract public void update(float deltaT);
+
+// General Private Functions -----------------------------------------------------------------------
 
     /**
      * Update the velocity of the entity based on its current acceleration, velocity, and the elapsed time given as input.
@@ -83,10 +79,8 @@ public abstract class Entity {
         int xDisplacement = (int) ((this.dx * deltaT) + (0.5 * this.d2x * deltaT * deltaT));
         int yDisplacement = (int) ((this.dy * deltaT) + (0.5 * this.d2y * deltaT * deltaT));
 
-        // Apply the displacement calculated to each subsection of the entity's occupied space.
-        for(Point subsection : this.occupiedSpace){
-            subsection.offset(xDisplacement, yDisplacement);
-        }
+        // Apply displacement to the entity's position
+        this.position.offset(xDisplacement, yDisplacement);
     }
 
     /**
@@ -105,8 +99,8 @@ public abstract class Entity {
      * Get the list of grid spaces currently occupied by the entity.
      * @return A list of points occupied by the entity.
      */
-    public List<Point> getOccupiedSpace() {
-        return this.occupiedSpace;
+    public List<Point> getShape() {
+        return this.shape;
     }
 
     /**
