@@ -1,20 +1,20 @@
 package edu.temple.cis3238.gravity.gravity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class PlayGameActivity extends Activity {
 
-    private static final String TAG ="PlayGameActivity";
+    private static final String TAG = "PlayGameActivity";
+
+    private static final String LEVEL_FRAG_TAG = "LevelFragment";
 
     private Button pauseButton;
 
@@ -27,14 +27,21 @@ public class PlayGameActivity extends Activity {
         // I don't think we will use the action bar at all.
         getActionBar().hide();
 
+        // Just testing pause functionality
         pauseButton = (Button) findViewById(R.id.pause_button);
-
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new PauseDialogFragment().show(getFragmentManager(), null);
             }
         });
+
+        // Just testing level fragment
+        if (getFragmentManager().findFragmentByTag(LEVEL_FRAG_TAG) == null ) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, new LevelFragment(), LEVEL_FRAG_TAG)
+                    .commit();
+        }
     }
 
     @Override

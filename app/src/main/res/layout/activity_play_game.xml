@@ -19,12 +19,10 @@
         android:textSize="35sp" />
 
     <FrameLayout
-        android:id="@+id/game_fragment_container"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/play_game_title">
-
-    </FrameLayout>
+        android:layout_below="@+id/play_game_title" />
 
     <Button
         android:id="@+id/pause_button"
@@ -33,7 +31,5 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:text="@string/pause_button" />
-
-
 
 </RelativeLayout>
