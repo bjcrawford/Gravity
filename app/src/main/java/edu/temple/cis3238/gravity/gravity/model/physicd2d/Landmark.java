@@ -1,23 +1,11 @@
-package models;
-
-import android.graphics.Point;
+package edu.temple.cis3238.gravity.gravity.model.physicd2d;
 
 /**
- *
- * @author Ian M. Speers
- * @version 1.0a last modified 3/21/2015
+ * Created by ian on 3/22/2015.
  */
-public class EntityData {
+public class Landmark {
 
 // Fields ------------------------------------------------------------------------------------------
-
-    /**The unique identifier of the given entity.*/
-    private int id;
-
-    /**The current position of the entity corresponding to the given id.*/
-    private Point position;
-
-
 
 // Constructors ------------------------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-package edu.temple.cis3238.gravity.gravity;
+package edu.temple.cis3238.gravity.gravity.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.zip.Inflater;
+import edu.temple.cis3238.gravity.gravity.activity.MainMenuActivity;
+import edu.temple.cis3238.gravity.gravity.activity.OptionsActivity;
+import edu.temple.cis3238.gravity.gravity.R;
 
 /**
  * Created by bcrawford on 3/15/15.

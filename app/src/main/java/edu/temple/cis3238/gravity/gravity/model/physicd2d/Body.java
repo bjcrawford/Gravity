@@ -1,11 +1,9 @@
-package models.game;
+package edu.temple.cis3238.gravity.gravity.model.physicd2d;
 
 /**
- *
- * @author Ian M. Speers
- * @version 1.0a last modified 3/21/2015
+ * Created by ian on 3/21/2015.
  */
-public class Game {
+public class Body {
 
 // Fields ------------------------------------------------------------------------------------------
 

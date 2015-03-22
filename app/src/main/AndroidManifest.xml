@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".MainMenuActivity"
+            android:name=".activity.MainMenuActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden" >
@@ -21,7 +21,7 @@
         </activity>
 
         <activity
-            android:name=".OptionsActivity"
+            android:name=".activity.OptionsActivity"
             android:label="@string/app_name"
             android:theme="@style/OptionsTheme"
             android:screenOrientation="landscape"
@@ -29,7 +29,7 @@
         </activity>
 
         <activity
-            android:name=".PlayGameActivity"
+            android:name=".activity.PlayGameActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden" >

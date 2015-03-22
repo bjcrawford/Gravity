@@ -1,4 +1,4 @@
-package edu.temple.cis3238.gravity.gravity;
+package edu.temple.cis3238.gravity.gravity.activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.fragment.LevelFragment;
+import edu.temple.cis3238.gravity.gravity.fragment.PauseDialogFragment;
 
 
 public class PlayGameActivity extends Activity {

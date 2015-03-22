@@ -1,9 +1,11 @@
-package models.physicd2d;
+package edu.temple.cis3238.gravity.gravity.model.game;
 
 /**
- * Created by ian on 3/21/2015.
+ *
+ * @author Ian M. Speers
+ * @version 1.0a last modified 3/21/2015
  */
-public class Phenomenon {
+public class Game {
 
 // Fields ------------------------------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-package models.physicd2d;
+package edu.temple.cis3238.gravity.gravity.model.physicd2d;
 
 import java.util.List;
 import java.util.ArrayList;

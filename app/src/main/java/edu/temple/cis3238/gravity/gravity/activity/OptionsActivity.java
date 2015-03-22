@@ -1,9 +1,11 @@
-package edu.temple.cis3238.gravity.gravity;
+package edu.temple.cis3238.gravity.gravity.activity;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.util.Log;
+
+import edu.temple.cis3238.gravity.gravity.R;
 
 
 public class OptionsActivity extends PreferenceActivity {

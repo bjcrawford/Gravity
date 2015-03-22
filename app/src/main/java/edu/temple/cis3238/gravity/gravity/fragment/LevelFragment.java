@@ -1,4 +1,4 @@
-package edu.temple.cis3238.gravity.gravity;
+package edu.temple.cis3238.gravity.gravity.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;

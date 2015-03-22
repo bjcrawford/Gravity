@@ -1,9 +1,9 @@
-package models.physicd2d;
+package edu.temple.cis3238.gravity.gravity.model.physicd2d;
 
 /**
- * Created by ian on 3/22/2015.
+ * Created by ian on 3/21/2015.
  */
-public class Landmark {
+public class Phenomenon {
 
 // Fields ------------------------------------------------------------------------------------------
 
