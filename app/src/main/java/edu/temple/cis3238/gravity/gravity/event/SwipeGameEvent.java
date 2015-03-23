@@ -3,7 +3,7 @@ package edu.temple.cis3238.gravity.gravity.event;
 /**
  * A GameEvent subclass for gesture based touch input.
  *
- * @author: Brett Crawford
+ * @author Brett Crawford
  * @version 1.0a last modified 3/21/2015
  */
 public class SwipeGameEvent extends GameEvent {

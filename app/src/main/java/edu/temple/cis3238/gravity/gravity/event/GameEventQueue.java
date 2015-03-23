@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  *
- * @author: Brett Crawford
+ * @author Brett Crawford
  * @version 1.0a last modified 3/21/2015
  */
 public class GameEventQueue extends ConcurrentLinkedQueue<GameEvent> {
