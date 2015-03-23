@@ -8,19 +8,19 @@ import org.json.JSONObject;
  * @author Brett Crawford
  * @version 1.0a last modified 3/23/2015
  */
-public class DynamicEntity extends Entity {
+public class MobileEntity extends Entity {
 
     /**
-     * Constructs a DynamicEntity object from a given ID and JSONObject.
+     * Constructs a MobileEntity object from a given ID and JSONObject.
      * @param id The entity ID.
-     * @param dynamicEntityJSONObject The JSONObject representation of the StaticEntity.
+     * @param mobileEntityJSONObject The JSONObject representation of the MobileEntity.
      */
-    public DynamicEntity(int id, JSONObject dynamicEntityJSONObject) {
-        super(id, dynamicEntityJSONObject);
+    public MobileEntity(int id, JSONObject mobileEntityJSONObject) {
+        super(id, mobileEntityJSONObject);
         try {
             // This is definitely not the most elegant way to handle this
             for (int i = 0; i < 12; i++) {
-                this.imgResIds.add(i, dynamicEntityJSONObject.getString("img_res_id" + i));
+                this.imgResIds.add(i, mobileEntityJSONObject.getString("img_res_id" + i));
             }
         }
         catch (JSONException e) {
@@ -29,26 +29,26 @@ public class DynamicEntity extends Entity {
     }
 
     /**
-     * Returns a JSONObject representation of the DynamicEntity object.
+     * Returns a JSONObject representation of the MobileEntity object.
      * @return The JSONObject.
      */
-    public JSONObject getStaticEntityJSONObject() {
-        JSONObject staticEntityJSONObject = super.getEntityJSONObject();
+    public JSONObject getMobileEntityJSONObject() {
+        JSONObject mobileEntityJSONObject = super.getEntityJSONObject();
         try {
             // This is definitely not the most elegant way to handle this
             for (int i = 0; i < 12; i++) {
-                staticEntityJSONObject.put("img_res_id" + i, this.getImgResId(i));
+                mobileEntityJSONObject.put("img_res_id" + i, this.getImgResId(i));
             }
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return staticEntityJSONObject;
+        return mobileEntityJSONObject;
     }
 
     /**
-     * Returns the image resource ID (R.drawable.image_name) associated with the DynamicEntities
+     * Returns the image resource ID (R.drawable.image_name) associated with the MobileEntities
      * current orientation.
      * @return The image resource ID.
      */
@@ -57,7 +57,7 @@ public class DynamicEntity extends Entity {
     }
 
     /**
-     * Returns the image resource ID (R.drawable.image_name) associated with the DynamicEntities
+     * Returns the image resource ID (R.drawable.image_name) associated with the MobileEntities
      * given orientation.
      * @return The image resource ID.
      */
