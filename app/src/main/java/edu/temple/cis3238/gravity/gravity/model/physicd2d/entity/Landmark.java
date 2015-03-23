@@ -47,6 +47,7 @@ public class Landmark extends FixedEntity {
 
     @Override
     public boolean update(float deltaT) {
+
         //TODO: rotation
         return true; //TODO: decide if the landmark has been updated.
     }

@@ -3,6 +3,10 @@ package edu.temple.cis3238.gravity.gravity.model.physicd2d.entity;
 import java.util.List;
 import android.graphics.Point;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  *
  * @author Ian M. Speers
@@ -27,14 +31,9 @@ public abstract class Entity {
     /**A set of points describing the grid spaces occupied by the entity.*/
     protected List<Point> shape;
 
-    /**The orientation of the object, defined by the entity's trajectory i.e acceleration unit vector*/
-    protected int orientation;
-
 // Constructors ------------------------------------------------------------------------------------
 
 // General Public Functions ------------------------------------------------------------------------
-
-// General Protected Functions ---------------------------------------------------------------------
 
     /**
      * Apply acceleration to the entity by manipulating its d2x and d2y fields.
@@ -43,15 +42,44 @@ public abstract class Entity {
      */
     abstract public boolean update(float deltaT);
 
+    public JSONObject toJSON() throws JSONException{
+        JSONObject selfAsJSON = new JSONObject();
+        selfAsJSON.put("id", this.id);
+        selfAsJSON.put("x", this.position.x);
+        selfAsJSON.put("y", this.position.y);
+
+        JSONArray pShapes = new JSONArray();
+        // For each shape in this entity's list of shapes...
+        for(List<Point> shapeItr : this.shapes) {
+            // For each point in the current shape...
+            JSONArray pShape = new JSONArray();
+            for(Point point : shapeItr) {
+                // Create a new object to store the point.
+                JSONObject pos = new JSONObject();
+                pos.put("x", point.x);
+                pos.put("y", point.y);
+                pShape.put(pos);
+            }
+            pShapes.put(pShape);
+        }
+
+        selfAsJSON.put("shapes", pShapes);
+        selfAsJSON.put("lifespan", this.lifespan);
+
+        return selfAsJSON;
+    }
+
+// General Protected Functions ---------------------------------------------------------------------
+
     /**
      * Update the entity's orientation and transform the occupied space of the entity based on the change in orientation.
-     * @param deltaTheta The change in orientation. This absolute value of this parameter should not exceed 360 i.e -360 <= deltaTheta <=360.
-     *                      <br>If the deltaTheta falls outside of this range, the value (deltaTheta % 360 wil be used).
+     * @param orientationIndex The desired orientation of the entity in Z12.
      */
-    protected void rotate(int deltaTheta) {
-        deltaTheta = deltaTheta % 360;
-        this.orientation += deltaTheta;
-        //TODO: Translate occupied space based on change in orientation.
+    protected void rotate(int orientationIndex) {
+        orientationIndex = orientationIndex % 12;
+        if(orientationIndex < this.shapes.size()){
+            this.shape = this.shapes.get(orientationIndex);
+        }
     }
 
 // Getters and Setters -----------------------------------------------------------------------------
@@ -79,4 +107,11 @@ public abstract class Entity {
     public int getId(){
         return this.id;
     }
+
+    /**
+     * Get the entity's position.
+     * @return The point representation of the entity's position.
+     */
+    public Point getPosition() { return this.position; }
+
 }

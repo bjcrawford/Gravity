@@ -1,5 +1,8 @@
 package edu.temple.cis3238.gravity.gravity.model.physicd2d.entity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  *
  * @author Ian M. Speers
@@ -33,6 +36,17 @@ abstract public class MobileEntity extends Entity {
      */
     abstract public void applyAcceleratingForce(float delta_d2x, float delta_d2y);
 
+    /**
+     * Returns a JSON object representation of the entity.
+     * @return A JSON object containing the data of the entity.
+     * @throws JSONException
+     */
+    public JSONObject toJSON() throws JSONException{
+        JSONObject selfAsJSON = super.toJSON();
+        selfAsJSON.put("dx0", this.dx);
+        selfAsJSON.put("dy0", this.dy);
+        return selfAsJSON;
+    }
 
 // General Protected Functions ---------------------------------------------------------------------
 
