@@ -17,6 +17,12 @@ import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
 
+/**
+ * A reusable level fragment.
+ *
+ * @author Brett Crawford
+ * @version 1.0a last modified 3/21/2015
+ */
 public class LevelFragment extends Fragment {
 
     private static final String TAG = "LevelFragment";
@@ -27,7 +33,6 @@ public class LevelFragment extends Fragment {
     private GameEventQueue eventQueue;
 
     public LevelFragment() {
-
         eventQueue = new GameEventQueue();
     }
 

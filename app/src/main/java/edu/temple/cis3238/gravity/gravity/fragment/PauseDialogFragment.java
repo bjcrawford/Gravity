@@ -14,26 +14,35 @@ import edu.temple.cis3238.gravity.gravity.activity.OptionsActivity;
 import edu.temple.cis3238.gravity.gravity.R;
 
 /**
- * Created by bcrawford on 3/15/15.
+ * A DialogFragment for the pause menu.
+ *
+ * @author Brett Crawford
+ * @version 1.0a last modified 3/15/2015
  */
 public class PauseDialogFragment extends DialogFragment {
 
+    /* The options button associated with the DialogFragment's layout */
     private Button optionsButton;
+
+    /* The main menu button associated with the DialogFragment's layout */
     private Button mainMenuButton;
+
+    /* The exit button associated with the DialogFragment's layout */
     private Button exitButton;
 
+    /**
+     * Called when the Dialog is created. Handles defining button event
+     * handling and building of the Dialog
+     * @param savedInstanceState The saved instance state
+     * @return The Dialog
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setMessage(R.string.pause_dialog_title);
+        // Inflate the DialogFragment's view using the layout
         View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_pause, null);
-        builder.setView(dialogView);
-        builder.setPositiveButton(R.string.resume_button, null);
 
-        // Grab a reference to the buttons defined in activity_play_game.xml
+        // Associate the button objects with the buttons defined in the DialogFragment's layout
         optionsButton = (Button) dialogView.findViewById(R.id.options_button);
         mainMenuButton = (Button) dialogView.findViewById(R.id.main_menu_button);
         exitButton = (Button) dialogView.findViewById(R.id.exit_button);
@@ -75,6 +84,12 @@ public class PauseDialogFragment extends DialogFragment {
                 startActivity(exitIntent);
             }
         });
+
+        // Use the Builder class for convenient dialog construction
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.pause_dialog_title);
+        builder.setView(dialogView);
+        builder.setPositiveButton(R.string.resume_button, null);
 
         // Create the AlertDialog object and return it
         return builder.create();

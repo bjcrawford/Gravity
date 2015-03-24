@@ -12,10 +12,18 @@ public abstract class GameEvent {
     /* Records the time of the event */
     private final long eventTime;
 
+    /**
+     * The default constructor for this class. Initializes the eventTime
+     * property with the current system time (ms).
+     */
     public GameEvent() {
         eventTime = System.currentTimeMillis();
     }
 
+    /**
+     * Returns the time the event occurred in the systems time (ms).
+     * @return The time of the event
+     */
     public long getEventTime() {
         return eventTime;
     }

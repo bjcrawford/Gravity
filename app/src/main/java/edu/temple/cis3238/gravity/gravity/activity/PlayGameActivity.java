@@ -13,7 +13,12 @@ import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.PauseDialogFragment;
 
-
+/**
+ * The play game activity.
+ *
+ * @author Brett Crawford
+ * @version 1.0a last modified 3/15/2015
+ */
 public class PlayGameActivity extends Activity {
 
     private static final String TAG = "PlayGameActivity";

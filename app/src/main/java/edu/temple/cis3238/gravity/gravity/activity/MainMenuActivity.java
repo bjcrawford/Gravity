@@ -9,7 +9,12 @@ import android.widget.Button;
 
 import edu.temple.cis3238.gravity.gravity.R;
 
-
+/**
+ * The main menu activity.
+ *
+ * @author Brett Crawford
+ * @version 1.0a last modified 3/15/2015
+ */
 public class MainMenuActivity extends Activity {
 
     // This string is user for debugging with the log. It is best practice to add
