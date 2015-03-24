@@ -32,15 +32,9 @@ public class PlayGameActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate() fired");
         setContentView(R.layout.activity_play_game);
-        MSurface surface0 =  new MSurface(this);
 
-        Canvas canvas0;
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.planet1);
-        bitmap = bitmap.copy(bitmap.getConfig(), false);
-        canvas0 = new Canvas(bitmap);
-        canvas0.drawBitmap(bitmap, 10, 10, new Paint());
-        surface0.draw(canvas0);
+
 
         // I don't think we will use the action bar at all.
         getActionBar().hide();
