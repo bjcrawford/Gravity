@@ -26,7 +26,6 @@ public class Body extends MobileEntity {
         this.dy = 0;
         this.d2x = 0;
         this.d2y = 0;
-        this.orientation = 0;
         this.id = id;
         this.shapes = new ArrayList<>();
         this.shapes.add(new ArrayList<Point>());
@@ -48,7 +47,6 @@ public class Body extends MobileEntity {
         this.dy = dy0;
         this.d2x = 0;
         this.d2y = 0;
-        this.orientation = 0;
         this.shapes = shapes;
         this.shape = this.shapes.get(0);
         this.id = id;
