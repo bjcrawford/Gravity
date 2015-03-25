@@ -10,12 +10,15 @@ import java.util.ArrayList;
 /**
  *
  * @author Brett Crawford
- * @version 1.0a last modified 3/23/2015
+ * @version 1.0b last modified 3/25/2015
  */
-public abstract class Entity {
+public class Entity {
 
     /**The unique identifier of the entity.*/
     protected int id;
+
+    /**The name of the entity (testing purposes only).*/
+    protected String name;
 
     /**The x,y coordinates of the entity.*/
     protected Point position;
@@ -26,14 +29,18 @@ public abstract class Entity {
     /**An ArrayList of the image resource ids representing all possible orientations.*/
     protected ArrayList<String> imgResIds;
 
-    public Entity(int id, JSONObject staticEntityJSONObject) {
-        this.id = id;
+    public Entity(JSONObject entityJSONObject) {
         this.position = new Point();
         this.orientation = 0;
         this.imgResIds = new ArrayList<String>();
         try {
-            this.setX(staticEntityJSONObject.getInt("x0"));
-            this.setY(staticEntityJSONObject.getInt("y0"));
+            this.id = entityJSONObject.getInt("id");
+            this.name = entityJSONObject.getString("name");
+
+            // This is definitely not the most elegant way to handle this
+            for (int i = 0; i < 12; i++) {
+                this.imgResIds.add(i, entityJSONObject.getString("img_res_id" + i));
+            }
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -45,9 +52,15 @@ public abstract class Entity {
         JSONObject entityJSONObject = new JSONObject();
         try {
             entityJSONObject.put("id", this.getId());
+            entityJSONObject.put("name", this.getName());
             entityJSONObject.put("x0", this.getX());
             entityJSONObject.put("y0", this.getY());
             entityJSONObject.put("orientation", this.getOrientation());
+
+            // This is definitely not the most elegant way to handle this
+            for (int i = 0; i < 12; i++) {
+                entityJSONObject.put("img_res_id" + i, imgResIds.get(i));
+            }
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -62,6 +75,14 @@ public abstract class Entity {
      */
     public int getId() {
         return id;
+    }
+
+    /**
+     * Returns the name of this entity.
+     * @return The name of this entity.
+     */
+    public String getName() {
+        return name;
     }
 
     /**
@@ -132,5 +153,23 @@ public abstract class Entity {
         }
 
         return false;
+    }
+
+    /**
+     * Returns the image resource ID (R.drawable.image_name) associated with the Entity's
+     * current orientation.
+     * @return The image resource ID.
+     */
+    public String getImgResId() {
+        return this.imgResIds.get(this.getOrientation());
+    }
+
+    /**
+     * Returns the image resource ID (R.drawable.image_name) associated with the Entity's
+     * given orientation.
+     * @return The image resource ID.
+     */
+    public String getImgResId(int orientation) {
+        return this.imgResIds.get(orientation);
     }
 }
