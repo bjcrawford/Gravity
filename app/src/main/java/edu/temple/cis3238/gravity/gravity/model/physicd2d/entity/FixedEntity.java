@@ -1,9 +1,11 @@
-package edu.temple.cis3238.gravity.gravity.model.physicd2d;
+package edu.temple.cis3238.gravity.gravity.model.physicd2d.entity;
 
 /**
- * Created by ian on 3/21/2015.
+ *
+ * @author Ian M. Speers
+ * @version 1.0a last modified 3/21/2015
  */
-public class Phenomenon {
+abstract public class FixedEntity extends Entity {
 
 // Fields ------------------------------------------------------------------------------------------
 
@@ -14,5 +16,4 @@ public class Phenomenon {
 // General Private Functions -----------------------------------------------------------------------
 
 // Getters and Setters -----------------------------------------------------------------------------
-
 }
