@@ -39,9 +39,6 @@ public class Physics2D {
     /**A collection of phenomena currently active in the world*/
     private List<Phenomenon> phenomena;
 
-    /**A collection of entities which have been updated since the last call to the objects getUpdated() method.*/
-    private List<Entity> updated;
-
 // Constructors ------------------------------------------------------------------------------------
 
     /**
@@ -54,7 +51,6 @@ public class Physics2D {
         this.bodies = new ArrayList<>();
         this.landmarks = new ArrayList<>();
         this.phenomena = new ArrayList<>();
-        this.updated = new ArrayList<>();
 
         this.unverse = new Plane2D(width, height);
     }
@@ -66,7 +62,32 @@ public class Physics2D {
         this.readPhenomena(persistent.getJSONArray("phenomena"));
     }
 
-// General Public Functions ------------------------------------------------------------------------
+// Private -----------------------------------------------------------------------------------------
+
+    private void readBodies(JSONArray persistent) throws JSONException{
+        for(int index = 0; index < persistent.length(); index ++) {
+            JSONObject pBody = persistent.getJSONObject(index);
+            //TODO: body.toJSON()
+        }
+    }
+
+    private void readLandmarks(JSONArray persistent) throws JSONException{
+        for(int index = 0; index < persistent.length(); index ++) {
+            JSONObject pLandmark = persistent.getJSONObject(index);
+            //TODO: landmark.toJSON()
+        }
+    }
+
+    private void readPhenomena(JSONArray persistent) throws JSONException{
+        for(int index = 0; index < persistent.length(); index ++) {
+            JSONObject pPhenomenon = persistent.getJSONObject(index);
+            //TODO: phenomenon.toJSON()
+        }
+    }
+
+// Protected ---------------------------------------------------------------------------------------
+
+// Public ------------------------------------------------------------------------------------------
 
     public void createBody(int id, Point position, int dx0, int dy0, int lifespan, List<List<Point>> shapes) {
         this.bodies.add(new Body(id, position, dx0, dy0, lifespan, shapes));
@@ -121,9 +142,7 @@ public class Physics2D {
         for(Body body : this.bodies) {
             Point preImagePosition = new Point(body.getPosition());
             // If the body has been updated, add it to the list of updated entities.
-            if(body.update(deltaT)) {
                 // TODO: Accelerate bodies
-                this.updated.add(body);
                 // Remove the body's occupied space projection from the plane.
                 for(Point subsection : body.getShape()) {
                     // Copy each of the points in the body's shape, and translate them by the previous <x, y> offset of the body's position.
@@ -142,15 +161,12 @@ public class Physics2D {
                     //Set the associated region to occupied.
                     this.unverse.setRegionOccupied(translatedPoint, body.getId());
                 }
-            }
         }
 
         // Update each of the landmarks.
         for(Landmark landmark : this.landmarks) {
             Point preImagePosition = new Point(landmark.getPosition());
             // If the landmark has been updated, add it to the list of updated entities.
-            if(landmark.update(deltaT)) {
-                this.updated.add(landmark);
                 // Remove the landmark's occupied space projection from the plane.
                 for(Point subsection : landmark.getShape()) {
                     // Copy each of the points in the landmark's shape, and translate them by the current <x, y> offset of the landmark.
@@ -168,7 +184,6 @@ public class Physics2D {
                     //Set the associated region to occupied.
                     this.unverse.setRegionOccupied(translatedPoint, landmark.getId());
                 }
-            }
         }
 
         // Update each of the phenomena.
@@ -176,8 +191,6 @@ public class Physics2D {
             // TODO: Accelerate phenomena.
             Point preImagePosition = new Point(phenomenon.getPosition());
             // If the phenomenon has been updated, add it to the list of updated entities.
-            if(phenomenon.update(deltaT)) {
-                this.updated.add(phenomenon);
                 // Remove the phenomenon's occupied space projection from the plane.
                 for(Point subsection : phenomenon.getShape()) {
                     // Copy each of the points in the phenomenon's shape, and translate them by the current <x, y> offset of the phenomenon.
@@ -195,7 +208,6 @@ public class Physics2D {
                     //Set the associated region to occupied.
                     this.unverse.setRegionOccupied(translatedPoint, phenomenon.getId());
                 }
-            }
         }
     }
 
@@ -219,41 +231,7 @@ public class Physics2D {
         return false;
     }
 
-// General Private Functions -----------------------------------------------------------------------
-
-    private void readBodies(JSONArray persistent) throws JSONException{
-        for(int index = 0; index < persistent.length(); index ++) {
-            JSONObject pBody = persistent.getJSONObject(index);
-            //TODO: body.toJSON()
-        }
-    }
-
-    private void readLandmarks(JSONArray persistent) throws JSONException{
-        for(int index = 0; index < persistent.length(); index ++) {
-            JSONObject pLandmark = persistent.getJSONObject(index);
-            //TODO: landmark.toJSON()
-        }
-    }
-
-    private void readPhenomena(JSONArray persistent) throws JSONException{
-        for(int index = 0; index < persistent.length(); index ++) {
-            JSONObject pPhenomenon = persistent.getJSONObject(index);
-            //TODO: phenomenon.toJSON()
-        }
-    }
-
-
-
 // Getters and Setters -----------------------------------------------------------------------------
 
-    public List<Integer> getUpdatedIndices() {
-        List<Integer> updatedIndices = new LinkedList<>();
-        // Copy the indices of the updated entities into a new list.
-        for(Entity entity : this.updated) {
-            updatedIndices.add(entity.getId());
-        }
-        this.updated.clear();
-        return updatedIndices;
-    }
 
 }

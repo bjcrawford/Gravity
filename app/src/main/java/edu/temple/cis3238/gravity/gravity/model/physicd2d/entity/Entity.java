@@ -33,14 +33,26 @@ public abstract class Entity {
 
 // Constructors ------------------------------------------------------------------------------------
 
-// General Public Functions ------------------------------------------------------------------------
+// Private -----------------------------------------------------------------------------------------
+
+// Protected ---------------------------------------------------------------------------------------
+
+    /**
+     * Update the entity's orientation and transform the occupied space of the entity based on the change in orientation.
+     * @param orientationIndex The desired orientation of the entity in Z12.
+     */
+    protected void rotate(int orientationIndex) {
+        orientationIndex = orientationIndex % this.shapes.size();
+        this.shape = this.shapes.get(orientationIndex);
+    }
+
+// Public ------------------------------------------------------------------------------------------
 
     /**
      * Apply acceleration to the entity by manipulating its d2x and d2y fields.
      * @param deltaT The time that has elapsed since the last call to the entity's update method.
-     * @return A boolean expressing weather the objects state has been changed by this call.
      */
-    abstract public boolean update(float deltaT);
+    abstract public void update(float deltaT);
 
     public JSONObject toJSON() throws JSONException{
         JSONObject selfAsJSON = new JSONObject();
@@ -50,10 +62,10 @@ public abstract class Entity {
 
         JSONArray pShapes = new JSONArray();
         // For each shape in this entity's list of shapes...
-        for(List<Point> shapeItr : this.shapes) {
+        for(List<Point> subsection : this.shapes) {
             // For each point in the current shape...
             JSONArray pShape = new JSONArray();
-            for(Point point : shapeItr) {
+            for(Point point : subsection) {
                 // Create a new object to store the point.
                 JSONObject pos = new JSONObject();
                 pos.put("x", point.x);
@@ -67,19 +79,6 @@ public abstract class Entity {
         selfAsJSON.put("lifespan", this.lifespan);
 
         return selfAsJSON;
-    }
-
-// General Protected Functions ---------------------------------------------------------------------
-
-    /**
-     * Update the entity's orientation and transform the occupied space of the entity based on the change in orientation.
-     * @param orientationIndex The desired orientation of the entity in Z12.
-     */
-    protected void rotate(int orientationIndex) {
-        orientationIndex = orientationIndex % 12;
-        if(orientationIndex < this.shapes.size()){
-            this.shape = this.shapes.get(orientationIndex);
-        }
     }
 
 // Getters and Setters -----------------------------------------------------------------------------

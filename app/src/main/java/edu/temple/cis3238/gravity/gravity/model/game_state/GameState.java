@@ -1,4 +1,4 @@
-package edu.temple.cis3238.gravity.gravity.model.game;
+package edu.temple.cis3238.gravity.gravity.model.game_state;
 
 /**
  *

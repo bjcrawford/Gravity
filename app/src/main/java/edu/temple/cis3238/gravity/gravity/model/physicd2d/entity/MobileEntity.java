@@ -27,28 +27,9 @@ abstract public class MobileEntity extends Entity {
 
 // Constructors ------------------------------------------------------------------------------------
 
-// General Public Functions ------------------------------------------------------------------------
+// Private -----------------------------------------------------------------------------------------
 
-    /**
-     * Modify the values of acceleration being experienced by the entity.
-     * @param delta_d2x The value of acceleration in the x direction to be applied to the entity.
-     * @param delta_d2y The value of acceleration in the y direction to be applied to the entity.
-     */
-    abstract public void applyAcceleratingForce(float delta_d2x, float delta_d2y);
-
-    /**
-     * Returns a JSON object representation of the entity.
-     * @return A JSON object containing the data of the entity.
-     * @throws JSONException
-     */
-    public JSONObject toJSON() throws JSONException{
-        JSONObject selfAsJSON = super.toJSON();
-        selfAsJSON.put("dx0", this.dx);
-        selfAsJSON.put("dy0", this.dy);
-        return selfAsJSON;
-    }
-
-// General Protected Functions ---------------------------------------------------------------------
+// Protected ---------------------------------------------------------------------------------------
 
     /**
      * Update the velocity of the entity based on its current acceleration, velocity, and the elapsed time given as input.
@@ -75,7 +56,46 @@ abstract public class MobileEntity extends Entity {
         this.position.offset(xDisplacement, yDisplacement);
     }
 
-// General Private Functions -----------------------------------------------------------------------
+    /**
+     * Calculate the orientation of the entity based on its current acceleration vector i.e <d2x, d2y>
+     * @return The orientation of the entity [0, 11]
+     */
+    protected int calcOrientation() {
+        // Rotation
+        // Acceleration vector <d2x, d2y>
+        // Theta = aTan(d2y / d2x) ***Ensuring theta is in degrees, not radians***
+        // Positions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        // Corresponding to [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360]
+        // Position = round(Theta / 30)
+        double theta;
+        if(this.d2x == 0) {
+            theta = this.d2y > 0 ? 90 : 270; // If d2x is 0, theta is a function of d2y exclusively
+        }else {
+            theta = Math.toDegrees(Math.atan(this.d2y / this.d2x)); // Otherwise theta must be calculated
+        }
+        return Math.round(((float) theta) / 30.0f) % 12; // Ensure that the integer returned is in Z12
+    }
+
+// Public ------------------------------------------------------------------------------------------
+
+    /**
+     * Modify the values of acceleration being experienced by the entity.
+     * @param delta_d2x The value of acceleration in the x direction to be applied to the entity.
+     * @param delta_d2y The value of acceleration in the y direction to be applied to the entity.
+     */
+    abstract public void applyAcceleratingForce(float delta_d2x, float delta_d2y);
+
+    /**
+     * Returns a JSON object representation of the entity.
+     * @return A JSON object containing the data of the entity.
+     * @throws JSONException
+     */
+    public JSONObject toJSON() throws JSONException{
+        JSONObject selfAsJSON = super.toJSON();
+        selfAsJSON.put("dx0", this.dx);
+        selfAsJSON.put("dy0", this.dy);
+        return selfAsJSON;
+    }
 
 // Getters and Setters -----------------------------------------------------------------------------
 }
