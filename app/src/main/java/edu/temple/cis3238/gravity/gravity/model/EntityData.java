@@ -1,6 +1,5 @@
 package edu.temple.cis3238.gravity.gravity.model;
 
-import android.graphics.Point;
 
 /**
  *
