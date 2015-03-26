@@ -24,6 +24,11 @@ import android.view.MotionEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
 
+/**
+ *
+ * @author: Brett Crawford
+ * @version 1.0a last modified 3/21/2015
+ */
 public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
     public static final String TAG = "GestureListener";
