@@ -2,16 +2,13 @@ package edu.temple.cis3238.gravity.gravity.model.physicd2d;
 
 import java.util.List;
 import java.util.ArrayList;
-import android.graphics.Point;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.LinkedList;
-
+import edu.temple.cis3238.gravity.gravity.model.Point;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Body;
-import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Landmark;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Phenomenon;
 
@@ -28,7 +25,7 @@ public class Physics2D {
     private int idCtr;
 
     /**The universe of discourse for this physics model*/
-    private Plane2D unverse;
+    private Plane2D universe;
 
     /**A collection of bodies currently active in the world*/
     private List<Body> bodies;
@@ -52,7 +49,7 @@ public class Physics2D {
         this.landmarks = new ArrayList<>();
         this.phenomena = new ArrayList<>();
 
-        this.unverse = new Plane2D(width, height);
+        this.universe = new Plane2D(width, height);
     }
 
     public Physics2D(JSONObject persistent) throws JSONException {
@@ -66,21 +63,21 @@ public class Physics2D {
 
     private void readBodies(JSONArray persistent) throws JSONException{
         for(int index = 0; index < persistent.length(); index ++) {
-            JSONObject pBody = persistent.getJSONObject(index);
+            JSONObject jBody = persistent.getJSONObject(index);
             //TODO: body.toJSON()
         }
     }
 
     private void readLandmarks(JSONArray persistent) throws JSONException{
         for(int index = 0; index < persistent.length(); index ++) {
-            JSONObject pLandmark = persistent.getJSONObject(index);
+            JSONObject jLandmark = persistent.getJSONObject(index);
             //TODO: landmark.toJSON()
         }
     }
 
     private void readPhenomena(JSONArray persistent) throws JSONException{
         for(int index = 0; index < persistent.length(); index ++) {
-            JSONObject pPhenomenon = persistent.getJSONObject(index);
+            JSONObject jPhenomenon = persistent.getJSONObject(index);
             //TODO: phenomenon.toJSON()
         }
     }
@@ -94,8 +91,8 @@ public class Physics2D {
         this.idCtr ++;
     }
 
-    public void createLandmark(int id, Point position, int dx0, int dy0, int lifespan, List<List<Point>> shapes) {
-        this.landmarks.add(new Landmark(id, position, lifespan, shapes));
+    public void createLandmark(int id, Point position, int dTheta, int dx0, int dy0, int lifespan, List<List<Point>> shapes) {
+        this.landmarks.add(new Landmark(id, position, dTheta, lifespan, shapes));
         this.idCtr++;
     }
 
@@ -105,7 +102,7 @@ public class Physics2D {
     }
 
     public void defineRegion(Point position, float d2xGrav, float d2yGrav) {
-        this.unverse.defineRegion(position, new Region2D(d2xGrav, d2yGrav));
+        this.universe.defineRegion(position, new Region2D(d2xGrav, d2yGrav));
     }
 
     public JSONObject toJSON() throws JSONException{
@@ -149,7 +146,7 @@ public class Physics2D {
                     Point translatedPoint = new Point(subsection);
                     translatedPoint.offset(preImagePosition.x, preImagePosition.y);
                     //Set the associated region to empty.
-                    this.unverse.setRegionEmpty(translatedPoint);
+                    this.universe.setRegionEmpty(translatedPoint);
                 }
 
                 int xPos = body.getPosition().x, yPos = body.getPosition().y;
@@ -159,7 +156,7 @@ public class Physics2D {
                     Point translatedPoint = new Point(subsection);
                     translatedPoint.offset(xPos, yPos);
                     //Set the associated region to occupied.
-                    this.unverse.setRegionOccupied(translatedPoint, body.getId());
+                    this.universe.setRegionOccupied(translatedPoint, body.getId());
                 }
         }
 
@@ -173,7 +170,7 @@ public class Physics2D {
                     Point translatedPoint = new Point(subsection);
                     translatedPoint.offset(preImagePosition.x, preImagePosition.y);
                     //Set the associated region to empty.
-                    this.unverse.setRegionEmpty(translatedPoint);
+                    this.universe.setRegionEmpty(translatedPoint);
                 }
                 int xPos = landmark.getPosition().x, yPos = landmark.getPosition().y;
                 // Add the landmark's occupied space projection to the plane.
@@ -182,7 +179,7 @@ public class Physics2D {
                     Point translatedPoint = new Point(subsection);
                     translatedPoint.offset(xPos, yPos);
                     //Set the associated region to occupied.
-                    this.unverse.setRegionOccupied(translatedPoint, landmark.getId());
+                    this.universe.setRegionOccupied(translatedPoint, landmark.getId());
                 }
         }
 
@@ -197,7 +194,7 @@ public class Physics2D {
                     Point translatedPoint = new Point(subsection);
                     translatedPoint.offset(preImagePosition.x, preImagePosition.y);
                     //Set the associated region to empty.
-                    this.unverse.setRegionEmpty(translatedPoint);
+                    this.universe.setRegionEmpty(translatedPoint);
                 }
                 int xPos = phenomenon.getPosition().x, yPos = phenomenon.getPosition().y;
                 // Add the phenomenon's occupied space projection to the plane.
@@ -206,7 +203,7 @@ public class Physics2D {
                     Point translatedPoint = new Point(subsection);
                     translatedPoint.offset(xPos, yPos);
                     //Set the associated region to occupied.
-                    this.unverse.setRegionOccupied(translatedPoint, phenomenon.getId());
+                    this.universe.setRegionOccupied(translatedPoint, phenomenon.getId());
                 }
         }
     }

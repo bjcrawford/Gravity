@@ -1,9 +1,13 @@
 package edu.temple.cis3238.gravity.gravity.model.physicd2d.entity;
 
-import android.graphics.Point;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.temple.cis3238.gravity.gravity.model.Point;
 
 /**
  *
@@ -27,6 +31,7 @@ public class Phenomenon extends MobileEntity {
         this.d2x = 0;
         this.d2y = 0;
         this.id = id;
+        this.lifespan = Integer.MAX_VALUE;
         this.shapes = new ArrayList<>();
         this.shapes.add(new ArrayList<Point>());
     }
@@ -46,8 +51,39 @@ public class Phenomenon extends MobileEntity {
         this.dy = dy0;
         this.d2x = 0;
         this.d2y = 0;
+        this.lifespan = lifespan;
         this.shapes = shapes;
         this.id = id;
+    }
+
+    /**
+     * Construct the new Phenomenon from an existing JSON (sub)file.
+     * @param selfAsJSON The JSON object containing the data to be loaded.
+     * @throws JSONException
+     */
+    public Phenomenon(JSONObject selfAsJSON) throws JSONException {
+        this.position = new Point(selfAsJSON.getInt("x"), selfAsJSON.getInt("y"));
+        this.dx = selfAsJSON.getInt("dx");
+        this.dy = selfAsJSON.getInt("dy");
+        this.d2x = 0;
+        this.d2y = 0;
+        this.lifespan = Integer.MAX_VALUE;
+        // Read Shapes list<list> out from json object.
+        this.shapes = new ArrayList<>();
+        JSONArray jShapes = selfAsJSON.getJSONArray("shapes");
+        // For each shape in the list of shapes.
+        for(int index = 0; index < jShapes.length(); index ++) {
+            // Create a new point list.
+            JSONArray jShape = jShapes.getJSONArray(index);
+            ArrayList<Point> loadedShape = new ArrayList<>();
+            // Add each point in the current shape to the new point list.
+            for(int jndex = 0; jndex < jShape.length(); jndex ++) {
+                JSONObject jPoint = jShape.getJSONObject(jndex);
+                loadedShape.add(new Point(jPoint.getInt("x"), jPoint.getInt("y")));
+            }
+            // Append the new point list to this.shapes.
+            this.shapes.add(loadedShape);
+        }
     }
 
 // Private -----------------------------------------------------------------------------------------

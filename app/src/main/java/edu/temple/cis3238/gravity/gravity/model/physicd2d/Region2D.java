@@ -38,8 +38,9 @@ public class Region2D {
      * @param d2yGrav Defines the initial value of acceleration due to gravity in the y direction.
      */
     public Region2D(float d2xGrav, float d2yGrav) {
+        this.d2xGrav = d2xGrav;
         this.d2yGrav = d2yGrav;
-        this.d2yGrav = d2yGrav;
+        this.occupantID = -1;
     }
 
     /**
@@ -47,6 +48,8 @@ public class Region2D {
      * @param occupantID The unique id of the initial occupant of the region.
      */
     public Region2D(int occupantID){
+        this.d2xGrav = 0;
+        this.d2yGrav = 0;
         this.occupantID = occupantID;
     }
 
@@ -57,7 +60,7 @@ public class Region2D {
      * @param occupantID The unique id of the initial occupant of the region.
      */
     public Region2D(float d2xGrav, float d2yGrav, int occupantID) {
-        this.d2yGrav = d2yGrav;
+        this.d2xGrav = d2xGrav;
         this.d2yGrav = d2yGrav;
         this.occupantID = occupantID;
     }
