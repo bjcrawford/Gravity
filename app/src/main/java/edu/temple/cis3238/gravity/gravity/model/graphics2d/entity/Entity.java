@@ -29,6 +29,11 @@ public class Entity {
     /**An ArrayList of the image resource ids representing all possible orientations.*/
     protected ArrayList<String> imgResIds;
 
+    /**
+     * The default constructor for this class. Fields are populated using a JSON
+     * representation of the object.
+     * @param entityJSONObject The Entity JSONObject
+     */
     public Entity(JSONObject entityJSONObject) {
         this.position = new Point();
         this.orientation = 0;
@@ -47,15 +52,16 @@ public class Entity {
         }
     }
 
-    public JSONObject getEntityJSONObject() {
+    /**
+     * Returns a JSON representation of this object.
+     * @return The Entity JSONObject
+     */
+    public JSONObject toJSON() {
 
         JSONObject entityJSONObject = new JSONObject();
         try {
             entityJSONObject.put("id", this.getId());
             entityJSONObject.put("name", this.getName());
-            entityJSONObject.put("x0", this.getX());
-            entityJSONObject.put("y0", this.getY());
-            entityJSONObject.put("orientation", this.getOrientation());
 
             // This is definitely not the most elegant way to handle this
             for (int i = 0; i < 12; i++) {
