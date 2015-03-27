@@ -1,0 +1,211 @@
+{
+    "dlc": {
+        "name": "Test DLC",
+        "release_date": "March 2015",
+        "author": "Gravity Team",
+        "notes": "This is a test DLC pack.",
+        "stories": [
+            {
+                "name": "Test Story",
+                "thumb": "R.drawable.thumb_test_story",
+                "description": "This is a story for testing. It contains only a single level.",
+                "levels": [
+                    {
+                        "name": "Test Level",
+                        "thumb": "R.drawable.thumb_test_level",
+                        "description": "This is a level for testing.",
+                        "width": "2560",
+                        "height": "1920",
+                        "player_height": "60",
+                        "player_width": "60",
+                        "scoring": {
+                            "gold": "0:00",
+                            "silver": "0:00",
+                            "bronze": "0:00"
+                        },
+                        "physics": {
+                            "bodies": [
+                                {
+                                    "id": "0",
+                                    "name": "player",
+                                    "x0": "320",
+                                    "y0": "960",
+                                    "dx0": "0",
+                                    "dy0": "0",
+                                    "shapes": [
+                                        {
+                                            "shape": [
+                                                {
+                                                "x": "0",
+                                                "y": "0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "phenomena": [
+                            ],
+                            "landmarks": [
+                                {
+                                    "id": "1",
+                                    "name": "planet_1",
+                                    "x0": "1280",
+                                    "y0": "960",
+                                    "dx0": "0",
+                                    "dy0": "0",
+                                    "mass": "300",
+                                    "shapes": [
+                                        {
+                                            "shape": [
+                                                {
+                                                    "x": "0",
+                                                    "y": "0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "2",
+                                    "name": "planet_2",
+                                    "x0": "1920",
+                                    "y0": "240",
+                                    "dx0": "0",
+                                    "dy0": "0",
+                                    "mass": "300",
+                                    "shapes": [
+                                        {
+                                            "shape": [
+                                                    {
+                                                        "x": "0",
+                                                        "y": "0"
+                                                    }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3",
+                                    "name": "planet_3",
+                                    "x0": "1920",
+                                    "y0": "1440",
+                                    "dx0": "0",
+                                    "dy0": "0",
+                                    "mass": "300",
+                                    "shapes": [
+                                        {
+                                            "shape": [
+                                                {
+                                                "x": "0",
+                                                "y": "0"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "graphics": {
+                            "entities": [
+                                {
+                                    "id": "0",
+                                    "name": "player",
+                                    "img_res_id0": "R.drawable.player_0",
+                                    "img_res_id1": "R.drawable.player_1",
+                                    "img_res_id2": "R.drawable.player_2",
+                                    "img_res_id3": "R.drawable.player_3",
+                                    "img_res_id4": "R.drawable.player_4",
+                                    "img_res_id5": "R.drawable.player_5",
+                                    "img_res_id6": "R.drawable.player_6",
+                                    "img_res_id7": "R.drawable.player_7",
+                                    "img_res_id8": "R.drawable.player_8",
+                                    "img_res_id9": "R.drawable.player_9",
+                                    "img_res_id10": "R.drawable.player_10",
+                                    "img_res_id11": "R.drawable.player_11"
+                                },
+                                {
+                                    "id": "1",
+                                    "name": "planet1",
+                                    "img_res_id0": "R.drawable.planet_0",
+                                    "img_res_id1": "R.drawable.planet_1",
+                                    "img_res_id2": "R.drawable.planet_2",
+                                    "img_res_id3": "R.drawable.planet_3",
+                                    "img_res_id4": "R.drawable.planet_4",
+                                    "img_res_id5": "R.drawable.planet_5",
+                                    "img_res_id6": "R.drawable.planet_6",
+                                    "img_res_id7": "R.drawable.planet_7",
+                                    "img_res_id8": "R.drawable.planet_8",
+                                    "img_res_id9": "R.drawable.planet_9",
+                                    "img_res_id10": "R.drawable.planet_10",
+                                    "img_res_id11": "R.drawable.planet_11"
+                                },
+                                {
+                                    "id": "2",
+                                    "name": "planet_2",
+                                    "img_res_id0": "R.drawable.planet_0",
+                                    "img_res_id1": "R.drawable.planet_1",
+                                    "img_res_id2": "R.drawable.planet_2",
+                                    "img_res_id3": "R.drawable.planet_3",
+                                    "img_res_id4": "R.drawable.planet_4",
+                                    "img_res_id5": "R.drawable.planet_5",
+                                    "img_res_id6": "R.drawable.planet_6",
+                                    "img_res_id7": "R.drawable.planet_7",
+                                    "img_res_id8": "R.drawable.planet_8",
+                                    "img_res_id9": "R.drawable.planet_9",
+                                    "img_res_id10": "R.drawable.planet_10",
+                                    "img_res_id11": "R.drawable.planet_11"
+                                },
+                                {
+                                    "id": "3",
+                                    "name": "planet_3",
+                                    "img_res_id0": "R.drawable.planet_0",
+                                    "img_res_id1": "R.drawable.planet_1",
+                                    "img_res_id2": "R.drawable.planet_2",
+                                    "img_res_id3": "R.drawable.planet_3",
+                                    "img_res_id4": "R.drawable.planet_4",
+                                    "img_res_id5": "R.drawable.planet_5",
+                                    "img_res_id6": "R.drawable.planet_6",
+                                    "img_res_id7": "R.drawable.planet_7",
+                                    "img_res_id8": "R.drawable.planet_8",
+                                    "img_res_id9": "R.drawable.planet_9",
+                                    "img_res_id10": "R.drawable.planet_10",
+                                    "img_res_id11": "R.drawable.planet_11"
+                                },
+                                {
+                                    "id": "4",
+                                    "name": "objective_1",
+                                    "img_res_id0": "R.drawable.objective_0",
+                                    "img_res_id1": "R.drawable.objective_1",
+                                    "img_res_id2": "R.drawable.objective_2",
+                                    "img_res_id3": "R.drawable.objective_3",
+                                    "img_res_id4": "R.drawable.objective_4",
+                                    "img_res_id5": "R.drawable.objective_5",
+                                    "img_res_id6": "R.drawable.objective_6",
+                                    "img_res_id7": "R.drawable.objective_7",
+                                    "img_res_id8": "R.drawable.objective_8",
+                                    "img_res_id9": "R.drawable.objective_9",
+                                    "img_res_id10": "R.drawable.objective_10",
+                                    "img_res_id11": "R.drawable.objective_11"
+                                }
+                            ]
+                        },
+                        "gamestate": {
+                            "events": [
+                            ],
+                            "objectives": [
+                                {
+                                    "id": "4",
+                                    "name": "objective_1",
+                                    "x0": "2240",
+                                    "y0": "960",
+                                    "radius": "150"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
