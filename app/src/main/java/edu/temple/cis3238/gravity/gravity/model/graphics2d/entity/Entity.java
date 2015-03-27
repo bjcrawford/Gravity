@@ -1,11 +1,12 @@
 package edu.temple.cis3238.gravity.gravity.model.graphics2d.entity;
 
-import android.graphics.Point;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import edu.temple.cis3238.gravity.gravity.model.Point;
 
 /**
  *
