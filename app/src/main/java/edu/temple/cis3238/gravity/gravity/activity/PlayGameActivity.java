@@ -1,11 +1,8 @@
 package edu.temple.cis3238.gravity.gravity.activity;
 
 import android.app.Activity;
-<<<<<<< HEAD:app/src/main/java/edu/temple/cis3238/gravity/gravity/PlayGameActivity.java
 import android.content.Context;
 import android.content.Intent;
-=======
->>>>>>> development:app/src/main/java/edu/temple/cis3238/gravity/gravity/activity/PlayGameActivity.java
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,12 +16,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-<<<<<<< HEAD:app/src/main/java/edu/temple/cis3238/gravity/gravity/PlayGameActivity.java
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-=======
->>>>>>> development:app/src/main/java/edu/temple/cis3238/gravity/gravity/activity/PlayGameActivity.java
 import android.widget.Toast;
 
 import edu.temple.cis3238.gravity.gravity.R;
@@ -43,6 +37,8 @@ public class PlayGameActivity extends Activity {
 
     private static final String LEVEL_FRAG_TAG = "LevelFragment";
 
+    private Button pauseButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +46,9 @@ public class PlayGameActivity extends Activity {
         Log.d(TAG, "onCreate() fired");
         setContentView(R.layout.activity_play_game);
 
-
-
-
         // I don't think we will use the action bar at all.
         getActionBar().hide();
 
-<<<<<<< HEAD:app/src/main/java/edu/temple/cis3238/gravity/gravity/PlayGameActivity.java
-=======
         // Just testing pause functionality
         pauseButton = (Button) findViewById(R.id.pause_button);
         pauseButton.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +64,6 @@ public class PlayGameActivity extends Activity {
                     .add(R.id.fragment_container, new LevelFragment(), LEVEL_FRAG_TAG)
                     .commit();
         }
->>>>>>> development:app/src/main/java/edu/temple/cis3238/gravity/gravity/activity/PlayGameActivity.java
     }
 
     @Override
