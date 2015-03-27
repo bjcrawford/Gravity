@@ -8,10 +8,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ *
+ * @author Brett Crawford
+ * @version 1.0a last modified 3/25/2015
+ */
 public class EntityTest extends TestCase {
 
     @Before
     public void setUp() {
+
+    }
+
+    @Test
+    public void testTest() {
+        assertTrue(1 + 1 == 2);
     }
 
     @Test
