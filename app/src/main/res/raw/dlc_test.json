@@ -16,8 +16,8 @@
                         "description": "This is a level for testing.",
                         "width": "2560",
                         "height": "1920",
-                        "player_height": "60",
                         "player_width": "60",
+                        "player_height": "60",
                         "scoring": {
                             "gold": "0:00",
                             "silver": "0:00",
