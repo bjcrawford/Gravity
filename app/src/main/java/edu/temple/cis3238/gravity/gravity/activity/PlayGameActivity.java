@@ -2,6 +2,7 @@ package edu.temple.cis3238.gravity.gravity.activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -11,21 +12,30 @@ import android.widget.Toast;
 
 import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelFragment;
+import edu.temple.cis3238.gravity.gravity.fragment.LevelSelectFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.PauseDialogFragment;
+import edu.temple.cis3238.gravity.gravity.fragment.StorySelectFragment;
 
 /**
  * The play game activity.
  *
  * @author Brett Crawford
- * @version 1.0a last modified 3/15/2015
+ * @version 1.0b last modified 3/29/2015
  */
-public class PlayGameActivity extends Activity {
+public class PlayGameActivity extends Activity implements
+        StorySelectFragment.OnStorySelectFragmentInteractionListener,
+        LevelSelectFragment.OnLevelSelectFragmentInteractionListener,
+        LevelFragment.OnLevelFragmentInteractionListener {
 
     private static final String TAG = "PlayGameActivity";
 
+    private static final String STORY_SEL_FRAG_TAG = "StorySelectFragment";
+    private static final String LEVEL_SEL_FRAG_TAG = "LevelSelectFragment";
     private static final String LEVEL_FRAG_TAG = "LevelFragment";
 
     private Button pauseButton;
+
+/* ===================================== Lifecycle Methods ====================================== */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +55,10 @@ public class PlayGameActivity extends Activity {
             }
         });
 
-        // Just testing level fragment
-        if (getFragmentManager().findFragmentByTag(LEVEL_FRAG_TAG) == null ) {
+        // Create and add the story select fragment
+        if (getFragmentManager().findFragmentByTag(STORY_SEL_FRAG_TAG) == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new LevelFragment(), LEVEL_FRAG_TAG)
+                    .add(R.id.fragment_container, new StorySelectFragment(), STORY_SEL_FRAG_TAG)
                     .commit();
         }
     }
@@ -103,5 +113,37 @@ public class PlayGameActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy() fired");
+    }
+
+/* ================================= Fragment Listener Methods ================================== */
+
+    /**
+     * This listener method will receive calls from any StorySelectFragment
+     * that is added to this activity.
+     * @param uri
+     */
+    @Override
+    public void OnStorySelectFragmentInteraction(Uri uri) {
+
+    }
+
+    /**
+     * This listener method will receive calls from any LevelSelectFragment
+     * that is added to this activity.
+     * @param uri
+     */
+    @Override
+    public void OnLevelSelectFragmentInteraction(Uri uri) {
+
+    }
+
+    /**
+     * This listener method will receive calls from any LevelFragment
+     * that is added to this activity.
+     * @param uri
+     */
+    @Override
+    public void OnLevelFragmentInteraction(Uri uri) {
+
     }
 }

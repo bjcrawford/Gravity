@@ -1,48 +1,32 @@
 package edu.temple.cis3238.gravity.gravity.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import edu.temple.cis3238.gravity.gravity.R;
-import edu.temple.cis3238.gravity.gravity.event.GameEvent;
-import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
-import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
 
 /**
- * A reusable level fragment.
+ * A level selection fragment.
  *
  * @author Brett Crawford
- * @version 1.0b last modified 3/29/2015
+ * @version 1.0a last modified 3/29/2015
  */
-public class LevelFragment extends Fragment {
+public class LevelSelectFragment extends Fragment {
 
-    private static final String TAG = "LevelFragment";
+    private static final String TAG = "LevelSelectFragment";
 
     private View view;
-    private View gestureView;
 
-    // Temporary placement for testing, This should be in the controller class
-    private GameEventQueue eventQueue;
+    private OnLevelSelectFragmentInteractionListener listener;
 
-    private OnLevelFragmentInteractionListener listener;
-
-    public LevelFragment() {
-        eventQueue = new GameEventQueue();
-    }
-
-    // Temporary placement for testing, This should be in the controller class
-    public ConcurrentLinkedQueue<GameEvent> getEventQueue() {
-        return eventQueue;
+    public LevelSelectFragment() {
+        // Required empty public constructor
     }
 
 /* ===================================== Lifecycle Methods ====================================== */
@@ -52,10 +36,10 @@ public class LevelFragment extends Fragment {
         super.onAttach(activity);
         Log.d(TAG, "onAttach() fired");
         try {
-            listener = (OnLevelFragmentInteractionListener) activity;
+            listener = (OnLevelSelectFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnLevelFragmentInteractionListener");
+                    + " must implement OnLevelSelectFragmentInteractionListener");
         }
     }
 
@@ -69,13 +53,7 @@ public class LevelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView() fired");
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.level_fragment, container, false);
-
-        // Set up the gesture view
-        gestureView = view.findViewById(R.id.gesture_view);
-        gestureView.setClickable(true);
-        gestureView.setFocusable(true);
+        view = inflater.inflate(R.layout.fragment_level_select, container, false);
 
         return view;
     }
@@ -84,24 +62,6 @@ public class LevelFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated() fired");
-
-        // First create the GestureListener that will include all our callbacks.
-        // Then create the GestureDetector, which takes that listener as an argument.
-        GestureDetector.SimpleOnGestureListener gestureListener = new GestureListener(eventQueue);
-        final GestureDetector gd = new GestureDetector(getActivity(), gestureListener);
-
-        // For the view where gestures will occur, create an onTouchListener that sends
-        // all motion events to the gesture detector.  When the gesture detector
-        // actually detects an event, it will use the callbacks created in the
-        // SimpleOnGestureListener.
-        gestureView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                gd.onTouchEvent(motionEvent);
-                return false;
-            }
-        });
-
     }
 
     @Override
@@ -153,9 +113,9 @@ public class LevelFragment extends Fragment {
      * This method will communication to the parent activity.
      * @param uri
      */
-    public void onLevelEvent(Uri uri) {
+    public void onLevelSelected(Uri uri) {
         if (listener != null) {
-            listener.OnLevelFragmentInteraction(uri);
+            listener.OnLevelSelectFragmentInteraction(uri);
         }
     }
 
@@ -165,9 +125,8 @@ public class LevelFragment extends Fragment {
      * to the activity and potentially other fragments contained in that
      * activity.
      */
-    public interface OnLevelFragmentInteractionListener {
-        public void OnLevelFragmentInteraction(Uri uri);
+    public interface OnLevelSelectFragmentInteractionListener {
+        public void OnLevelSelectFragmentInteraction(Uri uri);
     }
 
 }
-
