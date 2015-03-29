@@ -22,7 +22,13 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/play_game_title" />
+        android:layout_below="@+id/play_game_title" >
+
+        <SurfaceView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/surfaceView" />
+    </FrameLayout>
 
     <Button
         android:id="@+id/pause_button"

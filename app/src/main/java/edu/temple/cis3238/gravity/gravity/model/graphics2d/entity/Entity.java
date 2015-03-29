@@ -31,6 +31,17 @@ public class Entity {
     protected ArrayList<String> imgResIds;
 
     /**
+     * A constructor for entity to
+     * @param name name of entity
+     * @param position
+     * @param  orientation
+     * */
+    public Entity(String name, Point position, int orientation){
+        this.name = name;
+        this.position = position;
+        this.orientation = orientation;
+    }
+    /**
      * The default constructor for this class. Fields are populated using a JSON
      * representation of the object.
      * @param entityJSONObject The Entity JSONObject

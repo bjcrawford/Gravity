@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.PauseDialogFragment;
 
@@ -64,12 +65,21 @@ public class PlayGameActivity extends Activity {
                     .add(R.id.fragment_container, new LevelFragment(), LEVEL_FRAG_TAG)
                     .commit();
         }
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart() fired");
+
+        //Testing the surface view code
+        //TESTING Thread
+        GamePlaySurface gameView = (GamePlaySurface)findViewById(R.id.surfaceView);
+        new Thread(gameView).start();
+        //END TSTING
+
+
     }
 
     @Override
@@ -119,46 +129,4 @@ public class PlayGameActivity extends Activity {
     }
 
 
-    public class MSurface extends SurfaceView implements SurfaceHolder.Callback {
-
-        public MSurface(Context context) {
-            super(context);
-            getHolder().addCallback(this);
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.planet1);
-            canvas.drawColor(Color.TRANSPARENT);
-            canvas.drawBitmap(icon, 10, 10, new Paint());
-        }
-
-        @Override
-        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            // TODO Auto-generated method stub
-        }
-
-        @Override
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            //
-        }
-
-        @Override
-        public void surfaceCreated(SurfaceHolder holder) {
-            Canvas canvas = null;
-            try {
-                canvas = holder.lockCanvas(null);
-                synchronized (holder) {
-                    draw(canvas);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (canvas != null) {
-                    holder.unlockCanvasAndPost(canvas);
-                }
-            }
-        }
-    }
 }
