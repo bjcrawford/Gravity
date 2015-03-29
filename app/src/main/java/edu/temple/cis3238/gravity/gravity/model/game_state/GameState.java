@@ -1,5 +1,7 @@
 package edu.temple.cis3238.gravity.gravity.model.game_state;
 
+import org.json.JSONObject;
+
 /**
  *
  * @author Ian M. Speers
@@ -11,6 +13,9 @@ public class GameState {
 
 // Constructors ------------------------------------------------------------------------------------
 
+    public GameState(JSONObject gamestateJSONObject) {
+        //Stub
+    }
 // General Public Functions ------------------------------------------------------------------------
 
 // General Private Functions -----------------------------------------------------------------------
