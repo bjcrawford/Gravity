@@ -6,12 +6,12 @@
         "notes": "This is a test DLC pack.",
         "stories": [
             {
-                "name": "Test Story",
+                "name": "Test Story 0",
                 "thumb": "R.drawable.thumb_test_story",
                 "description": "This is a story for testing. It contains only a single level.",
                 "levels": [
                     {
-                        "name": "Test Level",
+                        "name": "Test Level 0",
                         "thumb": "R.drawable.thumb_test_level",
                         "description": "This is a level for testing.",
                         "width": "2560",
@@ -203,8 +203,128 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "name": "Test Level 1",
+                        "thumb": "R.drawable.thumb_test_level",
+                        "description": "This is a level for testing.",
+                        "width": "2560",
+                        "height": "1920",
+                        "player_width": "60",
+                        "player_height": "60",
+                        "scoring": {
+                            "gold": "0:00",
+                            "silver": "0:00",
+                            "bronze": "0:00"
+                        },
+                        "physics": {
+                            "bodies": [
+                            ],
+                            "phenomena": [
+                            ],
+                            "landmarks": [
+                            ]
+                        },
+                        "graphics": {
+                            "entities": [
+                            ]
+                        },
+                        "gamestate": {
+                            "events": [
+                            ],
+                            "objectives": [
+                            ]
+                        }
+                    },
+                    {
+                        "name": "Test Level 2",
+                        "thumb": "R.drawable.thumb_test_level",
+                        "description": "This is a level for testing.",
+                        "width": "2560",
+                        "height": "1920",
+                        "player_width": "60",
+                        "player_height": "60",
+                        "scoring": {
+                            "gold": "0:00",
+                            "silver": "0:00",
+                            "bronze": "0:00"
+                        },
+                        "physics": {
+                            "bodies": [
+                            ],
+                            "phenomena": [
+                            ],
+                            "landmarks": [
+                            ]
+                        },
+                        "graphics": {
+                            "entities": [
+                            ]
+                        },
+                        "gamestate": {
+                            "events": [
+                            ],
+                            "objectives": [
+                            ]
+                        }
+                    },
+                    {
+                        "name": "Test Level 3",
+                        "thumb": "R.drawable.thumb_test_level",
+                        "description": "This is a level for testing.",
+                        "width": "2560",
+                        "height": "1920",
+                        "player_width": "60",
+                        "player_height": "60",
+                        "scoring": {
+                            "gold": "0:00",
+                            "silver": "0:00",
+                            "bronze": "0:00"
+                        },
+                        "physics": {
+                            "bodies": [
+                            ],
+                            "phenomena": [
+                            ],
+                            "landmarks": [
+                            ]
+                        },
+                        "graphics": {
+                            "entities": [
+                            ]
+                        },
+                        "gamestate": {
+                            "events": [
+                            ],
+                            "objectives": [
+                            ]
+                        }
                     }
                 ]
+            },
+            {
+                "name": "Test Story 1",
+                "thumb": "R.drawable.thumb_test_story",
+                "description": "This is a story for testing. It contains no levels.",
+                "levels": []
+            },
+            {
+                "name": "Test Story 2",
+                "thumb": "R.drawable.thumb_test_story",
+                "description": "This is a story for testing. It contains no levels.",
+                "levels": []
+            },
+            {
+                "name": "Test Story 3",
+                "thumb": "R.drawable.thumb_test_story",
+                "description": "This is a story for testing. It contains no levels.",
+                "levels": []
+            },
+            {
+                "name": "Test Story 4",
+                "thumb": "R.drawable.thumb_test_story",
+                "description": "This is a story for testing. It contains no levels.",
+                "levels": []
             }
         ]
     }
