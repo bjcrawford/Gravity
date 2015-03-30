@@ -1,5 +1,7 @@
 package edu.temple.cis3238.gravity.gravity.dlc;
 
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,6 +16,12 @@ import edu.temple.cis3238.gravity.gravity.model.physicd2d.Physics2D;
  * @version 1.0a last modified 3/29/2015
  */
 public class Level {
+
+    /*The application context.*/
+    private Context appContext;
+
+    /*The level JSONObject.*/
+    private JSONObject levelJSONObject;
 
     /*The name of the level.*/
     private String name;
@@ -55,7 +63,9 @@ public class Level {
      * the given JSONObject.
      * @param levelJSONObject The Level JSONObject.
      */
-    public Level(JSONObject levelJSONObject) {
+    public Level(Context appContext, JSONObject levelJSONObject) {
+        this.appContext = appContext;
+        this.levelJSONObject = levelJSONObject;
         try {
             name = levelJSONObject.getString("name");
             thumb = levelJSONObject.getString("thumb");
@@ -79,5 +89,133 @@ public class Level {
         catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Returns the level JSONObject.
+     * @return The level JSONObject.
+     */
+    public JSONObject getLevelJSONObject() {
+        return levelJSONObject;
+    }
+
+    /**
+     * Returns the name of the level.
+     * @return The name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the thumbnail resource id of the level.
+     * @return The thumbnail resource id.
+     */
+    public int getThumbResId() {
+        String s1 = thumb.substring(thumb.lastIndexOf(".") + 1, thumb.length());
+        String s2 = thumb.substring(thumb.indexOf(".") + 1, thumb.lastIndexOf("."));
+        return appContext.getResources().getIdentifier(s1, s2, appContext.getPackageName());
+    }
+
+    /**
+     * Returns the description of the level.
+     * @return The description.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Returns the width of the level.
+     * @return The width.
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * Returns the height of the level.
+     * @return The height.
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * Returns the width of the player.
+     * @return The width of the player.
+     */
+    public int getPlayerWidth() {
+        return playerWidth;
+    }
+
+    /**
+     * Returns the height of the player.
+     * @return The height of the player.
+     */
+    public int getPlayerHeight() {
+        return playerHeight;
+    }
+
+    /**
+     * Returns the gold score criteria of the level.
+     * @return The gold score.
+     */
+    public String getGoldScoring() {
+        return goldScoring;
+    }
+
+    /**
+     * Returns the silver score criteria of the level.
+     * @return The silver score.
+     */
+    public String getSilverScoring() {
+        return silverScoring;
+    }
+
+    /**
+     * Returns the bronze score criteria of the level.
+     * @return The bronze score.
+     */
+    public String getBronzeScoring() {
+        return bronzeScoring;
+    }
+
+    /**
+     * Returns the Physics2D object of the level.
+     * @return The Physics2D object.
+     */
+    public Physics2D getPhysics2d() {
+        return physics2d;
+    }
+
+    /**
+     * Returns the Graphics2D object of the level.
+     * @return The Graphics2D object.
+     */
+    public Graphics2D getGraphics2d() {
+        return graphics2d;
+    }
+
+    /**
+     * Returns the GameState object of the level.
+     * @return The GameState object.
+     */
+    public GameState getGamestate() {
+        return gamestate;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name +
+                ", Thumb: " + thumb +
+                ", Description: " + description +
+                ", Width: " + width +
+                ", Height: " + height +
+                ", Player Width: " + playerWidth +
+                ", Player Height: " + playerHeight +
+                ", Gold Scoring: " + goldScoring +
+                ", Silver Scoring: " + silverScoring +
+                ", Bronze Scoring: " + bronzeScoring;
     }
 }

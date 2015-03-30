@@ -1,5 +1,6 @@
 package edu.temple.cis3238.gravity.gravity.dlc;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -18,6 +19,12 @@ import java.util.List;
 public class DLC {
 
     private static final String TAG = "DLC";
+
+    /*The application context.*/
+    private Context appContext;
+
+    /*The dlc JSONObject.*/
+    private JSONObject dlcJSONObject;
 
     /*The name of the DLC.*/
     private String name;
@@ -39,8 +46,9 @@ public class DLC {
      * the given JSONObject.
      * @param dlcJSONObject The DLC JSONObject.
      */
-    public DLC(JSONObject dlcJSONObject) {
-        Log.d(TAG, dlcJSONObject.toString());
+    public DLC(Context appContext, JSONObject dlcJSONObject) {
+        this.appContext = appContext;
+        this.dlcJSONObject = dlcJSONObject;
         try {
             name = dlcJSONObject.getString("name");
             Log.d(TAG, "Name: " + name);
@@ -51,12 +59,20 @@ public class DLC {
 
             JSONArray jsonArrayStories = dlcJSONObject.getJSONArray("stories");
             for (int i = 0; i < jsonArrayStories.length(); i++) {
-                stories.add(i, new Story(jsonArrayStories.getJSONObject(i)));
+                stories.add(i, new Story(appContext, jsonArrayStories.getJSONObject(i)));
             }
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Returns the dlc JSONObject.
+     * @return The dlc JSONObject.
+     */
+    public JSONObject getDlcJSONObject() {
+        return dlcJSONObject;
     }
 
     /**

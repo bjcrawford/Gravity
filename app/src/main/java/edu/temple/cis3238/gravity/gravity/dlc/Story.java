@@ -1,5 +1,8 @@
 package edu.temple.cis3238.gravity.gravity.dlc;
 
+import android.content.Context;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +17,14 @@ import java.util.List;
  * @version 1.0a last modified 3/29/2015
  */
 public class Story {
+
+    private static final String TAG = "Story";
+
+    /*The application context.*/
+    private Context appContext;
+
+    /*The story JSONObject.*/
+    private JSONObject storyJSONObject;
 
     /*The name of the story.*/
     private String name;
@@ -32,7 +43,9 @@ public class Story {
      * the given JSONObject.
      * @param storyJSONObject The Story JSONObject.
      */
-    public Story(JSONObject storyJSONObject) {
+    public Story(Context appContext, JSONObject storyJSONObject) {
+        this.appContext = appContext;
+        this.storyJSONObject = storyJSONObject;
         try {
             name = storyJSONObject.getString("name");
             thumb = storyJSONObject.getString("thumb");
@@ -41,12 +54,20 @@ public class Story {
 
             JSONArray jsonArrayLevels = storyJSONObject.getJSONArray("levels");
             for (int i = 0; i < jsonArrayLevels.length(); i++) {
-                levels.add(i, new Level(jsonArrayLevels.getJSONObject(i)));
+                levels.add(i, new Level(appContext, jsonArrayLevels.getJSONObject(i)));
             }
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Returns the story JSONObject.
+     * @return The story JSONObject.
+     */
+    public JSONObject getStoryJSONObject() {
+        return storyJSONObject;
     }
 
     /**
@@ -61,8 +82,10 @@ public class Story {
      * Returns the thumbnail resource id of the story.
      * @return The thumbnail resource id.
      */
-    public String getThumb() {
-        return thumb;
+    public int getThumbResId() {
+        String s1 = thumb.substring(thumb.lastIndexOf(".") + 1, thumb.length());
+        String s2 = thumb.substring(thumb.indexOf(".") + 1, thumb.lastIndexOf("."));
+        return appContext.getResources().getIdentifier(s1, s2, appContext.getPackageName());
     }
 
     /**
