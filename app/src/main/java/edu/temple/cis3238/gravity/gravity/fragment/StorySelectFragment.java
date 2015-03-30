@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,8 @@ import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.dlc.DLC;
+import edu.temple.cis3238.gravity.gravity.dlc.Story;
+import edu.temple.cis3238.gravity.gravity.storylistitem.StoryListItemAdapter;
 
 /**
  * A story selection fragment.
@@ -29,14 +33,16 @@ import edu.temple.cis3238.gravity.gravity.dlc.DLC;
  * @author Brett Crawford
  * @version 1.0a last modified 3/29/2015
  */
-public class StorySelectFragment extends Fragment {
+public class StorySelectFragment extends Fragment implements
+        StoryListItemAdapter.OnItemClickListener {
 
     private static final String TAG = "StorySelectFragment";
 
     private View view;
-    private TextView testText;
+    private RecyclerView storyRecyclerView;
 
     private List<DLC> dlcs;
+    private List<Story> stories;
 
     private OnStorySelectFragmentInteractionListener listener;
 
@@ -68,7 +74,18 @@ public class StorySelectFragment extends Fragment {
 
         // Add all of the dlc files. For now we must add each dlc
         // file individually, but we can revisit this in the future.
-        dlcs.add(0, new DLC(getDLCJSONFromRes(R.raw.dlc_test)));
+        dlcs.add(0, new DLC(getActivity(), getDLCJSONFromRes(R.raw.dlc_test)));
+
+        // Create the arraylist of story objects
+        stories = new ArrayList<Story>();
+
+        int numStories = 0;
+        for (int i = 0; i < dlcs.size(); i++) {
+            List<Story> s = dlcs.get(i).getStories();
+            for (int j = 0; j < s.size(); j++) {
+                stories.add(numStories++, s.get(j));
+            }
+        }
     }
 
     @Override
@@ -77,8 +94,10 @@ public class StorySelectFragment extends Fragment {
         Log.d(TAG, "onCreateView() fired");
         view = inflater.inflate(R.layout.fragment_story_select, container, false);
 
-        testText = (TextView) view.findViewById(R.id.test_text);
-        testText.setText(dlcs.get(0).toString());
+        storyRecyclerView = (RecyclerView) view.findViewById(R.id.story_recyclerview);
+
+        storyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        storyRecyclerView.setAdapter(new StoryListItemAdapter(stories, this));
 
         return view;
     }
@@ -170,11 +189,11 @@ public class StorySelectFragment extends Fragment {
 
     /**
      * This method will communication to the parent activity.
-     * @param uri
+     * @param story The story object selected
      */
-    public void onStorySelected(Uri uri) {
+    public void onStorySelected(Story story) {
         if (listener != null) {
-            listener.OnStorySelectFragmentInteraction(uri);
+            listener.OnStorySelectFragmentInteraction(story);
         }
     }
 
@@ -185,6 +204,15 @@ public class StorySelectFragment extends Fragment {
      * activity.
      */
     public interface OnStorySelectFragmentInteractionListener {
-        public void OnStorySelectFragmentInteraction(Uri uri);
+        public void OnStorySelectFragmentInteraction(Story story);
+    }
+
+/* =========================== RecyclerView Communication Methods ============================ */
+
+    @Override
+    public void onClick(View view, int position) {
+        Log.d(TAG, "Story selected: " + position);
+        Log.d(TAG, "Story info: " + stories.get(position).toString());
+        onStorySelected(stories.get(position));
     }
 }

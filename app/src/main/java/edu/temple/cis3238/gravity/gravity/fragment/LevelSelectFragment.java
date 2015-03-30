@@ -4,12 +4,22 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.dlc.DLC;
+import edu.temple.cis3238.gravity.gravity.dlc.Level;
+import edu.temple.cis3238.gravity.gravity.dlc.Story;
+import edu.temple.cis3238.gravity.gravity.levellistitem.LevelListItemAdapter;
+import edu.temple.cis3238.gravity.gravity.storylistitem.StoryListItemAdapter;
 
 /**
  * A level selection fragment.
@@ -17,16 +27,31 @@ import edu.temple.cis3238.gravity.gravity.R;
  * @author Brett Crawford
  * @version 1.0a last modified 3/29/2015
  */
-public class LevelSelectFragment extends Fragment {
+public class LevelSelectFragment extends Fragment implements
+        LevelListItemAdapter.OnItemClickListener {
 
     private static final String TAG = "LevelSelectFragment";
 
     private View view;
+    private RecyclerView levelRecyclerView;
+
+    private List<Level> levels;
 
     private OnLevelSelectFragmentInteractionListener listener;
 
     public LevelSelectFragment() {
-        // Required empty public constructor
+        levels = new ArrayList<Level>();
+    }
+
+    public static LevelSelectFragment instanceOf(Story story) {
+        LevelSelectFragment lsf = new LevelSelectFragment();
+        lsf.setLevels(story.getLevels());
+
+        return lsf;
+    }
+
+    private void setLevels(List<Level> levels) {
+        this.levels = levels;
     }
 
 /* ===================================== Lifecycle Methods ====================================== */
@@ -54,6 +79,11 @@ public class LevelSelectFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView() fired");
         view = inflater.inflate(R.layout.fragment_level_select, container, false);
+
+        levelRecyclerView = (RecyclerView) view.findViewById(R.id.level_recyclerview);
+
+        levelRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        levelRecyclerView.setAdapter(new LevelListItemAdapter(levels, this));
 
         return view;
     }
@@ -111,11 +141,11 @@ public class LevelSelectFragment extends Fragment {
 
     /**
      * This method will communication to the parent activity.
-     * @param uri
+     * @param level The level object selected.
      */
-    public void onLevelSelected(Uri uri) {
+    public void onLevelSelected(Level level) {
         if (listener != null) {
-            listener.OnLevelSelectFragmentInteraction(uri);
+            listener.OnLevelSelectFragmentInteraction(level);
         }
     }
 
@@ -126,7 +156,15 @@ public class LevelSelectFragment extends Fragment {
      * activity.
      */
     public interface OnLevelSelectFragmentInteractionListener {
-        public void OnLevelSelectFragmentInteraction(Uri uri);
+        public void OnLevelSelectFragmentInteraction(Level level);
     }
 
+/* =========================== RecyclerView Communication Methods ============================ */
+
+    @Override
+    public void onClick(View view, int position) {
+        Log.d(TAG, "Level selected: " + position);
+        Log.d(TAG, "Level info: " + levels.get(position).toString());
+        onLevelSelected(levels.get(position));
+    }
 }

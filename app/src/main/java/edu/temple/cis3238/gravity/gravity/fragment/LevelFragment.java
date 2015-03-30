@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.dlc.Level;
+import edu.temple.cis3238.gravity.gravity.dlc.Story;
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
@@ -31,6 +33,8 @@ public class LevelFragment extends Fragment {
     private View view;
     private View gestureView;
 
+    private Level level;
+
     // Temporary placement for testing, This should be in the controller class
     private GameEventQueue eventQueue;
 
@@ -38,6 +42,17 @@ public class LevelFragment extends Fragment {
 
     public LevelFragment() {
         eventQueue = new GameEventQueue();
+    }
+
+    public static LevelFragment instanceOf(Level level) {
+        LevelFragment lf = new LevelFragment();
+        lf.setLevel(level);
+
+        return lf;
+    }
+
+    private void setLevel(Level level) {
+        this.level = level;
     }
 
     // Temporary placement for testing, This should be in the controller class

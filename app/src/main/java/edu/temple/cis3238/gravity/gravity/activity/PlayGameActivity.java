@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.dlc.Level;
+import edu.temple.cis3238.gravity.gravity.dlc.Story;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelSelectFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.PauseDialogFragment;
@@ -120,21 +122,27 @@ public class PlayGameActivity extends Activity implements
     /**
      * This listener method will receive calls from any StorySelectFragment
      * that is added to this activity.
-     * @param uri
+     * @param story The story object selected.
      */
     @Override
-    public void OnStorySelectFragmentInteraction(Uri uri) {
-
+    public void OnStorySelectFragmentInteraction(Story story) {
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, LevelSelectFragment.instanceOf(story), LEVEL_SEL_FRAG_TAG)
+                .addToBackStack(LEVEL_SEL_FRAG_TAG)
+                .commit();
     }
 
     /**
      * This listener method will receive calls from any LevelSelectFragment
      * that is added to this activity.
-     * @param uri
+     * @param level The level object selected.
      */
     @Override
-    public void OnLevelSelectFragmentInteraction(Uri uri) {
-
+    public void OnLevelSelectFragmentInteraction(Level level) {
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, LevelFragment.instanceOf(level), LEVEL_FRAG_TAG)
+                .addToBackStack(LEVEL_FRAG_TAG)
+                .commit();
     }
 
     /**
