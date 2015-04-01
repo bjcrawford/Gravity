@@ -19,7 +19,7 @@ public class EntityTest extends TestCase {
         try {
             Entity entity = new Entity(new JSONObject("{" +
                     "\"id\": \"5\"," +
-                    "\"name\": \"player\"," +
+                    "\"name\": \"Player\"," +
                     "\"img_res_id0\": \"R.drawable.player_0\"," +
                     "\"img_res_id1\": \"R.drawable.player_1\"," +
                     "\"img_res_id2\": \"R.drawable.player_2\"," +
@@ -34,7 +34,7 @@ public class EntityTest extends TestCase {
                     "\"img_res_id11\": \"R.drawable.player_11\"" +
                     "}"));
             assertEquals(5, entity.getId());
-            assertEquals("player", entity.getName());
+            assertEquals("Player", entity.getName());
             assertEquals("R.drawable.player_0", entity.getImgResId(0));
             assertEquals("R.drawable.player_1", entity.getImgResId(1));
             assertEquals("R.drawable.player_2", entity.getImgResId(2));
