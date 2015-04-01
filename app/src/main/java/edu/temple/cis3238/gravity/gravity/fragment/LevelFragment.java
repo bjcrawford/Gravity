@@ -3,19 +3,23 @@ package edu.temple.cis3238.gravity.gravity.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.dlc.Level;
-import edu.temple.cis3238.gravity.gravity.dlc.Story;
+import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
@@ -26,12 +30,14 @@ import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
  * @author Brett Crawford
  * @version 1.0b last modified 3/29/2015
  */
-public class LevelFragment extends Fragment {
+public class LevelFragment extends Fragment implements SurfaceHolder.Callback{
 
     private static final String TAG = "LevelFragment";
 
     private View view;
     private View gestureView;
+    private GamePlaySurface gameSurfaceView;
+    private SurfaceHolder gameSurfaceHolder;
 
     private Level level;
 
@@ -78,6 +84,7 @@ public class LevelFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate() fired");
+
     }
 
     @Override
@@ -91,7 +98,14 @@ public class LevelFragment extends Fragment {
         gestureView = view.findViewById(R.id.gesture_view);
         gestureView.setClickable(true);
         gestureView.setFocusable(true);
-
+        //set up the Surface view
+     //   gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
+        gameSurfaceView = new GamePlaySurface(getActivity());
+        gameSurfaceHolder = gameSurfaceView.getHolder();
+        gameSurfaceHolder.addCallback(this);
+        RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.fragment_layout);
+        gameSurfaceView.setLayoutParams(layout.getLayoutParams());
+        layout.addView(gameSurfaceView);
         return view;
     }
 
@@ -184,5 +198,31 @@ public class LevelFragment extends Fragment {
         public void OnLevelFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        //run the gamePlay thread as soon as the surface is created
+        //TEST THREAD DRAWING
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Canvas canvas = gameSurfaceHolder.lockCanvas();
+                canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.player0), 0, 0, null);
+                canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.player3), 200, 200, null);
+                gameSurfaceHolder.unlockCanvasAndPost(canvas);
+            }
+        };
+        thread.start();
+        //END TESTING
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        //We will not need this
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+
+    }
 }
 

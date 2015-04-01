@@ -63,12 +63,14 @@ public class PlayGameActivity extends Activity implements
                     .add(R.id.fragment_container, new StorySelectFragment(), STORY_SEL_FRAG_TAG)
                     .commit();
         }
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart() fired");
+
     }
 
     @Override
