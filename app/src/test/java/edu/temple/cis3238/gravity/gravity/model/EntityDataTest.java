@@ -17,7 +17,7 @@ public class EntityDataTest extends TestCase{
 
     @Test
     public void testTest() {
-        assertEquals(5, 3);
+
     }
 
 
