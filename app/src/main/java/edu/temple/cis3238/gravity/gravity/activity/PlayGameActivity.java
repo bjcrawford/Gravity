@@ -1,28 +1,15 @@
 package edu.temple.cis3238.gravity.gravity.activity;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.temple.cis3238.gravity.gravity.R;
-import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.PauseDialogFragment;
 
@@ -72,13 +59,6 @@ public class PlayGameActivity extends Activity {
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart() fired");
-
-        //Testing the surface view code
-        //TESTING Thread
-        GamePlaySurface gameView = (GamePlaySurface)findViewById(R.id.surfaceView);
-        new Thread(gameView).start();
-        //END TSTING
-
 
     }
 
