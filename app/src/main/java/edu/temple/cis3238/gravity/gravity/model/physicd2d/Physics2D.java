@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import edu.temple.cis3238.gravity.gravity.model.Point;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Body;
+import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Landmark;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Phenomenon;
 
@@ -222,6 +223,7 @@ public class Physics2D {
 
 // Getters and Setters -----------------------------------------------------------------------------
 
-
-
+    public List<Landmark> getLandmarks() {
+        return this.landmarks;
+    }
 }

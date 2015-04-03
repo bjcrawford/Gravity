@@ -14,12 +14,24 @@ import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
 /**
  *
  * @author Brett Crawford
- * @version 1.0a last modified 3/29/2015
+ * @author Ian Speers
+ * @version 1.0a last modified 4/3/2015
  */
 public class Graphics2D {
 
     /*A list of graphics entities.*/
     private List<Entity> entities;
+
+    //TODO: Read new fields into object from JSON
+    /**The height of the graphics space.*/
+    private int height;
+
+    /**The width of the graphics space.*/
+    private int width;
+
+    private List<Entity> miniMap;
+
+    //TODO: end above todo
 
     /**
      * A constructor for this object. The properties are filled using
@@ -51,14 +63,13 @@ public class Graphics2D {
         // ~O(n*m) where n = num ids, m = num entities
         List<Entity> entitiesResult = new ArrayList<Entity>();
         for (Integer id : ids) {
-            for (int i = 0; i < entities.size(); i++) {
-                if (entities.get(i).getId() == id) {
-                    entitiesResult.add(entities.get(i));
+            for(Entity entity : this.entities) {
+                if(entity.getId() == id) {
+                    entitiesResult.add(entity);
                     break;
                 }
             }
         }
-
         return entitiesResult;
     }
 }

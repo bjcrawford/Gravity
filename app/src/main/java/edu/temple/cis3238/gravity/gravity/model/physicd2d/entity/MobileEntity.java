@@ -98,4 +98,5 @@ abstract public class MobileEntity extends Entity {
     }
 
 // Getters and Setters -----------------------------------------------------------------------------
+
 }
