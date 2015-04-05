@@ -21,25 +21,17 @@ public class Entity {
     /**The name of the entity (testing purposes only).*/
     protected String name;
 
-    /**The x,y coordinates of the entity.*/
-    protected Point position;
-
-    /**The orientation of the object.*/
-    protected int orientation;
-
     /**An ArrayList of the image resource ids representing all possible orientations.*/
     protected ArrayList<String> imgResIds;
 
     /**
      * A constructor for entity to
-     * @param name name of entity
-     * @param position
-     * @param  orientation
+     * @param name The name of the entity.
+     * @param id The id of the entity.
      * */
-    public Entity(String name, Point position, int orientation){
+    public Entity(String name, int id){
         this.name = name;
-        this.position = position;
-        this.orientation = orientation;
+        this.id = id;
     }
     /**
      * The default constructor for this class. Fields are populated using a JSON
@@ -47,8 +39,6 @@ public class Entity {
      * @param entityJSONObject The Entity JSONObject
      */
     public Entity(JSONObject entityJSONObject) {
-        this.position = new Point();
-        this.orientation = 0;
         this.imgResIds = new ArrayList<String>();
         try {
             this.id = entityJSONObject.getInt("id");
@@ -101,85 +91,6 @@ public class Entity {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Returns the x position of this entity.
-     * @return The x position.
-     */
-    public int getX() {
-        return position.x;
-    }
-
-    /**
-     * Sets the x position of this entity.
-     * @param x The x position.
-     */
-    public void setX(int x) {
-        this.position.x = x;
-    }
-
-    /**
-     * Returns the y position of this entity.
-     * @return The y position.
-     */
-    public int getY() {
-        return position.y;
-    }
-
-    /**
-     * Sets the y position of this entity.
-     * @param y The y position.
-     */
-    public void setY(int y) {
-        this.position.y = y;
-    }
-
-    /**
-     * Returns the position (Point object) of this entity.
-     * @return A Point object.
-     */
-    public Point getPosition() {
-        return position;
-    }
-
-    /**
-     * Sets the position (Point object) of this entity.
-     * @param position A Point object.
-     */
-    public void setPosition(Point position) {
-        this.position = position;
-    }
-
-    /**
-     * Returns the orientation of this entity.
-     * @return The orientation (0 - 11)
-     */
-    public int getOrientation() {
-        return orientation;
-    }
-
-    /**
-     * Sets the orientation of this entity.
-     * @param orientation The orientation (0 - 11)
-     */
-    public boolean setOrientation(int orientation) {
-        if (orientation >= 0 && orientation <= 11) {
-            this.orientation = orientation;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns the image resource ID (R.drawable.image_name) associated with the Entity's
-     * current orientation.
-     * @return The image resource ID.
-     */
-    public String getImgResId() {
-        return this.imgResIds.get(this.getOrientation());
     }
 
     /**

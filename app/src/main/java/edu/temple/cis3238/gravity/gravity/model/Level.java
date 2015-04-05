@@ -73,6 +73,11 @@ public class Level {
             goldScoring = scoringJSONObject.getString("gold");
             silverScoring = scoringJSONObject.getString("silver");
             bronzeScoring = scoringJSONObject.getString("bronze");
+
+            //physics2d = new Physics2D(levelJSONObject.getJSONObject("physics"));
+            // TODO: Dummy values added for height & width. Need to replace with screen height & width.
+            //graphics2d = new Graphics2D(levelJSONObject.getJSONObject("graphics"), 100, 100);
+            //gamestate = new GameState(levelJSONObject.getJSONObject("gamestate"));
         }
         catch (JSONException e) {
             e.printStackTrace();

@@ -14,24 +14,46 @@ import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
 /**
  *
  * @author Brett Crawford
- * @version 1.0a last modified 3/29/2015
+ * @author Ian Speers
+ * @version 1.0a last modified 4/5/2015
  */
 public class Graphics2D {
 
     /*A list of graphics entities.*/
     private List<Entity> entities;
 
+    //TODO: Read new fields into object from JSON
+    /**The height of the graphics space.*/
+    private int screenHeight;
+
+    /**The width of the graphics space.*/
+    private int screenWidth;
+
+    private double minimapScalar;
+
+    private List<Entity> miniMap;
+
+    //TODO: end above todo
+
     /**
      * A constructor for this object. The properties are filled using
      * the given JSONObject.
      * @param graphicsJSONObject The Graphics JSONObject.
      */
-    public Graphics2D(JSONObject graphicsJSONObject) {
+    public Graphics2D(JSONObject graphicsJSONObject, int screenHeight, int screenWidth) {
+        this.screenHeight = screenHeight;
+        this.screenWidth = screenWidth;
         entities = new ArrayList<Entity>();
         try {
             JSONArray entitiesJSONArray = graphicsJSONObject.getJSONArray("entities");
             for (int i = 0; i < entitiesJSONArray.length(); i++) {
-                entities.add(i, new Entity(entitiesJSONArray.getJSONObject(i)));
+                // Refactored for O(1) access to graphics entities
+                // This implementation allows for the entities matrix to be sparsely populated
+                // in the case that there are unused entity ids in the level JSON.
+                // If the level has been implemented efficiently, ids should occur in a contiguous set,
+                // and this will not be an issue.
+                Entity tmpEnt = new Entity(entitiesJSONArray.getJSONObject(i));
+                entities.add(tmpEnt.getId(), tmpEnt);
             }
         }
         catch (JSONException e) {
@@ -46,19 +68,23 @@ public class Graphics2D {
      */
     public List<Entity> getListOfEntitiesByIds(List<Integer> ids) {
 
-        // This is a really inefficient implementation, but can be
-        // addressed in the future.
-        // ~O(n*m) where n = num ids, m = num entities
+        // Refactored to run in O(n)
+        // Where n is the length of the input list of ids
         List<Entity> entitiesResult = new ArrayList<Entity>();
         for (Integer id : ids) {
-            for (int i = 0; i < entities.size(); i++) {
-                if (entities.get(i).getId() == id) {
-                    entitiesResult.add(entities.get(i));
-                    break;
-                }
-            }
+            entitiesResult.add(this.entities.get(id));
         }
-
         return entitiesResult;
+    }
+
+    /**
+     * Get the graphics entity corresponding to the given id.
+     * @param id The id of the desied graphics entity.
+     * @return The graphics entity corresponding to the given id,<br>
+     *     or null if the id is invalid.
+     */
+    public Entity getEntityByID(int id) {
+        if(id < this.entities.size()) this.entities.get(id);
+        return null;
     }
 }
