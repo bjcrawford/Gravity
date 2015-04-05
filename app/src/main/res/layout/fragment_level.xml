@@ -12,6 +12,21 @@
         android:layout_height="match_parent"
         android:background="#FFAAAAAA"/>
 
+    <Button
+        android:id="@+id/win_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/win_button"/>
+
+    <Button
+        android:id="@+id/lose_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/lose_button"/>
 
 
 </RelativeLayout>

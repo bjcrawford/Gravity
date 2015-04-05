@@ -13,13 +13,14 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.model.Level;
-import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
+import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
@@ -123,6 +124,20 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
         gestureView.setClickable(true);
         gestureView.setFocusable(true);
 
+        // Temporary placement for testing level end fragment on win/loss
+        ((Button) view.findViewById(R.id.win_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLevelEnd(true);
+            }
+        });
+        ((Button) view.findViewById(R.id.lose_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLevelEnd(false);
+            }
+        });
+
         //set up the Surface view
      //   gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
         gameSurfaceView = new GamePlaySurface(getActivity());
@@ -211,24 +226,24 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
 /* =========================== Parent Activity Communication Methods ============================ */
 
     /**
-     * This method will handle communication to the parent activity.
-     *
-     * @param uri
-     */
-    public void onLevelEvent(Uri uri) {
-        if (listener != null) {
-            listener.OnLevelFragmentInteraction(uri);
-        }
-    }
-
-    /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
      */
     public interface OnLevelFragmentInteractionListener {
-        public void OnLevelFragmentInteraction(Uri uri);
+        public void OnLevelFragmentInteraction(boolean won);
+    }
+
+    /**
+     * This method will handle communication to the parent activity.
+     *
+     * @param won
+     */
+    public void onLevelEnd(boolean won) {
+        if (listener != null) {
+            listener.OnLevelFragmentInteraction(won);
+        }
     }
 
     @Override

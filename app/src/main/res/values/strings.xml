@@ -40,11 +40,22 @@
     <string name="main_menu_button">Main Menu</string>
     <string name="pause_button">Pause</string>
     <string name="resume_button">Resume</string>
+    <string name="next_level_button">Next Level</string>
+    <string name="retry_level_button">Retry Level</string>
+    <string name="win_button">Win</string>
+    <string name="lose_button">Lose</string>
+
+  <!-- Level end fragment strings -->
+    <string name="win_title">Level completed</string>
+    <string name="grade_title">Grade: </string>
+    <string name="grade_placeholder">XXXXXX</string>
+    <string name="score_title">Score: </string>
+    <string name="score_placeholder">XX,XXX</string>
+    <string name="time_title">Time: </string>
+    <string name="time_placeholder">X:XX:XXXX</string>
+    <string name="loss_title">Level failed</string>
 
   <!-- Pause dialog string -->
     <string name="pause_dialog_title">Pause Menu</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

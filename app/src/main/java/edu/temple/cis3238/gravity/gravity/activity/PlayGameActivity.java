@@ -1,6 +1,7 @@
 package edu.temple.cis3238.gravity.gravity.activity;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.fragment.LevelEndFragment;
 import edu.temple.cis3238.gravity.gravity.model.Level;
 import edu.temple.cis3238.gravity.gravity.model.Story;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelFragment;
@@ -27,13 +29,15 @@ import edu.temple.cis3238.gravity.gravity.fragment.StorySelectFragment;
 public class PlayGameActivity extends Activity implements
         StorySelectFragment.OnStorySelectFragmentInteractionListener,
         LevelSelectFragment.OnLevelSelectFragmentInteractionListener,
-        LevelFragment.OnLevelFragmentInteractionListener {
+        LevelFragment.OnLevelFragmentInteractionListener,
+        LevelEndFragment.OnLevelEndFragmentInteractionListener {
 
     private static final String TAG = "PlayGameActivity";
 
     private static final String STORY_SEL_FRAG_TAG = "StorySelectFragment";
     private static final String LEVEL_SEL_FRAG_TAG = "LevelSelectFragment";
     private static final String LEVEL_FRAG_TAG = "LevelFragment";
+    private static final String LEVEL_END_FRAG = "LevelEndFragment";
 
     private Button pauseButton;
 
@@ -150,10 +154,23 @@ public class PlayGameActivity extends Activity implements
     /**
      * This listener method will receive calls from any LevelFragment
      * that is added to this activity.
+     * @param won
+     */
+    @Override
+    public void OnLevelFragmentInteraction(boolean won) {
+        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, LevelEndFragment.newInstance(won), LEVEL_END_FRAG)
+                .commit();
+    }
+
+    /**
+     * This listener method will receive calls from any LevelEndFragment
+     * that is added to this activity.
      * @param uri
      */
     @Override
-    public void OnLevelFragmentInteraction(Uri uri) {
+    public void OnLevelEndFragmentInteraction(Uri uri) {
 
     }
 }
