@@ -1,19 +1,15 @@
-package edu.temple.cis3238.gravity.gravity.View;
+package edu.temple.cis3238.gravity.gravity.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
-import edu.temple.cis3238.gravity.gravity.R;
-import edu.temple.cis3238.gravity.gravity.model.Point;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
 
 /**
@@ -53,6 +49,8 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
      * draws all graphics entities on the screen
      * @throws Exception
      */
+
+    /*
     public void drawScene()throws Exception{
 
         //get the holder for the surface
@@ -71,7 +69,7 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
         //at the end
         holder.unlockCanvasAndPost(canvas);
     }
-
+    */
 
     @Override
     protected void onDraw(Canvas canvas){
