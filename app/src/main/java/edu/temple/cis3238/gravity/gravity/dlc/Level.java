@@ -82,7 +82,8 @@ public class Level {
 
             physics2d = new Physics2D(levelJSONObject.getJSONObject("physics"));
 
-            graphics2d = new Graphics2D(levelJSONObject.getJSONObject("graphics"));
+            // TODO: Dummy values added for height & width. Need to replace with screen height & width.
+            graphics2d = new Graphics2D(levelJSONObject.getJSONObject("graphics"), 100, 100);
 
             gamestate = new GameState(levelJSONObject.getJSONObject("gamestate"));
         }

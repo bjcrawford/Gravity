@@ -14,7 +14,7 @@ import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Landmark;
 /**
  *
  * @author Ian M. Speers
- * @version 1.0a last modified 4/3/2015
+ * @version 1.0a last modified 4/5/2015
  */
 public class Model {
 
@@ -29,13 +29,20 @@ public class Model {
     /**The game state component of the game model.*/
     private GameState gameStateModel;
 
+    /**A scalar defining the relative sizes of the physics and graphics models.<br>
+     * i.e graphics position = physics position * physToGraphicsScalar*/
+    private double physToGraphicsScalar;
+
+    /**The id of the player graphics/ physics/ game-state entities*/
+    private int playerID;
+
 // Constructors ------------------------------------------------------------------------------------
 
     public Model() {
 
     }
 
-    public Model(JSONObject selfAsJson) {
+    public Model(JSONObject selfAsJson, int screenWidth, int screenHeight) {
 
     }
 // Private -----------------------------------------------------------------------------------------
@@ -48,7 +55,7 @@ public class Model {
      * Get a map of the stationary in-game entities.
      * @return A list of the relative positions of the landmark physics entities.
      */
-    public List<Entity> getMap() {
+    public List<ImageResourceWrapper> getMap() {
         //TODO: get a list of the landmarks. Should be generated once and stored to prevent redundant acquisitions
         for(Landmark landmark : this.physModel.getLandmarks()) {
 
@@ -57,17 +64,37 @@ public class Model {
     }
 
     /**
-     * Get the positions of a subset of in-game entities.
-     * @param frameCenter The point around which the frame will be constructed.
+     * Get the positions of a subset of in-game entities.<br>
+     *     Positions will be given as 2D integer points, corresponding directly to in screen positions.
      * @param xDiff The limit of observation in the x direction;<br>
-     *              i.e range = [frameCenter.x - xDiff, frameCenter.x + xDiff]
-     * @param yDiff he limit of observation in the y direction;<br>
-     *              i.e domain = [frameCenter.y - yDiff, frameCenter.y + yDiff]
+     *              i.e range = [0, xDiff]<br>
+     *              intended: The width of the display screen.
+     * @param yDiff The limit of observation in the y direction;<br>
+     *              i.e domain = [0, yDiff]<br>
+     *              intended: The height of the display screen.
      * @return A list of entities which appear (wholly, or partially) in the given frame
      */
-    public List<Entity> getFrame(Point frameCenter, int xDiff, int yDiff) {
-        //TODO: Get entities within the range, with position relative to the width/ height of the frame
-        return new ArrayList<>();
+    public List<ImageResourceWrapper> getFrame(int xDiff, int yDiff) {
+        // Get the players position.
+        Point center = this.physModel.getEntity(this.playerID).getPosition();
+        // Get a list of entities surrounding the player.
+        List<edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity> physEnts =
+                this.physModel.observe(center, (int)((xDiff * this.physToGraphicsScalar) / 2), (int)((yDiff * this.physToGraphicsScalar)  / 2));
+
+        // Declare a new list to hold the rendering info for the physics objects.
+        List<ImageResourceWrapper> rtrnResources = new ArrayList<>();
+        // Package the rendering resources of the entities.
+        for(edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity physEntity : physEnts) {
+            // Get the graphics entity corresponding to the current physics entity.
+            edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
+                    = this.graphModel.getEntityByID(physEntity.getId());
+            int graphX = (int) (physEntity.getPosition().x * this.physToGraphicsScalar);
+            int graphY = (int) (physEntity.getPosition().y * this.physToGraphicsScalar);
+            String imgResource = graphEntity.getImgResId(physEntity.getOrientation());
+            rtrnResources.add(new ImageResourceWrapper(new Point(graphX, graphY), imgResource));
+        }
+
+        return rtrnResources;
     }
 
 // Getters and Setters -----------------------------------------------------------------------------

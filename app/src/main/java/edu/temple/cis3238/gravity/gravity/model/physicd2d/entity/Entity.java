@@ -32,6 +32,9 @@ public abstract class Entity {
     /**A set of points describing the grid spaces occupied by the entity.*/
     protected List<Point> shape;
 
+    /**The current orientation of the entity.*/
+    protected int orientation;
+
 // Constructors ------------------------------------------------------------------------------------
 
 // Private -----------------------------------------------------------------------------------------
@@ -113,5 +116,13 @@ public abstract class Entity {
      * @return The point representation of the entity's position.
      */
     public Point getPosition() { return this.position; }
+
+    /**
+     * Get the current orientation of the entity.
+     * @return The current orientation of the entity.
+     */
+    public int getOrientation() {
+        return this.orientation;
+    }
 
 }

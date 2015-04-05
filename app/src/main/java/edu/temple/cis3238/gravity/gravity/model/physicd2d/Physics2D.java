@@ -116,27 +116,34 @@ public class Physics2D {
         this.universe.defineRegion(position, new Region2D(d2xGrav, d2yGrav));
     }
 
-    public JSONObject toJSON() throws JSONException {
-        // Get the JSON of the bodies list
-        JSONArray pBodies = new JSONArray();
-        for (Body body : this.bodies) {
-            pBodies.put(body.toJSON());
-        }
-        // Get the JSON of the landmarks list
-        JSONArray pLandmarks = new JSONArray();
-        for (Body body : this.bodies) {
-            pLandmarks.put(body.toJSON());
-        }
-        // Get JSON of the phenomena list
-        JSONArray pPhenomena = new JSONArray();
-        for (Body body : this.bodies) {
-            pPhenomena.put(body.toJSON());
-        }
+    public JSONObject toJSON() {
+
         // Create a new JSON object and add the entities lists to it.
         JSONObject selfAsJSON = new JSONObject();
-        selfAsJSON.put("bodies", pBodies);
-        selfAsJSON.put("landmarks", pLandmarks);
-        selfAsJSON.put("phenomena", pPhenomena);
+
+        try {
+            // Get the JSON of the bodies list
+            JSONArray pBodies = new JSONArray();
+            for (Body body : this.bodies) {
+                pBodies.put(body.toJSON());
+            }
+            // Get the JSON of the landmarks list
+            JSONArray pLandmarks = new JSONArray();
+            for (Body body : this.bodies) {
+                pLandmarks.put(body.toJSON());
+            }
+            // Get JSON of the phenomena list
+            JSONArray pPhenomena = new JSONArray();
+            for (Body body : this.bodies) {
+                pPhenomena.put(body.toJSON());
+            }
+            selfAsJSON.put("bodies", pBodies);
+            selfAsJSON.put("landmarks", pLandmarks);
+            selfAsJSON.put("phenomena", pPhenomena);
+            return selfAsJSON;
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
         return selfAsJSON;
     }
 
@@ -149,8 +156,6 @@ public class Physics2D {
         // Update each of the bodies.
         for (Body body : this.bodies) {
             Point preImagePosition = new Point(body.getPosition());
-            // If the body has been updated, add it to the list of updated entities.
-            // TODO: Accelerate bodies
             // Remove the body's occupied space projection from the plane.
             for (Point subsection : body.getShape()) {
                 // Copy each of the points in the body's shape, and translate them by the previous <x, y> offset of the body's position.
@@ -176,7 +181,6 @@ public class Physics2D {
         // Update each of the phenomena.
         for (Phenomenon phenomenon : this.phenomena) {
             Point preImagePosition = new Point(phenomenon.getPosition());
-            // If the phenomenon has been updated, add it to the list of updated entities.
             // Remove the phenomenon's occupied space projection from the plane.
             for (Point subsection : phenomenon.getShape()) {
                 // Copy each of the points in the phenomenon's shape, and translate them by the current <x, y> offset of the phenomenon.
@@ -219,6 +223,37 @@ public class Physics2D {
         }
         // If the body is not found, return false.
         return false;
+    }
+
+    /**
+     * Get the entity associated with the given id.
+     * @param entityID The id of the desired entity.
+     * @return
+     */
+    public Entity getEntity(int entityID) {
+        // Traverse the list of bodies to find the body with the correct id.
+        for (Body body : this.bodies) {
+            // If found, apply acceleration and return true.
+            if (body.getId() == entityID) {
+                return body;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get a list of entities present in the given region.
+     * @param center The center of the region of observation.
+     * @param xDiff The limit of observation in the x direction;<br>
+     *              i.e range = [center.x - xDiff, frameCenter.x + xDiff]
+     * @param yDiff The limit of observation in the x direction;<br>
+     *              i.e range = [center.x - xDiff, frameCenter.x + xDiff]
+     * @return A list of entities found in the specified region.
+     */
+    public List<Entity> observe(Point center, int xDiff, int yDiff) {
+        List<Entity> subjects = new ArrayList<Entity>();
+        //TODO: get entities in region
+        return subjects;
     }
 
 // Getters and Setters -----------------------------------------------------------------------------
