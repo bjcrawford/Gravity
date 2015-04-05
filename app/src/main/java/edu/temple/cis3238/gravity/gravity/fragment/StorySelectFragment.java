@@ -114,6 +114,12 @@ public class StorySelectFragment extends Fragment implements
     }
 
     @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        Log.d(TAG, "onViewStateRestored() fired");
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart() fired");
