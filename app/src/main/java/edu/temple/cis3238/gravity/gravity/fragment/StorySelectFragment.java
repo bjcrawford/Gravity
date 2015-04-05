@@ -1,7 +1,6 @@
 package edu.temple.cis3238.gravity.gravity.fragment;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,15 +21,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.R;
-import edu.temple.cis3238.gravity.gravity.dlc.DLC;
-import edu.temple.cis3238.gravity.gravity.dlc.Story;
+import edu.temple.cis3238.gravity.gravity.model.ContentPack;
+import edu.temple.cis3238.gravity.gravity.model.Story;
 import edu.temple.cis3238.gravity.gravity.storylistitem.StoryListItemAdapter;
 
 /**
  * A story selection fragment.
  *
  * @author Brett Crawford
- * @version 1.0a last modified 3/29/2015
+ * @version 1.0b last modified 4/5/2015
  */
 public class StorySelectFragment extends Fragment implements
         StoryListItemAdapter.OnItemClickListener {
@@ -41,7 +39,7 @@ public class StorySelectFragment extends Fragment implements
     private View view;
     private RecyclerView storyRecyclerView;
 
-    private List<DLC> dlcs;
+    private List<ContentPack> contentPacks;
     private List<Story> stories;
 
     private OnStorySelectFragmentInteractionListener listener;
@@ -69,22 +67,19 @@ public class StorySelectFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate() fired");
 
-        // Create the arraylist of dlc objects
-        dlcs = new ArrayList<DLC>();
+        // Create the arraylist of content pack objects
+        contentPacks = new ArrayList<ContentPack>();
 
-        // Add all of the dlc files. For now we must add each dlc
+        // Add all of the content pack files. For now we must add each content pack
         // file individually, but we can revisit this in the future.
-        dlcs.add(0, new DLC(getActivity(), getDLCJSONFromRes(R.raw.dlc_test)));
+        contentPacks.add(0, new ContentPack(getActivity(), getContentPackJSONFromRes(R.raw.contentpack_test)));
 
         // Create the arraylist of story objects
         stories = new ArrayList<Story>();
 
-        int numStories = 0;
-        for (int i = 0; i < dlcs.size(); i++) {
-            List<Story> s = dlcs.get(i).getStories();
-            for (int j = 0; j < s.size(); j++) {
-                stories.add(numStories++, s.get(j));
-            }
+        // Retrieve all stories from all content packs
+        for (int i = 0; i < contentPacks.size(); i++) {
+            stories.addAll(contentPacks.get(i).getStories());
         }
     }
 
@@ -95,7 +90,6 @@ public class StorySelectFragment extends Fragment implements
         view = inflater.inflate(R.layout.fragment_story_select, container, false);
 
         storyRecyclerView = (RecyclerView) view.findViewById(R.id.story_recyclerview);
-
         storyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         storyRecyclerView.setAdapter(new StoryListItemAdapter(stories, this));
 
@@ -160,9 +154,9 @@ public class StorySelectFragment extends Fragment implements
      * @param resId The resource id.
      * @return A JSONObject on success, otherwise null.
      */
-    public JSONObject getDLCJSONFromRes(int resId) {
+    public JSONObject getContentPackJSONFromRes(int resId) {
 
-        JSONObject dlcJSONObject;
+        JSONObject contentPackJSONObject;
         InputStream is = getActivity().getResources().openRawResource(resId);
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String fullFile = "";
@@ -171,9 +165,9 @@ public class StorySelectFragment extends Fragment implements
             while ((line = br.readLine()) != null) {
                 fullFile += line;
             }
-            dlcJSONObject = new JSONObject(fullFile).getJSONObject("dlc");
+            contentPackJSONObject = new JSONObject(fullFile).getJSONObject("contentpack");
 
-            return dlcJSONObject;
+            return contentPackJSONObject;
         }
         catch (IOException e) {
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package edu.temple.cis3238.gravity.gravity.dlc;
+package edu.temple.cis3238.gravity.gravity.model;
 
 import android.content.Context;
 
@@ -13,7 +13,7 @@ import edu.temple.cis3238.gravity.gravity.model.physicd2d.Physics2D;
  * A Level object for holding JSON information.
  *
  * @author Brett Crawford
- * @version 1.0a last modified 3/29/2015
+ * @version 1.0b last modified 4/5/2015
  */
 public class Level {
 
@@ -49,14 +49,8 @@ public class Level {
     private String silverScoring;
     private String bronzeScoring;
 
-    /*The physics entities of the level.*/
-    private Physics2D physics2d;
-
-    /*The graphics entities of the level.*/
-    private Graphics2D graphics2d;
-
-    /*The gamestate entities of the level.*/
-    private GameState gamestate;
+    /*The model of the level.*/
+    // private Model model;
 
     /**
      * A constructor for this object. The properties are filled using
@@ -79,16 +73,19 @@ public class Level {
             goldScoring = scoringJSONObject.getString("gold");
             silverScoring = scoringJSONObject.getString("silver");
             bronzeScoring = scoringJSONObject.getString("bronze");
-
-            physics2d = new Physics2D(levelJSONObject.getJSONObject("physics"));
-
-            graphics2d = new Graphics2D(levelJSONObject.getJSONObject("graphics"));
-
-            gamestate = new GameState(levelJSONObject.getJSONObject("gamestate"));
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This method will be used to instantiate model object and to prepare this
+     * object for use.
+     */
+    public void initLevel() {
+
+        /* Model class will be instantiated */
     }
 
     /**
@@ -182,28 +179,12 @@ public class Level {
     }
 
     /**
-     * Returns the Physics2D object of the level.
-     * @return The Physics2D object.
+     * Returns the Model object of the level.
+     * @return The Model object.
      */
-    public Physics2D getPhysics2d() {
-        return physics2d;
-    }
-
-    /**
-     * Returns the Graphics2D object of the level.
-     * @return The Graphics2D object.
-     */
-    public Graphics2D getGraphics2d() {
-        return graphics2d;
-    }
-
-    /**
-     * Returns the GameState object of the level.
-     * @return The GameState object.
-     */
-    public GameState getGamestate() {
-        return gamestate;
-    }
+    //public Model getModel() {
+    //    return model;
+    //}
 
     @Override
     public String toString() {

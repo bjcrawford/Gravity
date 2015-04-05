@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import edu.temple.cis3238.gravity.gravity.R;
-import edu.temple.cis3238.gravity.gravity.dlc.Level;
-import edu.temple.cis3238.gravity.gravity.dlc.Story;
+import edu.temple.cis3238.gravity.gravity.model.Level;
+import edu.temple.cis3238.gravity.gravity.model.Story;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelSelectFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.PauseDialogFragment;

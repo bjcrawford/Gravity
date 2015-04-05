@@ -1,7 +1,6 @@
 package edu.temple.cis3238.gravity.gravity.fragment;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,11 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.R;
-import edu.temple.cis3238.gravity.gravity.dlc.DLC;
-import edu.temple.cis3238.gravity.gravity.dlc.Level;
-import edu.temple.cis3238.gravity.gravity.dlc.Story;
+import edu.temple.cis3238.gravity.gravity.model.Level;
+import edu.temple.cis3238.gravity.gravity.model.Story;
 import edu.temple.cis3238.gravity.gravity.levellistitem.LevelListItemAdapter;
-import edu.temple.cis3238.gravity.gravity.storylistitem.StoryListItemAdapter;
 
 /**
  * A level selection fragment.

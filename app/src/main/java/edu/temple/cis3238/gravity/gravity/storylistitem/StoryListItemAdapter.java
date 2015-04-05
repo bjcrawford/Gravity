@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.R;
-import edu.temple.cis3238.gravity.gravity.dlc.Story;
+import edu.temple.cis3238.gravity.gravity.model.Story;
 
 /**
  * This class is an Adapter for populating the RecyclerView used in

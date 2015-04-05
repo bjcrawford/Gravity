@@ -1,7 +1,6 @@
-package edu.temple.cis3238.gravity.gravity.dlc;
+package edu.temple.cis3238.gravity.gravity.model;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;

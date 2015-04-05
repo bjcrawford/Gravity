@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.temple.cis3238.gravity.gravity.R;
-import edu.temple.cis3238.gravity.gravity.dlc.Level;
+import edu.temple.cis3238.gravity.gravity.model.Level;
 import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
@@ -92,7 +92,7 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback{
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView() fired");
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.level_fragment, container, false);
+        view = inflater.inflate(R.layout.fragment_level, container, false);
 
         // Set up the gesture view
         gestureView = view.findViewById(R.id.gesture_view);

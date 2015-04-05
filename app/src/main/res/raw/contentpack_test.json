@@ -1,9 +1,9 @@
 {
-    "dlc": {
-        "name": "Test DLC",
+    "contentpack": {
+        "name": "Test Content Pack",
         "release_date": "March 2015",
         "author": "Gravity Team",
-        "notes": "This is a test DLC pack.",
+        "notes": "This is a test content pack.",
         "stories": [
             {
                 "name": "Test Story 0",
@@ -32,6 +32,7 @@
                                     "y0": "960",
                                     "dx0": "0",
                                     "dy0": "0",
+                                    "lifespan": "0",
                                     "shapes": [
                                         {
                                             "shape": [
@@ -55,6 +56,8 @@
                                     "dx0": "0",
                                     "dy0": "0",
                                     "mass": "300",
+                                    "dTheta": "0",
+                                    "lifespan": "0",
                                     "shapes": [
                                         {
                                             "shape": [
@@ -74,6 +77,8 @@
                                     "dx0": "0",
                                     "dy0": "0",
                                     "mass": "300",
+                                    "dTheta": "0",
+                                    "lifespan": "0",
                                     "shapes": [
                                         {
                                             "shape": [
@@ -93,6 +98,8 @@
                                     "dx0": "0",
                                     "dy0": "0",
                                     "mass": "300",
+                                    "dTheta": "0",
+                                    "lifespan": "0",
                                     "shapes": [
                                         {
                                             "shape": [
