@@ -25,8 +25,9 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
 
     private SurfaceHolder holder; //surface holder
     private ArrayList<Entity> entityList; // list of graphic entities
-    Context context;
-    Bitmap background;
+    private Context context;
+    private Canvas canvas;
+    private Bitmap bitmap;
 
     public GamePlaySurface(Context context){
         super(context);
@@ -48,6 +49,30 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
         this.entityList = entityList;
     }
 
+    /**
+     * draws all graphics entities on the screen
+     * @throws Exception
+     */
+    public void drawScene()throws Exception{
+
+        //get the holder for the surface
+        canvas = holder.lockCanvas();
+        //make sure the surface is ready
+        if(canvas == null) throw new Exception("Canvas is null: the canvas have not been constructed on the surfaceView");
+        //visit each entity and draw it
+        for(Entity entity: entityList){
+            //get the resource name
+            String imgResId = entity.getName();
+            //load the correct bitmap
+            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(imgResId, "drawable", context.getPackageName()));
+            //draw the bitmap
+            canvas.drawBitmap(bitmap, entity.getX()-bitmap.getWidth()/2, entity.getY()-bitmap.getHeight()/2, null);
+        }
+        //at the end
+        holder.unlockCanvasAndPost(canvas);
+    }
+
+
     @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
@@ -67,6 +92,7 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = null;
+        this.holder = holder;
         try {
             canvas = holder.lockCanvas(null);
 
