@@ -28,35 +28,59 @@ import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
  * A reusable level fragment.
  *
  * @author Brett Crawford
- * @version 1.0b last modified 3/29/2015
+ * @version 1.0c last modified 4/5/2015
  */
-public class LevelFragment extends Fragment implements SurfaceHolder.Callback{
+public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
 
+    /* Debug tag */
     private static final String TAG = "LevelFragment";
 
+    /* The fragment's view */
     private View view;
+
+    /* The GestureView used for receiving user input */
     private View gestureView;
+
+    /* The SurfaceView used for drawing the game to the screen */
     private GamePlaySurface gameSurfaceView;
+
+    /* An interface for communication with the holder of the surface */
     private SurfaceHolder gameSurfaceHolder;
 
+    /* The level model object */
     private Level level;
 
     // Temporary placement for testing, This should be in the controller class
     private GameEventQueue eventQueue;
 
+    /* The interface to communicate with the parent activity (PlayGameActivity) */
     private OnLevelFragmentInteractionListener listener;
 
+    /**
+     * The required public empty constructor
+     */
     public LevelFragment() {
         eventQueue = new GameEventQueue();
     }
 
-    public static LevelFragment instanceOf(Level level) {
+    /**
+     * Returns a new instance of a level fragment
+     *
+     * @param level The level model object
+     * @return A LevelFragment
+     */
+    public static LevelFragment newInstance(Level level) {
         LevelFragment lf = new LevelFragment();
         lf.setLevel(level);
 
         return lf;
     }
 
+    /**
+     * Sets the level associated with this fragment
+     *
+     * @param level A level model object
+     */
     private void setLevel(Level level) {
         this.level = level;
     }
@@ -98,6 +122,7 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback{
         gestureView = view.findViewById(R.id.gesture_view);
         gestureView.setClickable(true);
         gestureView.setFocusable(true);
+
         //set up the Surface view
      //   gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
         gameSurfaceView = new GamePlaySurface(getActivity());
@@ -106,6 +131,7 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback{
         RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.fragment_layout);
         gameSurfaceView.setLayoutParams(layout.getLayoutParams());
         layout.addView(gameSurfaceView);
+
         return view;
     }
 
@@ -179,7 +205,8 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback{
 /* =========================== Parent Activity Communication Methods ============================ */
 
     /**
-     * This method will communication to the parent activity.
+     * This method will handle communication to the parent activity.
+     *
      * @param uri
      */
     public void onLevelEvent(Uri uri) {

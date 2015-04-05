@@ -129,7 +129,7 @@ public class PlayGameActivity extends Activity implements
     @Override
     public void OnStorySelectFragmentInteraction(Story story) {
         getFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, LevelSelectFragment.instanceOf(story), LEVEL_SEL_FRAG_TAG)
+                .add(R.id.fragment_container, LevelSelectFragment.newInstance(story), LEVEL_SEL_FRAG_TAG)
                 .addToBackStack(LEVEL_SEL_FRAG_TAG)
                 .commit();
     }
@@ -142,7 +142,7 @@ public class PlayGameActivity extends Activity implements
     @Override
     public void OnLevelSelectFragmentInteraction(Level level) {
         getFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, LevelFragment.instanceOf(level), LEVEL_FRAG_TAG)
+                .add(R.id.fragment_container, LevelFragment.newInstance(level), LEVEL_FRAG_TAG)
                 .addToBackStack(LEVEL_FRAG_TAG)
                 .commit();
     }

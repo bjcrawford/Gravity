@@ -34,18 +34,28 @@ import edu.temple.cis3238.gravity.gravity.storylistitem.StoryListItemAdapter;
 public class StorySelectFragment extends Fragment implements
         StoryListItemAdapter.OnItemClickListener {
 
+    /* Debug tag */
     private static final String TAG = "StorySelectFragment";
 
+    /* The fragment's view */
     private View view;
+
+    /* The RecyclerView that holds the list of stories */
     private RecyclerView storyRecyclerView;
 
+    /* The Content Pack's to pull the stories from */
     private List<ContentPack> contentPacks;
+
+    /* The stories to populate into the RecyclerView list */
     private List<Story> stories;
 
+    /* The interface to communicate with the parent activity (PlayGameActivity) */
     private OnStorySelectFragmentInteractionListener listener;
 
+    /**
+     * The required public empty constructor
+     */
     public StorySelectFragment() {
-        // Required empty public constructor
     }
 
 /* ===================================== Lifecycle Methods ====================================== */
@@ -89,6 +99,7 @@ public class StorySelectFragment extends Fragment implements
         Log.d(TAG, "onCreateView() fired");
         view = inflater.inflate(R.layout.fragment_story_select, container, false);
 
+        // Set up the RecyclerView
         storyRecyclerView = (RecyclerView) view.findViewById(R.id.story_recyclerview);
         storyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         storyRecyclerView.setAdapter(new StoryListItemAdapter(stories, this));
@@ -182,8 +193,9 @@ public class StorySelectFragment extends Fragment implements
 /* =========================== Parent Activity Communication Methods ============================ */
 
     /**
-     * This method will communication to the parent activity.
-     * @param story The story object selected
+     * This method will handle the communication of the selected story to the parent activity
+     *
+     * @param story The Story object selected
      */
     public void onStorySelected(Story story) {
         if (listener != null) {

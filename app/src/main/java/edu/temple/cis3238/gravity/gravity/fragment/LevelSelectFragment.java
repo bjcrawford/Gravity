@@ -22,31 +22,51 @@ import edu.temple.cis3238.gravity.gravity.levellistitem.LevelListItemAdapter;
  * A level selection fragment.
  *
  * @author Brett Crawford
- * @version 1.0a last modified 3/29/2015
+ * @version 1.0b last modified 4/5/2015
  */
 public class LevelSelectFragment extends Fragment implements
         LevelListItemAdapter.OnItemClickListener {
 
+    /* Debug tag */
     private static final String TAG = "LevelSelectFragment";
 
+    /* The fragment's view */
     private View view;
+
+    /* The RecyclerView that holds the list of levels */
     private RecyclerView levelRecyclerView;
 
+    /* The levels to populate into the RecyclerView list */
     private List<Level> levels;
 
+    /* The interface to communicate with the parent activity (PlayGameActivity) */
     private OnLevelSelectFragmentInteractionListener listener;
 
+    /**
+     * The required public empty constructor
+     */
     public LevelSelectFragment() {
         levels = new ArrayList<Level>();
     }
 
-    public static LevelSelectFragment instanceOf(Story story) {
+    /**
+     * Returns a new instance of a level select fragment
+     *
+     * @param story The story containing the levels to be used for selection
+     * @return A LevelSelectFragment
+     */
+    public static LevelSelectFragment newInstance(Story story) {
         LevelSelectFragment lsf = new LevelSelectFragment();
         lsf.setLevels(story.getLevels());
 
         return lsf;
     }
 
+    /**
+     * Sets the levels associated with this fragment
+     *
+     * @param levels A list of Level objects
+     */
     private void setLevels(List<Level> levels) {
         this.levels = levels;
     }
@@ -77,8 +97,8 @@ public class LevelSelectFragment extends Fragment implements
         Log.d(TAG, "onCreateView() fired");
         view = inflater.inflate(R.layout.fragment_level_select, container, false);
 
+        // Set up the RecyclerView
         levelRecyclerView = (RecyclerView) view.findViewById(R.id.level_recyclerview);
-
         levelRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         levelRecyclerView.setAdapter(new LevelListItemAdapter(levels, this));
 
@@ -137,8 +157,9 @@ public class LevelSelectFragment extends Fragment implements
 /* =========================== Parent Activity Communication Methods ============================ */
 
     /**
-     * This method will communication to the parent activity.
-     * @param level The level object selected.
+     * This method will handle the communication of the selected level to the parent activity.
+     *
+     * @param level The Level object selected.
      */
     public void onLevelSelected(Level level) {
         if (listener != null) {
