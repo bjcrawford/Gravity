@@ -196,9 +196,14 @@ public class Physics2D {
             for(int yNdex = 0; yNdex < this.universe.getPlaneWidth(); yNdex ++) {
                 float d2xTally = 0, d2yTally = 0;
                 for(Landmark landmark : this.landmarks) {
-                    /** F = GM/(r^2) = GM/(sqrt(xDiff^2 + yDiff^2)^2) = GM/((xDiff^2 + yDiff^2))
+                    /** The following calculations assume that the mass of the player is negligible
+                     * relative to the masses of the landmarks (i.e planets).
+                     *
+                     * F = GM/(r^2) = GM/(sqrt(xDiff^2 + yDiff^2)^2) = GM/((xDiff^2 + yDiff^2))
                      * sin(a) = (yDiff / r) && sin(a) = (Fy / F) => Fy = (F * (yDiff / r))
                      * sin(b) = (xDiff / r) && sin(b) = (Fx / F) => Fx = (F * (xDiff / r))
+                     * P* : Player
+                     * M* : Mass
                      *
                      *                          P*
                      *                        /
