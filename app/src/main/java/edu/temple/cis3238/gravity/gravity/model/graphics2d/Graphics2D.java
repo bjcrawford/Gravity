@@ -69,7 +69,22 @@ public class Graphics2D {
      *     or null if the id is invalid.
      */
     public Entity getEntityByID(int id) {
-        if(id < this.entities.size()) this.entities.get(id);
+        if(id < this.entities.size()) return this.entities.get(id);
         return null;
+    }
+
+    public JSONObject toJSON() {
+        JSONArray jEntities = new JSONArray();
+        for(Entity ent : this.entities) {
+            jEntities.put(ent.toJSON());
+        }
+        JSONObject selfAsJSON = new JSONObject();
+
+        try{
+            selfAsJSON.put("entities", jEntities);
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return selfAsJSON;
     }
 }

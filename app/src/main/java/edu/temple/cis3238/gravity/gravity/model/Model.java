@@ -15,7 +15,7 @@ import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Landmark;
 /**
  *
  * @author Ian M. Speers
- * @version 1.0a last modified 4/5/2015
+ * @version 1.0a last modified 4/6/2015
  */
 public class Model {
 
@@ -57,12 +57,11 @@ public class Model {
 
     public void update(float deltaT) {
         this.physModel.update(deltaT);
-        if(this.physModel.getEntity(this.playerID).getPosition() != null) {
+        if(this.physModel.getEntity(this.playerID) != null) {
             this.gameStateModel.updateGameState(this.physModel.getEntity(this.playerID).getPosition());
         }else {
             this.gameStateModel.setPlayable(false);
         }
-
     }
 
     /**
@@ -109,6 +108,24 @@ public class Model {
         }
 
         return rtrnResources;
+    }
+
+    //TODO: discuss input format with brett
+    public void recieveInput() {
+        float delta_d2x = 5.0f, delta_d2y = 5.0f;
+        this.physModel.applyAcceleratingForceToBody(this.playerID, delta_d2x, delta_d2y);
+    }
+
+    public JSONObject toJSON() {
+        JSONObject selfAsJSON = new JSONObject();
+        try {
+            selfAsJSON.put("physics", this.physModel.toJSON());
+            selfAsJSON.put("graphics", this.graphModel.toJSON());
+            selfAsJSON.put("gamestate", this.gameStateModel.toJSON());
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return selfAsJSON;
     }
 
 // Getters and Setters -----------------------------------------------------------------------------

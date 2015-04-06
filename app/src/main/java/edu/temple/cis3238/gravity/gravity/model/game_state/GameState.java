@@ -1,5 +1,6 @@
 package edu.temple.cis3238.gravity.gravity.model.game_state;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -105,6 +106,31 @@ public class GameState {
             this.playable = false;
             this.gameWon = true;
         }
+    }
+
+    public JSONObject toJSON() {
+        //TODO: need to store score
+        //TODO: toJSON methods for objective, event
+        JSONObject selfAsJSON = new JSONObject();
+//
+//        JSONArray jEvents = new JSONArray();
+//        for(Event event : this.events) {
+//            jEvents.put(event.toJSON());
+//        }
+//
+//        JSONArray jObjectives = new JSONArray();
+//        for(Objective objective : this.objectives) {
+//            jObjectives.put(objective.toJSON());
+//        }
+//
+//        try{
+//            selfAsJSON.put("events", jEvents);
+//            selfAsJSON.put("objectves", jObjectives);
+//        }catch(JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+        return selfAsJSON;
     }
 
 // Getters and Setters -----------------------------------------------------------------------------
