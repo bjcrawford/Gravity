@@ -6,11 +6,15 @@
     android:id="@+id/fragment_layout"
     android:layout_height="match_parent">
 
+    <edu.temple.cis3238.gravity.gravity.view.GamePlaySurface
+        android:id="@+id/game_play_surfaceview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <View
         android:id="@+id/gesture_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFAAAAAA"/>
+        android:layout_height="match_parent"/>
 
     <Button
         android:id="@+id/win_button"
