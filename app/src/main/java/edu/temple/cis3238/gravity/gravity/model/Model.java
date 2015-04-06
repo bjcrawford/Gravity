@@ -1,5 +1,6 @@
 package edu.temple.cis3238.gravity.gravity.model;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Landmark;
 /**
  *
  * @author Ian M. Speers
- * @version 1.0a last modified 4/5/2015
+ * @version 1.0a last modified 4/6/2015
  */
 public class Model {
 
@@ -38,11 +39,14 @@ public class Model {
 
 // Constructors ------------------------------------------------------------------------------------
 
-    public Model() {
-
-    }
-
-    public Model(JSONObject selfAsJson, int screenWidth, int screenHeight) {
+    public Model(JSONObject selfAsJson) {
+        try {
+            this.physModel = new Physics2D(selfAsJson.getJSONObject("physics"));
+            this.graphModel = new Graphics2D(selfAsJson.getJSONObject("graphics"));
+            this.gameStateModel = new GameState(selfAsJson.getJSONObject("gamestate"));
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 // Private -----------------------------------------------------------------------------------------
@@ -51,15 +55,24 @@ public class Model {
 
 // Public ------------------------------------------------------------------------------------------
 
+    public void update(float deltaT) {
+        this.physModel.update(deltaT);
+        if(this.physModel.getEntity(this.playerID) != null) {
+            this.gameStateModel.updateGameState(this.physModel.getEntity(this.playerID).getPosition());
+        }else {
+            this.gameStateModel.setPlayable(false);
+        }
+    }
+
     /**
      * Get a map of the stationary in-game entities.
      * @return A list of the relative positions of the landmark physics entities.
      */
     public List<ImageResourceWrapper> getMap() {
         //TODO: get a list of the landmarks. Should be generated once and stored to prevent redundant acquisitions
-        for(Landmark landmark : this.physModel.getLandmarks()) {
-
-        }
+//        for(Landmark landmark : this.physModel.getLandmarks()) {
+//
+//        }
         return new ArrayList<>();
     }
 
@@ -95,6 +108,24 @@ public class Model {
         }
 
         return rtrnResources;
+    }
+
+    //TODO: discuss input format with brett
+    public void recieveInput() {
+        float delta_d2x = 5.0f, delta_d2y = 5.0f;
+        this.physModel.applyAcceleratingForceToBody(this.playerID, delta_d2x, delta_d2y);
+    }
+
+    public JSONObject toJSON() {
+        JSONObject selfAsJSON = new JSONObject();
+        try {
+            selfAsJSON.put("physics", this.physModel.toJSON());
+            selfAsJSON.put("graphics", this.graphModel.toJSON());
+            selfAsJSON.put("gamestate", this.gameStateModel.toJSON());
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return selfAsJSON;
     }
 
 // Getters and Setters -----------------------------------------------------------------------------

@@ -22,27 +22,12 @@ public class Graphics2D {
     /*A list of graphics entities.*/
     private List<Entity> entities;
 
-    //TODO: Read new fields into object from JSON
-    /**The height of the graphics space.*/
-    private int screenHeight;
-
-    /**The width of the graphics space.*/
-    private int screenWidth;
-
-    private double minimapScalar;
-
-    private List<Entity> miniMap;
-
-    //TODO: end above todo
-
     /**
      * A constructor for this object. The properties are filled using
      * the given JSONObject.
      * @param graphicsJSONObject The Graphics JSONObject.
      */
-    public Graphics2D(JSONObject graphicsJSONObject, int screenHeight, int screenWidth) {
-        this.screenHeight = screenHeight;
-        this.screenWidth = screenWidth;
+    public Graphics2D(JSONObject graphicsJSONObject) {
         entities = new ArrayList<Entity>();
         try {
             JSONArray entitiesJSONArray = graphicsJSONObject.getJSONArray("entities");
@@ -84,7 +69,22 @@ public class Graphics2D {
      *     or null if the id is invalid.
      */
     public Entity getEntityByID(int id) {
-        if(id < this.entities.size()) this.entities.get(id);
+        if(id < this.entities.size()) return this.entities.get(id);
         return null;
+    }
+
+    public JSONObject toJSON() {
+        JSONArray jEntities = new JSONArray();
+        for(Entity ent : this.entities) {
+            jEntities.put(ent.toJSON());
+        }
+        JSONObject selfAsJSON = new JSONObject();
+
+        try{
+            selfAsJSON.put("entities", jEntities);
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return selfAsJSON;
     }
 }

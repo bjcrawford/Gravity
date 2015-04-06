@@ -1,5 +1,8 @@
 package edu.temple.cis3238.gravity.gravity.model.physicd2d.entity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  *
  * @author Ian M. Speers
@@ -9,11 +12,31 @@ abstract public class FixedEntity extends Entity {
 
 // Fields ------------------------------------------------------------------------------------------
 
+    /**Defines the rate at which the landmark will spin*/
+    protected int dTheta;
+
 // Constructors ------------------------------------------------------------------------------------
 
-// General Public Functions ------------------------------------------------------------------------
+// Public ------------------------------------------------------------------------------------------
 
-// General Private Functions -----------------------------------------------------------------------
+    /**
+     * Returns a JSON object representation of the entity.
+     * @return A JSON object containing the data of the entity.
+     */
+    public JSONObject toJSON() {
+
+        JSONObject selfAsJSON = super.toJSON();
+        try {
+            selfAsJSON.put("dTheta", this.dTheta);
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return selfAsJSON;
+    }
+
+// Protected ---------------------------------------------------------------------------------------
+
+// Private -----------------------------------------------------------------------------------------
 
 // Getters and Setters -----------------------------------------------------------------------------
 }

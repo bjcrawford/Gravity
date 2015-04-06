@@ -93,9 +93,12 @@ public class Plane2D {
     /**
      * Define the region at the position specified.
      * @param position The position of the region to be defined.
-     * @param region The data of the region.
+     * @param d2x The acceleration in the x direction experienced at the given region.
+     * @param d2y The acceleration in the y direction experienced at the given region.
+     * @param occupantID The unique id of the occupant of the given region.
      */
-    public void defineRegion(Point position, Region2D region) {
+    public void defineRegion(Point position, float d2x, float d2y, int occupantID) {
+        Region2D region = new Region2D(d2x, d2y, occupantID);
         if(position.x < this.planeWidth && position.y < this.planeHeight && position.x >= 0 && position.y >= 0) {
             this.worldHashPutRegion2D(position, region);
         }

@@ -15,7 +15,7 @@ import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Phenomenon;
 
 /**
  * @author Ian M. Speers
- * @version 1.0a last modified 3/21/2015
+ * @version 1.0a last modified 4/6/2015
  */
 public class Physics2D {
 
@@ -46,6 +46,11 @@ public class Physics2D {
      */
     private List<Phenomenon> phenomena;
 
+    private ArrayList<Entity> entitiesLookupTable;
+
+    /**Defines the strength of gravity.*/
+    private int gravConstant;
+
 // Constructors ------------------------------------------------------------------------------------
 
     /**
@@ -59,38 +64,155 @@ public class Physics2D {
         this.bodies = new ArrayList<>();
         this.landmarks = new ArrayList<>();
         this.phenomena = new ArrayList<>();
+        this.gravConstant = 6;
 
         this.universe = new Plane2D(width, height);
     }
 
-    public Physics2D(JSONObject persistent) throws JSONException {
+    /**
+     * Construct a physics object from the given JSON file.
+     * @param selfAsJson A JSON representation of the desired physics object.
+     */
+    public Physics2D(JSONObject selfAsJson) {
         this.idCtr = 0;
-        this.readBodies(persistent.getJSONArray("bodies"));
-        this.readLandmarks(persistent.getJSONArray("landmarks"));
-        this.readPhenomena(persistent.getJSONArray("phenomena"));
+        this.gravConstant = 6;
+        try{
+            this.readBodies(selfAsJson.getJSONArray("bodies"));
+            this.readLandmarks(selfAsJson.getJSONArray("landmarks"));
+            this.readPhenomena(selfAsJson.getJSONArray("phenomena"));
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
+        this.constructUniverse();
+        this.placeEntities();
     }
 
 // Private -----------------------------------------------------------------------------------------
 
-    private void readBodies(JSONArray persistent) throws JSONException {
-        for (int index = 0; index < persistent.length(); index++) {
-            JSONObject jBody = persistent.getJSONObject(index);
-            //TODO: body.toJSON()
+    /**
+     * Read bodies from the JSON list.
+     * @param persistent The JSON list of bodies
+     */
+    private void readBodies(JSONArray persistent) {
+        try {
+            for (int index = 0; index < persistent.length(); index++) {
+                JSONObject jBody = persistent.getJSONObject(index);
+                Body tmpBod = new Body(jBody);
+                this.bodies.add(tmpBod);
+            }
+        }catch(JSONException e) {
+            e.printStackTrace();
         }
     }
 
-    private void readLandmarks(JSONArray persistent) throws JSONException {
-        for (int index = 0; index < persistent.length(); index++) {
-            JSONObject jLandmark = persistent.getJSONObject(index);
-            //TODO: landmark.toJSON()
+    /**
+     * Read the landmarks from the JSON list.
+     * @param persistent The JSON list of landmarks.
+     */
+    private void readLandmarks(JSONArray persistent) {
+        try {
+            for (int index = 0; index < persistent.length(); index++) {
+                JSONObject jLandmark = persistent.getJSONObject(index);
+                Landmark tmpLM = new Landmark(jLandmark);
+                this.landmarks.add(tmpLM);
+            }
+        }catch(JSONException e) {
+            e.printStackTrace();
         }
     }
 
-    private void readPhenomena(JSONArray persistent) throws JSONException {
-        for (int index = 0; index < persistent.length(); index++) {
-            JSONObject jPhenomenon = persistent.getJSONObject(index);
-            //TODO: phenomenon.toJSON()
+    /**
+     * Read the phenomena from the JSON list.
+     * @param persistent The JSON list of phenomena.
+     */
+    private void readPhenomena(JSONArray persistent) {
+        try {
+            for (int index = 0; index < persistent.length(); index++) {
+                JSONObject jPhenomenon = persistent.getJSONObject(index);
+                Phenomenon tmpPh = new Phenomenon(jPhenomenon);
+                this.phenomena.add(tmpPh);
+            }
+        }catch(JSONException e) {
+            e.printStackTrace();
         }
+    }
+
+    private void writeBodies() {
+//        try {
+//
+//        }catch(JSONException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private void writeLandmarks() {
+//        try {
+//
+//        }catch(JSONException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private void writePhenomena() {
+//        try {
+//
+//        }catch(JSONException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private boolean isPointContained(Point p, Point center, int xDiff, int yDiff) {
+        if(p.x < center.x - xDiff || p.x > center.x + xDiff) return false;
+        if(p.y < center.y - yDiff || p.y > center.y + yDiff) return false;
+        return true;
+    }
+
+    /**
+     * Initialize a hasmap of entities, which will allow for O(1) access to entities by id.
+     */
+    private void constructEntitiesLookupTable() {
+        this.entitiesLookupTable = new ArrayList<>();
+        for(Body body : this.bodies) {
+            this.entitiesLookupTable.add(body.getId(), body);
+        }
+        for(Landmark landmark : this.landmarks) {
+            this.entitiesLookupTable.add(landmark.getId(), landmark);
+        }
+        for(Phenomenon phenomenon : this.phenomena) {
+            this.entitiesLookupTable.add(phenomenon.getId(), phenomenon);
+        }
+    }
+
+    /**
+     * Initialize the gravity field of the universe (2DPlane)
+     */
+    private void constructUniverse() {
+        for(int xNdex = 0; xNdex < this.universe.getPlaneWidth(); xNdex ++) {
+            for(int yNdex = 0; yNdex < this.universe.getPlaneWidth(); yNdex ++) {
+                float d2xTally = 0, d2yTally = 0;
+                for(Landmark landmark : this.landmarks) {
+                    int xDiff = landmark.getPosition().x - xNdex;
+                    float tmpD2X = this.gravConstant * (landmark.getMass() / (xDiff * xDiff));
+                    if(xDiff < 0) {
+                        tmpD2X *= -1;   // Apply gravity in the appropriate direction
+                    }
+
+                    int yDiff = landmark.getPosition().y - yNdex;
+                    float tmpD2Y = this.gravConstant * (landmark.getMass() / (yDiff * yDiff));
+                    if(yDiff < 0) {
+                        tmpD2Y *= -1;   // Apply gravity in the appropriate direction
+                    }
+                    d2xTally += tmpD2X;
+                    d2yTally += tmpD2Y;
+                }
+                this.universe.defineRegion(new Point(xNdex, yNdex), d2xTally, d2yTally, -1);
+            }
+        }
+    }
+
+    private void placeEntities() {
+
+        //TODO: set occupancy of entities in the universe(plane2d)
     }
 
 // Protected ---------------------------------------------------------------------------------------
@@ -110,10 +232,6 @@ public class Physics2D {
     public void createPhenomenon(int id, Point position, int dx0, int dy0, int lifespan, List<List<Point>> shapes) {
         this.phenomena.add(new Phenomenon(id, position, dx0, dy0, lifespan, shapes));
         this.idCtr++;
-    }
-
-    public void defineRegion(Point position, float d2xGrav, float d2yGrav) {
-        this.universe.defineRegion(position, new Region2D(d2xGrav, d2yGrav));
     }
 
     public JSONObject toJSON() {
@@ -140,7 +258,6 @@ public class Physics2D {
             selfAsJSON.put("bodies", pBodies);
             selfAsJSON.put("landmarks", pLandmarks);
             selfAsJSON.put("phenomena", pPhenomena);
-            return selfAsJSON;
         }catch(JSONException e) {
             e.printStackTrace();
         }
@@ -213,15 +330,21 @@ public class Physics2D {
      * @return A boolean signifying weather the entity was modified.
      */
     public boolean applyAcceleratingForceToBody(int entityID, float delta_d2x, float delta_d2y) {
-        // Traverse the list of bodies to find the body with the correct id.
-        for (Body body : this.bodies) {
-            // If found, apply acceleration and return true.
-            if (body.getId() == entityID) {
-                body.applyAcceleratingForce(delta_d2x, delta_d2y);
-                return true;
-            }
+        // Get the entity with the given id.
+        Entity entWithID = this.getEntity(entityID);
+        // If the id corresponds to an invalid entity, return false.
+        if(entWithID == null) return false;
+        // If the entity is a body, apply acceleration.
+        if(entWithID.getClass().toString().contains("Body")){
+            ((Body) entWithID).applyAcceleratingForce(delta_d2x, delta_d2y);
+            return true;
+        // If the entity is a phenomenon, apply acceleration.
+        }else if(entWithID.getClass().toString().contains("Phenomenon")) {
+            ((Phenomenon) entWithID).applyAcceleratingForce(delta_d2x, delta_d2y);
+            return true;
         }
-        // If the body is not found, return false.
+
+        // If acceleration can not be applied to the entity, return false.
         return false;
     }
 
@@ -231,14 +354,11 @@ public class Physics2D {
      * @return
      */
     public Entity getEntity(int entityID) {
-        // Traverse the list of bodies to find the body with the correct id.
-        for (Body body : this.bodies) {
-            // If found, apply acceleration and return true.
-            if (body.getId() == entityID) {
-                return body;
-            }
+        Entity rtrnEnt = null;
+        if(entityID < this.entitiesLookupTable.size()) {
+            rtrnEnt = this.entitiesLookupTable.get(entityID);
         }
-        return null;
+        return rtrnEnt;
     }
 
     /**
@@ -252,7 +372,22 @@ public class Physics2D {
      */
     public List<Entity> observe(Point center, int xDiff, int yDiff) {
         List<Entity> subjects = new ArrayList<Entity>();
-        //TODO: get entities in region
+        // For each entity in the universe...
+        for(Entity entity : this.entitiesLookupTable) {
+            // For each subsection of that entity, relative to the entitys center...
+            for(Point subsection : entity.getShape()) {
+                // Calculate that subsections absolute location.
+                Point translatedSubsection = new Point(subsection);
+                translatedSubsection.offset(entity.getPosition().x, entity.getPosition().y);
+                // If the translated point is within the bounds of observation...
+                if(this.isPointContained(translatedSubsection, center, xDiff, yDiff)) {
+                    // Add the entity to the list of observed subjects...
+                    subjects.add(entity);
+                    // And break to prevent duplicate observations.
+                    break;
+                }
+            }
+        }
         return subjects;
     }
 

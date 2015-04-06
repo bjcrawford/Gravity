@@ -58,22 +58,34 @@ abstract public class MobileEntity extends Entity {
 
     /**
      * Calculate the orientation of the entity based on its current acceleration vector i.e <d2x, d2y>
-     * @return The orientation of the entity [0, 11]
+     * @return The orientation of the entity
      */
     protected int calcOrientation() {
         // Rotation
         // Acceleration vector <d2x, d2y>
         // Theta = aTan(d2y / d2x) ***Ensuring theta is in degrees, not radians***
-        // Positions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        // Corresponding to [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360]
-        // Position = round(Theta / 30)
+        // Positions = [0, 1, ...n]
+        // Corresponding to [0, 1, ...n] * (360 / n)
+        // Position = round(arcTan(Theta / (360 / n)))
         double theta;
         if(this.d2x == 0) {
             theta = this.d2y > 0 ? 90 : 270; // If d2x is 0, theta is a function of d2y exclusively
+        }else if(this.d2y == 0) {
+            theta = this.d2x > 0 ? 0 : 180; // If d2y is 0, theta is a function of d2x exclusively
         }else {
-            theta = Math.toDegrees(Math.atan(this.d2y / this.d2x)); // Otherwise theta must be calculated
+            theta = Math.toDegrees(Math.atan(Math.abs(this.d2y / this.d2x))); // Otherwise theta must be calculated
+            // Figure out which quadrant theta should point to
+            if(this.d2x > 0 && this.d2y < 0) {  // Q4
+                theta += 270;
+            }else if(this.d2x < 0 && this.d2y < 0) {    // Q3
+                theta += 180;
+            }else if(this.d2x < 0 && this.d2y > 0) {    // Q2
+                theta += 90;
+            }   // Q4 requires no action i.e theta += 0
         }
-        return Math.round(((float) theta) / 30.0f) % 12; // Ensure that the integer returned is in Z12
+
+        float sliceSize = (float) (360 / this.shapes.size());
+        return ((int) (((float) theta) / sliceSize)) % this.shapes.size(); // Ensure that the integer returned is in Zn
     }
 
 // Public ------------------------------------------------------------------------------------------
@@ -88,12 +100,16 @@ abstract public class MobileEntity extends Entity {
     /**
      * Returns a JSON object representation of the entity.
      * @return A JSON object containing the data of the entity.
-     * @throws JSONException
      */
-    public JSONObject toJSON() throws JSONException{
+    public JSONObject toJSON() {
+
         JSONObject selfAsJSON = super.toJSON();
-        selfAsJSON.put("dx0", this.dx);
-        selfAsJSON.put("dy0", this.dy);
+        try {
+            selfAsJSON.put("dx0", this.dx);
+            selfAsJSON.put("dy0", this.dy);
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
         return selfAsJSON;
     }
 

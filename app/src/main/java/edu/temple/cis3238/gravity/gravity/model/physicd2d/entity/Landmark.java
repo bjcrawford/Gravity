@@ -18,23 +18,10 @@ public class Landmark extends FixedEntity {
 
 // Fields ------------------------------------------------------------------------------------------
 
-    /**Defines the rate at which the landmark will spin*/
-    private int dTheta;
+    /**The objects mass.*/
+    private int mass;
 
 // Constructors ------------------------------------------------------------------------------------
-
-    /**
-     * The default constructor for this class. Sets the unique identifier for this landmark, and initializes all other fields to zero/ empty.
-     * <br>The resulting landmark will be usable by the physics logic, but will not have a useful default state.
-     */
-    public Landmark(int id) {
-        this.position = new Point(0, 0);
-        this.dTheta = 0;
-        this.id = id;
-        this.shapes = new ArrayList<>();
-        this.shapes.add(new ArrayList<Point>());
-        this.shape = this.shapes.get(0);
-    }
 
     /**
      * The comprehensive constructor for this class. Initializes a landmark described by the input parameters.
@@ -58,29 +45,55 @@ public class Landmark extends FixedEntity {
      * @param selfAsJSON The JSON object containing the data to be loaded.
      * @throws JSONException
      */
-    public Landmark(JSONObject selfAsJSON) throws JSONException {
-        this.position = new Point(selfAsJSON.getInt("x"), selfAsJSON.getInt("y"));
-        this.dTheta = selfAsJSON.getInt("dTheta");
-        // Read Shapes list<list> out from json object.
-        this.shapes = new ArrayList<>();
-        JSONArray jShapes = selfAsJSON.getJSONArray("shapes");
-        // For each shape in the list of shapes.
-        for(int index = 0; index < jShapes.length(); index ++) {
-            // Create a new point list.
-            JSONArray jShape = jShapes.getJSONArray(index);
-            ArrayList<Point> loadedShape = new ArrayList<>();
-            // Add each point in the current shape to the new point list.
-            for(int jndex = 0; jndex < jShape.length(); jndex ++) {
-                JSONObject jPoint = jShape.getJSONObject(jndex);
-                loadedShape.add(new Point(jPoint.getInt("x"), jPoint.getInt("y")));
+    public Landmark(JSONObject selfAsJSON) {
+        try {
+            this.id = selfAsJSON.getInt("id");
+            this.position = new Point(selfAsJSON.getInt("x0"), selfAsJSON.getInt("y0"));
+            this.dTheta = selfAsJSON.getInt("dTheta");
+            this.mass = selfAsJSON.getInt("mass");
+            if(selfAsJSON.getInt("lifespan") < 0) {
+                this.lifespan = Integer.MAX_VALUE;
+            }else {
+                this.lifespan = selfAsJSON.getInt("lifespan");
             }
-            // Append the new point list to this.shapes.
-            this.shapes.add(loadedShape);
+            // Read Shapes list<list> out from json object.
+            this.shapes = new ArrayList<>();
+            JSONArray jShapes = selfAsJSON.getJSONArray("shapes");
+            // For each shape in the list of shapes.
+            for(int index = 0; index < jShapes.length(); index ++) {
+                // Create a new point list.
+                JSONArray jShape = jShapes.getJSONArray(index);
+                ArrayList<Point> loadedShape = new ArrayList<>();
+                // Add each point in the current shape to the new point list.
+                for(int jndex = 0; jndex < jShape.length(); jndex ++) {
+                    JSONObject jPoint = jShape.getJSONObject(jndex);
+                    loadedShape.add(new Point(jPoint.getInt("x"), jPoint.getInt("y")));
+                }
+                // Append the new point list to this.shapes.
+                this.shapes.add(loadedShape);
+            }
+        }catch(JSONException e) {
+            e.printStackTrace();
         }
+
     }
 
-// General Public Functions ------------------------------------------------------------------------
+// Public ------------------------------------------------------------------------------------------
 
+
+    /**
+     * Returns a JSON object representation of the entity.
+     * @return A JSON object containing the data of the entity.
+     */
+    public JSONObject toJSON() {
+        JSONObject selfAsJson = super.toJSON();
+        try {
+            selfAsJson.put("mass", this.mass);
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return selfAsJson;
+    }
 
     @Override
     public void update(float deltaT) {
@@ -90,5 +103,7 @@ public class Landmark extends FixedEntity {
 // General Private Functions -----------------------------------------------------------------------
 
 // Getters and Setters -----------------------------------------------------------------------------
-
+    public int getMass() {
+        return this.mass;
+    }
 }
