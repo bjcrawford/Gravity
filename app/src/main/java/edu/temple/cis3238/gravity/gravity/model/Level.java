@@ -13,7 +13,7 @@ import edu.temple.cis3238.gravity.gravity.model.physicd2d.Physics2D;
  * A Level object for holding JSON information.
  *
  * @author Brett Crawford
- * @version 1.0b last modified 4/5/2015
+ * @version 1.0c last modified 4/6/2015
  */
 public class Level {
 
@@ -32,29 +32,18 @@ public class Level {
     /*The description of the level.*/
     private String description;
 
-    /*The width of the level.*/
-    private int width;
-
-    /*The height of the level.*/
-    private int height;
-
-    /*The width of the player.*/
-    private int playerWidth;
-
-    /*The height of the player.*/
-    private int playerHeight;
-
     /*The time based scoring criteria of the level.*/
     private String goldScoring;
     private String silverScoring;
     private String bronzeScoring;
 
     /*The model of the level.*/
-    // private Model model;
+    private Model model;
 
     /**
      * A constructor for this object. The properties are filled using
      * the given JSONObject.
+     *
      * @param levelJSONObject The Level JSONObject.
      */
     public Level(Context appContext, JSONObject levelJSONObject) {
@@ -64,20 +53,11 @@ public class Level {
             name = levelJSONObject.getString("name");
             thumb = levelJSONObject.getString("thumb");
             description = levelJSONObject.getString("description");
-            width = levelJSONObject.getInt("width");
-            height = levelJSONObject.getInt("height");
-            playerWidth = levelJSONObject.getInt("player_width");
-            playerHeight = levelJSONObject.getInt("player_height");
 
             JSONObject scoringJSONObject = levelJSONObject.getJSONObject("scoring");
             goldScoring = scoringJSONObject.getString("gold");
             silverScoring = scoringJSONObject.getString("silver");
             bronzeScoring = scoringJSONObject.getString("bronze");
-
-            //physics2d = new Physics2D(levelJSONObject.getJSONObject("physics"));
-            // TODO: Dummy values added for height & width. Need to replace with screen height & width.
-            //graphics2d = new Graphics2D(levelJSONObject.getJSONObject("graphics"), 100, 100);
-            //gamestate = new GameState(levelJSONObject.getJSONObject("gamestate"));
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -91,6 +71,13 @@ public class Level {
     public void initLevel() {
 
         /* Model class will be instantiated */
+        try {
+            JSONObject modelJSONObject = levelJSONObject.getJSONObject("model");
+            model = new Model(modelJSONObject, 100, 100);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -128,38 +115,6 @@ public class Level {
     }
 
     /**
-     * Returns the width of the level.
-     * @return The width.
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Returns the height of the level.
-     * @return The height.
-     */
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * Returns the width of the player.
-     * @return The width of the player.
-     */
-    public int getPlayerWidth() {
-        return playerWidth;
-    }
-
-    /**
-     * Returns the height of the player.
-     * @return The height of the player.
-     */
-    public int getPlayerHeight() {
-        return playerHeight;
-    }
-
-    /**
      * Returns the gold score criteria of the level.
      * @return The gold score.
      */
@@ -187,19 +142,15 @@ public class Level {
      * Returns the Model object of the level.
      * @return The Model object.
      */
-    //public Model getModel() {
-    //    return model;
-    //}
+    public Model getModel() {
+        return model;
+    }
 
     @Override
     public String toString() {
         return "Name: " + name +
                 ", Thumb: " + thumb +
                 ", Description: " + description +
-                ", Width: " + width +
-                ", Height: " + height +
-                ", Player Width: " + playerWidth +
-                ", Player Height: " + playerHeight +
                 ", Gold Scoring: " + goldScoring +
                 ", Silver Scoring: " + silverScoring +
                 ", Bronze Scoring: " + bronzeScoring;
