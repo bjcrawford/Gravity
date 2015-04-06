@@ -141,7 +141,7 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
         });
 
         //set up the Surface view
-     //   gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
+        //gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
         gameSurfaceView = new GamePlaySurface(getActivity());
         gameSurfaceHolder = gameSurfaceView.getHolder();
         gameSurfaceHolder.addCallback(this);

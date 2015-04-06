@@ -73,7 +73,7 @@ public class Level {
         /* Model class will be instantiated */
         try {
             JSONObject modelJSONObject = levelJSONObject.getJSONObject("model");
-            model = new Model(modelJSONObject, 100, 100);
+            model = new Model(modelJSONObject);
         }
         catch (JSONException e) {
             e.printStackTrace();
