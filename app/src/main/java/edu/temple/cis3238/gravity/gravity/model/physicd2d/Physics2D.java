@@ -46,6 +46,9 @@ public class Physics2D {
      */
     private List<Phenomenon> phenomena;
 
+    /**Defines the strength of gravity.*/
+    private int gravConstant;
+
 // Constructors ------------------------------------------------------------------------------------
 
     /**
@@ -63,34 +66,118 @@ public class Physics2D {
         this.universe = new Plane2D(width, height);
     }
 
-    public Physics2D(JSONObject persistent) throws JSONException {
+    public Physics2D(JSONObject selfAsJson) {
         this.idCtr = 0;
-        this.readBodies(persistent.getJSONArray("bodies"));
-        this.readLandmarks(persistent.getJSONArray("landmarks"));
-        this.readPhenomena(persistent.getJSONArray("phenomena"));
+        try{
+            this.readBodies(selfAsJson.getJSONArray("bodies"));
+            this.readLandmarks(selfAsJson.getJSONArray("landmarks"));
+            this.readPhenomena(selfAsJson.getJSONArray("phenomena"));
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 // Private -----------------------------------------------------------------------------------------
 
-    private void readBodies(JSONArray persistent) throws JSONException {
-        for (int index = 0; index < persistent.length(); index++) {
-            JSONObject jBody = persistent.getJSONObject(index);
-            //TODO: body.toJSON()
+    /**
+     * Read bodies from the JSON list.
+     * @param persistent The JSON list of bodies
+     */
+    private void readBodies(JSONArray persistent) {
+        try {
+            for (int index = 0; index < persistent.length(); index++) {
+                JSONObject jBody = persistent.getJSONObject(index);
+                Body tmpBod = new Body(jBody);
+                this.bodies.add(tmpBod);
+            }
+        }catch(JSONException e) {
+            e.printStackTrace();
         }
     }
 
-    private void readLandmarks(JSONArray persistent) throws JSONException {
-        for (int index = 0; index < persistent.length(); index++) {
-            JSONObject jLandmark = persistent.getJSONObject(index);
-            //TODO: landmark.toJSON()
+    /**
+     * Read the landmarks from the JSON list.
+     * @param persistent The JSON list of landmarks.
+     */
+    private void readLandmarks(JSONArray persistent) {
+        try {
+            for (int index = 0; index < persistent.length(); index++) {
+                JSONObject jLandmark = persistent.getJSONObject(index);
+                Landmark tmpLM = new Landmark(jLandmark);
+                this.landmarks.add(tmpLM);
+            }
+        }catch(JSONException e) {
+            e.printStackTrace();
         }
     }
 
-    private void readPhenomena(JSONArray persistent) throws JSONException {
-        for (int index = 0; index < persistent.length(); index++) {
-            JSONObject jPhenomenon = persistent.getJSONObject(index);
-            //TODO: phenomenon.toJSON()
+    /**
+     * Read the phenomena from the JSON list.
+     * @param persistent The JSON list of phenomena.
+     */
+    private void readPhenomena(JSONArray persistent) {
+        try {
+            for (int index = 0; index < persistent.length(); index++) {
+                JSONObject jPhenomenon = persistent.getJSONObject(index);
+                Phenomenon tmpPh = new Phenomenon(jPhenomenon);
+                this.phenomena.add(tmpPh);
+            }
+        }catch(JSONException e) {
+            e.printStackTrace();
         }
+    }
+
+    private void writeBodies(JSONArray persistent) {
+//        try {
+//
+//        }catch(JSONException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private void writeLandmarks(JSONArray persistent) {
+//        try {
+//
+//        }catch(JSONException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private void writePhenomena(JSONArray persistent) {
+//        try {
+//
+//        }catch(JSONException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    /**
+     * Initialize the gravity field of the universe (2DPlane)
+     */
+    private void constructUniverse() {
+        for(int xNdex = 0; xNdex < this.universe.getPlaneWidth(); xNdex ++) {
+            for(int yNdex = 0; yNdex < this.universe.getPlaneWidth(); yNdex ++) {
+                float d2xTally = 0, d2yTally = 0;
+                for(Landmark landmark : this.landmarks) {
+                    int xDiff = landmark.getPosition().x - xNdex;
+                    float tmpD2X = this.gravConstant * (landmark.getMass() / (xDiff * xDiff));
+                    if(xDiff < 0) {
+                        tmpD2X *= -1;   // Apply gravity in the appropriate direction
+                    }
+
+                    int yDiff = landmark.getPosition().y - yNdex;
+                    float tmpD2Y = this.gravConstant * (landmark.getMass() / (yDiff * yDiff));
+                    if(yDiff < 0) {
+                        tmpD2Y *= -1;   // Apply gravity in the appropriate direction
+                    }
+                    this.universe.defineRegion(new Point(xNdex, yNdex), tmpD2X, tmpD2Y, -1);
+                }
+            }
+        }
+    }
+
+    private void placeEntities() {
+        //TODO: set occupancy of entities in the universe(plane2d)
     }
 
 // Protected ---------------------------------------------------------------------------------------
@@ -110,10 +197,6 @@ public class Physics2D {
     public void createPhenomenon(int id, Point position, int dx0, int dy0, int lifespan, List<List<Point>> shapes) {
         this.phenomena.add(new Phenomenon(id, position, dx0, dy0, lifespan, shapes));
         this.idCtr++;
-    }
-
-    public void defineRegion(Point position, float d2xGrav, float d2yGrav) {
-        this.universe.defineRegion(position, new Region2D(d2xGrav, d2yGrav));
     }
 
     public JSONObject toJSON() {
@@ -140,7 +223,6 @@ public class Physics2D {
             selfAsJSON.put("bodies", pBodies);
             selfAsJSON.put("landmarks", pLandmarks);
             selfAsJSON.put("phenomena", pPhenomena);
-            return selfAsJSON;
         }catch(JSONException e) {
             e.printStackTrace();
         }

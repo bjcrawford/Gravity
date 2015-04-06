@@ -51,8 +51,13 @@ public class Phenomenon extends MobileEntity {
         this.dy = dy0;
         this.d2x = 0;
         this.d2y = 0;
-        this.lifespan = lifespan;
+        if(lifespan < 0) {
+            this.lifespan = Integer.MAX_VALUE;
+        }else {
+            this.lifespan = lifespan;
+        }
         this.shapes = shapes;
+        this.shape = this.shapes.get(0);
         this.id = id;
     }
 
@@ -61,28 +66,37 @@ public class Phenomenon extends MobileEntity {
      * @param selfAsJSON The JSON object containing the data to be loaded.
      * @throws JSONException
      */
-    public Phenomenon(JSONObject selfAsJSON) throws JSONException {
-        this.position = new Point(selfAsJSON.getInt("x"), selfAsJSON.getInt("y"));
-        this.dx = selfAsJSON.getInt("dx");
-        this.dy = selfAsJSON.getInt("dy");
-        this.d2x = 0;
-        this.d2y = 0;
-        this.lifespan = Integer.MAX_VALUE;
-        // Read Shapes list<list> out from json object.
-        this.shapes = new ArrayList<>();
-        JSONArray jShapes = selfAsJSON.getJSONArray("shapes");
-        // For each shape in the list of shapes.
-        for(int index = 0; index < jShapes.length(); index ++) {
-            // Create a new point list.
-            JSONArray jShape = jShapes.getJSONArray(index);
-            ArrayList<Point> loadedShape = new ArrayList<>();
-            // Add each point in the current shape to the new point list.
-            for(int jndex = 0; jndex < jShape.length(); jndex ++) {
-                JSONObject jPoint = jShape.getJSONObject(jndex);
-                loadedShape.add(new Point(jPoint.getInt("x"), jPoint.getInt("y")));
+    public Phenomenon(JSONObject selfAsJSON) {
+        try {
+            this.id = selfAsJSON.getInt("id");
+            this.position = new Point(selfAsJSON.getInt("x0"), selfAsJSON.getInt("y0"));
+            this.dx = selfAsJSON.getInt("dx0");
+            this.dy = selfAsJSON.getInt("dy0");
+            this.d2x = 0;
+            this.d2y = 0;
+            if(selfAsJSON.getInt("lifespan") < 0) {
+                this.lifespan = Integer.MAX_VALUE;
+            }else {
+                this.lifespan = selfAsJSON.getInt("lifespan");
             }
-            // Append the new point list to this.shapes.
-            this.shapes.add(loadedShape);
+            // Read Shapes list<list> out from json object.
+            this.shapes = new ArrayList<>();
+            JSONArray jShapes = selfAsJSON.getJSONArray("shapes");
+            // For each shape in the list of shapes.
+            for(int index = 0; index < jShapes.length(); index ++) {
+                // Create a new point list.
+                JSONArray jShape = jShapes.getJSONArray(index);
+                ArrayList<Point> loadedShape = new ArrayList<>();
+                // Add each point in the current shape to the new point list.
+                for(int jndex = 0; jndex < jShape.length(); jndex ++) {
+                    JSONObject jPoint = jShape.getJSONObject(jndex);
+                    loadedShape.add(new Point(jPoint.getInt("x"), jPoint.getInt("y")));
+                }
+                // Append the new point list to this.shapes.
+                this.shapes.add(loadedShape);
+            }
+        }catch(JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -103,6 +117,15 @@ public class Phenomenon extends MobileEntity {
         this.accelerate(deltaT);
         this.displace(deltaT);
         this.shape = this.shapes.get(this.calcOrientation());
+    }
+
+    /**
+     * Returns a JSON object representation of the entity.
+     * @return A JSON object containing the data of the entity.
+     * @throws JSONException
+     */
+    public JSONObject toJSON() {
+        return super.toJSON();
     }
 
 // Getters and Setters -----------------------------------------------------------------------------

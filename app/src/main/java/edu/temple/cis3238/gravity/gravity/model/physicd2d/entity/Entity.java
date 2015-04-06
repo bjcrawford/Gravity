@@ -58,29 +58,34 @@ public abstract class Entity {
      */
     abstract public void update(float deltaT);
 
-    public JSONObject toJSON() throws JSONException{
+    public JSONObject toJSON() {
+
         JSONObject selfAsJSON = new JSONObject();
-        selfAsJSON.put("id", this.id);
-        selfAsJSON.put("x", this.position.x);
-        selfAsJSON.put("y", this.position.y);
+        try {
+            selfAsJSON.put("id", this.id);
+            selfAsJSON.put("x0", this.position.x);
+            selfAsJSON.put("y0", this.position.y);
 
-        JSONArray pShapes = new JSONArray();
-        // For each shape in this entity's list of shapes...
-        for(List<Point> subsection : this.shapes) {
-            // For each point in the current shape...
-            JSONArray pShape = new JSONArray();
-            for(Point point : subsection) {
-                // Create a new object to store the point.
-                JSONObject pos = new JSONObject();
-                pos.put("x", point.x);
-                pos.put("y", point.y);
-                pShape.put(pos);
+            JSONArray pShapes = new JSONArray();
+            // For each shape in this entity's list of shapes...
+            for(List<Point> subsection : this.shapes) {
+                // For each point in the current shape...
+                JSONArray pShape = new JSONArray();
+                for(Point point : subsection) {
+                    // Create a new object to store the point.
+                    JSONObject pos = new JSONObject();
+                    pos.put("x", point.x);
+                    pos.put("y", point.y);
+                    pShape.put(pos);
+                }
+                pShapes.put(pShape);
             }
-            pShapes.put(pShape);
-        }
 
-        selfAsJSON.put("shapes", pShapes);
-        selfAsJSON.put("lifespan", this.lifespan);
+            selfAsJSON.put("shapes", pShapes);
+            selfAsJSON.put("lifespan", this.lifespan);
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
 
         return selfAsJSON;
     }

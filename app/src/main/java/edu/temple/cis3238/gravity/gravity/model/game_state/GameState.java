@@ -34,6 +34,9 @@ public class GameState {
     /**Flag expressing the win/ lose state of the game.*/
     private boolean gameWon;
 
+    /**Integer for tracking and rating the players progress.*/
+    private int score;
+
 
 
 // Constructors ------------------------------------------------------------------------------------
@@ -45,10 +48,19 @@ public class GameState {
         this.objectives = objectives;
         this.playable = true;
         this.gameWon = false;
+        this.score = 0;
     }
 
-    public GameState(JSONObject selfAsJSON) throws JSONException {
-
+    public GameState(JSONObject selfAsJSON) {
+        //TODO: json constructor
+//        try {
+//
+//        }catch(JSONException e) {
+//            e.printStackTrace();
+//        }
+        this.playable = true;
+        this.gameWon = false;
+        this.score = 0;
     }
 
 // Private -----------------------------------------------------------------------------------------
@@ -104,4 +116,6 @@ public class GameState {
     public boolean getPlayable() {
         return this.playable;
     }
+
+    public void setPlayable(boolean playable) {this.playable = playable;}
 }
