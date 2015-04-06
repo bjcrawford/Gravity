@@ -2,6 +2,8 @@ package edu.temple.cis3238.gravity.gravity.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.net.Uri;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -248,14 +250,44 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+
+        Log.d(TAG, "SurfaceView width: " + gameSurfaceView.getWidth());
+        Log.d(TAG, "SurfaceView height: " + gameSurfaceView.getHeight());
         //run the gamePlay thread as soon as the surface is created
         //TEST THREAD DRAWING
         Thread thread = new Thread() {
             @Override
             public void run() {
                 Canvas canvas = gameSurfaceHolder.lockCanvas();
-                canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.player0), 0, 0, null);
-                canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.player3), 200, 200, null);
+                //canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.player0), 0, 0, null);
+                //canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.player3), 200, 200, null);
+
+                Log.d(TAG, "Canvas width: " + canvas.getWidth());
+                Log.d(TAG, "Canvas height: " + canvas.getHeight());
+
+                float sf = gameSurfaceView.getWidth() / 1400f;
+                Log.d(TAG, "Scaling Factor: " + sf);
+
+                canvas.drawBitmap(
+                        BitmapFactory.decodeResource(getResources(), R.drawable.player0),
+                        null,
+                        new RectF(sf * 0, sf * 0, sf * 100, sf * 100),
+                        null);
+
+                canvas.drawBitmap(
+                        BitmapFactory.decodeResource(getResources(), R.drawable.player3),
+                        null,
+                        new RectF(sf * 200, sf * 200, sf * 300, sf * 300),
+                        null);
+
+                Paint whitePaint = new Paint();
+                whitePaint.setColor(0xFFFFFFFF);
+                for (int x = 0; x < canvas.getWidth(); x += sf * 50) {
+                    for (int y = 0; y < canvas.getHeight(); y += sf * 50) {
+                        canvas.drawPoint(x, y, whitePaint);
+                    }
+                }
+
                 gameSurfaceHolder.unlockCanvasAndPost(canvas);
             }
         };
