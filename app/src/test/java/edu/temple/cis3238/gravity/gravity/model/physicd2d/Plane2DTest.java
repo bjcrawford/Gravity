@@ -51,7 +51,7 @@ public class Plane2DTest extends TestCase {
     public void testDefineRegionValidInput() throws Exception {
         Plane2D plane = new Plane2D(5, 5);
         Point position = new Point(2, 3);
-        plane.defineRegion(position, new Region2D(9.0f, 12.0f, 5));
+        plane.defineRegion(position, 9.0f, 12.0f, 5);
         Region2D regionCreated = plane.accessRegion(position);
         assertEquals("Unexpected value for d2xGrav found in specified region.", 9.0f, regionCreated.getD2xGrav(), 0.0f);
         assertEquals("Unexpected value for d2yGrav found in specified region.", 12.0f, regionCreated.getD2yGrav(), 0.0f);
@@ -62,7 +62,7 @@ public class Plane2DTest extends TestCase {
     public void testDefineRegionValidInputMinXY() throws Exception {
         Plane2D plane = new Plane2D(5, 5);
         Point position = new Point(0, 0);
-        plane.defineRegion(position, new Region2D(9.0f, 12.0f, 5));
+        plane.defineRegion(position, 9.0f, 12.0f, 5);
         Region2D regionCreated = plane.accessRegion(position);
         assertEquals("Unexpected value for d2xGrav found in specified region.", 9.0f, regionCreated.getD2xGrav(), 0.0f);
         assertEquals("Unexpected value for d2yGrav found in specified region.", 12.0f, regionCreated.getD2yGrav(), 0.0f);
@@ -73,7 +73,7 @@ public class Plane2DTest extends TestCase {
     public void testDefineRegionValidInputMaxXY() throws Exception {
         Plane2D plane = new Plane2D(5, 5);
         Point position = new Point(4, 4);
-        plane.defineRegion(position, new Region2D(9.0f, 12.0f, 5));
+        plane.defineRegion(position, 9.0f, 12.0f, 5);
         Region2D regionCreated = plane.accessRegion(position);
         assertEquals("Unexpected value for d2xGrav found in specified region.", 9.0f, regionCreated.getD2xGrav(), 0.0f);
         assertEquals("Unexpected value for d2yGrav found in specified region.", 12.0f, regionCreated.getD2yGrav(), 0.0f);
@@ -84,7 +84,7 @@ public class Plane2DTest extends TestCase {
     public void testDefineRegionValidInputMinXMaxY() throws Exception {
         Plane2D plane = new Plane2D(5, 5);
         Point position = new Point(0, 4);
-        plane.defineRegion(position, new Region2D(9.0f, 12.0f, 5));
+        plane.defineRegion(position, 9.0f, 12.0f, 5);
         Region2D regionCreated = plane.accessRegion(position);
         assertEquals("Unexpected value for d2xGrav found in specified region.", 9.0f, regionCreated.getD2xGrav(), 0.0f);
         assertEquals("Unexpected value for d2yGrav found in specified region.", 12.0f, regionCreated.getD2yGrav(), 0.0f);
@@ -95,7 +95,7 @@ public class Plane2DTest extends TestCase {
     public void testDefineRegionValidInputMaxXMinY() throws Exception {
         Plane2D plane = new Plane2D(5, 5);
         Point position = new Point(4, 0);
-        plane.defineRegion(position, new Region2D(9.0f, 12.0f, 5));
+        plane.defineRegion(position, 9.0f, 12.0f, 5);
         Region2D regionCreated = plane.accessRegion(position);
         assertEquals("Unexpected value for d2xGrav found in specified region.", 9.0f, regionCreated.getD2xGrav(), 0.0f);
         assertEquals("Unexpected value for d2yGrav found in specified region.", 12.0f, regionCreated.getD2yGrav(), 0.0f);
@@ -106,7 +106,7 @@ public class Plane2DTest extends TestCase {
     public void testDefineRegionInvalidInputOOBx() throws Exception {
         Plane2D plane = new Plane2D(5, 5);
         Point position = new Point(9, 3);
-        plane.defineRegion(position, new Region2D(8.0f, 11.0f, 4));
+        plane.defineRegion(position, 8.0f, 11.0f, 4);
         Region2D regionCreated = plane.accessRegion(position);
         assertEquals("The function should return null for x out of bounds.", null, regionCreated);
     }
@@ -115,7 +115,7 @@ public class Plane2DTest extends TestCase {
     public void testDefineRegionInvalidInputOOBy() throws Exception {
         Plane2D plane = new Plane2D(5, 5);
         Point position = new Point(3, 9);
-        plane.defineRegion(position, new Region2D(8.0f, 11.0f, 4));
+        plane.defineRegion(position, 8.0f, 11.0f, 4);
         Region2D regionCreated = plane.accessRegion(position);
         assertEquals("The function should return null for y out of bounds.", null, regionCreated);
     }
@@ -124,7 +124,7 @@ public class Plane2DTest extends TestCase {
     public void testDefineRegionInvalidInputOOBxy() throws Exception {
         Plane2D plane = new Plane2D(5, 5);
         Point position = new Point(9, 9);
-        plane.defineRegion(position, new Region2D(8.0f, 11.0f, 4));
+        plane.defineRegion(position, 8.0f, 11.0f, 4);
         Region2D regionCreated = plane.accessRegion(position);
         assertEquals("The function should return null for x and y out of bounds.", null, regionCreated);
     }
@@ -133,7 +133,7 @@ public class Plane2DTest extends TestCase {
     public void testAccessRegion() throws Exception {
         Plane2D plane = new Plane2D(5, 5);
         Point position = new Point(2, 3);
-        plane.defineRegion(position, new Region2D(9.0f, 12.0f, 5));
+        plane.defineRegion(position, 9.0f, 12.0f, 5);
         Region2D regionCreated = plane.accessRegion(position);
         assertEquals("Unexpected value for d2xGrav found in specified region.", 9.0f, regionCreated.getD2xGrav(), 0.0f);
         assertEquals("Unexpected value for d2yGrav found in specified region.", 12.0f, regionCreated.getD2yGrav(), 0.0f);
@@ -151,7 +151,7 @@ public class Plane2DTest extends TestCase {
     public void testSetRegionEmpty() throws Exception {
         Plane2D plane = new Plane2D(5, 5);
         Point position = new Point(2, 3);
-        plane.defineRegion(position, new Region2D(9.0f, 12.0f, 5));
+        plane.defineRegion(position, 9.0f, 12.0f, 5);
         plane.setRegionEmpty(position);
         Region2D regionCreated = plane.accessRegion(position);
         assertEquals("Value for occupantID found in specified region should be -1.", -1, regionCreated.getOccupantID());

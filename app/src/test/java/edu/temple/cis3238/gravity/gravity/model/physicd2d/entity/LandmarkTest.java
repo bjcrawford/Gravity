@@ -43,13 +43,14 @@ public class LandmarkTest {
 
     @Test
     public void jsonConstructor() throws Exception {
-        String jSelfString = "{\"shapes\":[[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":-1},{\"x\":-1,\"y\":0},{\"x\":1,\"y\":0}],[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":1,\"y\":-1},{\"x\":-1,\"y\":1},{\"x\":1,\"y\":-1}]], \"dTheta\":20,\"lifespan\":300,\"x0\":5,\"y0\":10,\"id\":1}";
+        String jSelfString = "{\"shapes\":[[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":-1},{\"x\":-1,\"y\":0},{\"x\":1,\"y\":0}],[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":1,\"y\":-1},{\"x\":-1,\"y\":1},{\"x\":1,\"y\":-1}]], \"dTheta\":20,\"mass\":1000,\"lifespan\":300,\"x0\":5,\"y0\":10,\"id\":1}";
         JSONObject jBody = new JSONObject(jSelfString);
         Landmark l = new Landmark(jBody);
         assertEquals("Body x should be 5.", 5, l.getPosition().x);
         assertEquals("Body y should be 10.", 10, l.getPosition().y);
         assertEquals("Body lifespan should be 300.", 300, l.getLifespan());
         assertEquals("Body id should be 0.", 1, l.getId());
+        assertEquals("Body mass should be 1000.", 1000, l.getMass());
         assertEquals("Body shapes should have been initialized.", 1, l.shapes.get(1).get(1).x);
         assertEquals("Body shapes should have been initialized.", 1, l.shapes.get(1).get(1).y);
     }
@@ -57,11 +58,10 @@ public class LandmarkTest {
     @Test
     public void testToJSON() throws Exception {
 
-        String jSelfString = "{\"shapes\":[[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":-1},{\"x\":-1,\"y\":0},{\"x\":1,\"y\":0}],[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":1,\"y\":-1},{\"x\":-1,\"y\":1},{\"x\":1,\"y\":-1}]],\"lifespan\":300,\"y0\":10,\"x0\":5,\"id\":1,\"dTheta\":20}";
+        String jSelfString = "{\"shapes\":[[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":-1},{\"x\":-1,\"y\":0},{\"x\":1,\"y\":0}],[{\"x\":0,\"y\":0},{\"x\":1,\"y\":1},{\"x\":1,\"y\":-1},{\"x\":-1,\"y\":1},{\"x\":1,\"y\":-1}]],\"lifespan\":300,\"y0\":10,\"mass\":0,\"x0\":5,\"id\":1,\"dTheta\":20}";
 
         Landmark l = new Landmark(1, new Point(5, 10), 20, 300, this.shapes);
         JSONObject selfAsJSON = l.toJSON();
-        System.out.println(selfAsJSON.toString());
         assertEquals("Body toJSONshould return an accurate json representation of the body",
                 jSelfString, selfAsJSON.toString());
     }
