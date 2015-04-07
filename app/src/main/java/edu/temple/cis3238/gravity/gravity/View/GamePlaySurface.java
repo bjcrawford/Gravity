@@ -1,15 +1,22 @@
-package edu.temple.cis3238.gravity.gravity.view;
+package edu.temple.cis3238.gravity.gravity.View;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.model.ImageResourceWrapper;
+import edu.temple.cis3238.gravity.gravity.model.Model;
+import edu.temple.cis3238.gravity.gravity.model.Point;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
 
 /**
@@ -24,6 +31,9 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
     private Context context;
     private Canvas canvas;
     private Bitmap bitmap;
+    private ImageResourceWrapper imgRec;
+    private Model gameModel;
+    private float sf;
 
     public GamePlaySurface(Context context){
         super(context);
@@ -38,38 +48,83 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
     }
 
     /**
-     * set the reference to the entity list
-     * @param entityList a list of entities
+     * draw one frame of the scene
+     * @param gameModel
+     * @param sf
      */
-    public void setEntityList(ArrayList<Entity> entityList){
-        this.entityList = entityList;
+    //TODO make sure that the init function has everything
+    public void init(Model gameModel, float sf){
+        this.gameModel = gameModel;
+        this.sf = sf;
     }
 
     /**
      * draws all graphics entities on the screen
      * @throws Exception
+     * @param x: just for testing
+     * @param  y: just for testing
      */
-
-    /*
-    public void drawScene()throws Exception{
-
-        //get the holder for the surface
-        canvas = holder.lockCanvas();
+    public void drawScene(Canvas canvas, int x , int y)throws Exception{
         //make sure the surface is ready
         if(canvas == null) throw new Exception("Canvas is null: the canvas have not been constructed on the surfaceView");
-        //visit each entity and draw it
-        for(Entity entity: entityList){
-            //get the resource name
-            String imgResId = entity.getName();
-            //load the correct bitmap
-            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(imgResId, "drawable", context.getPackageName()));
-            //draw the bitmap
-            canvas.drawBitmap(bitmap, entity.getX()-bitmap.getWidth()/2, entity.getY()-bitmap.getHeight()/2, null);
-        }
-        //at the end
-        holder.unlockCanvasAndPost(canvas);
+        //first, clear the scene
+        canvas.drawColor(Color.BLACK);
+        //draw the separate layers on the screen
+        drawEntities(canvas, x, y);
+        drawMap(canvas);
+        drawScore(canvas);
     }
-    */
+
+    //Helper methods to drawScene()
+
+    /**
+     * draw the entities to the screen
+     * @param canvas
+     * @param x: just for testing
+     * @param  y: just for testing
+     */
+    private void drawEntities(Canvas canvas, int x, int y){
+
+
+        //TEST CODE
+        List<ImageResourceWrapper> imgList ;//= gameModel.getFrame(this.getWidth(),this.getHeight());
+        float sf = this.getWidth() / 1400f;
+        imgList = new ArrayList<ImageResourceWrapper>();
+        imgList.add(new ImageResourceWrapper(new Point(x,y), "player0"));
+
+        //END TEST CODE
+
+        //a bitmap reference holder
+        Bitmap bitmap;
+        //a rectangle reference holder
+        RectF rectF = new RectF();
+        //for each element on the frame
+        for(ImageResourceWrapper img: imgList){
+            //get the picture of the space object
+            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(img.imgResID, "drawable", context.getPackageName()));
+            //set the rect
+            rectF.set(sf * (img.position.x - bitmap.getWidth()/2),
+                    sf * (img.position.y - bitmap.getHeight()/2),
+                    sf * (img.position.x + bitmap.getWidth()/2),
+                    sf * (img.position.y + bitmap.getHeight()/2));
+            //draw the picture of the space object
+            canvas.drawBitmap(bitmap, null, rectF, null);
+
+        }
+    }
+
+    /**
+     * draw the small map on the screen
+     * @param canvas
+     */
+    private void drawMap(Canvas canvas){}
+
+    /**
+     * draw score bord, life and other things
+     * @param canvas
+     */
+    private void drawScore(Canvas canvas){}
+
 
     @Override
     protected void onDraw(Canvas canvas){
@@ -105,6 +160,8 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
             }
         }
     }
+    //FOR TESTING ONLY
+    public Context getCurrentContext(){return context;}
 
 }
 

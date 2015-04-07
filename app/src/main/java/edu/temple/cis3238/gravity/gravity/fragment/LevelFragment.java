@@ -2,6 +2,8 @@ package edu.temple.cis3238.gravity.gravity.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.net.Uri;
@@ -22,7 +24,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.model.Level;
-import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
+import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
@@ -258,37 +260,54 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
         Thread thread = new Thread() {
             @Override
             public void run() {
-                Canvas canvas = gameSurfaceHolder.lockCanvas();
+                Canvas canvas;// = gameSurfaceHolder.lockCanvas();
                 //canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.player0), 0, 0, null);
                 //canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.player3), 200, 200, null);
 
-                Log.d(TAG, "Canvas width: " + canvas.getWidth());
-                Log.d(TAG, "Canvas height: " + canvas.getHeight());
+//                Log.d(TAG, "Canvas width: " + canvas.getWidth());
+//                Log.d(TAG, "Canvas height: " + canvas.getHeight());
+//
+//                float sf = gameSurfaceView.getWidth() / 1400f;
+//                Log.d(TAG, "Scaling Factor: " + sf);
+//
+//                canvas.drawBitmap(
+//                        BitmapFactory.decodeResource(getResources(), R.drawable.player0),
+//                        null,
+//                        new RectF(sf * 0, sf * 0, sf * 100, sf * 100),
+//                        null);
+//
+//                canvas.drawBitmap(
+//                        BitmapFactory.decodeResource(getResources(), R.drawable.player3),
+//                        null,
+//                        new RectF(sf * 200, sf * 200, sf * 300, sf * 300),
+//                        null);
+//
+//                Paint whitePaint = new Paint();
+//                whitePaint.setColor(0xFFFFFFFF);
+//                for (int x = 0; x < canvas.getWidth(); x += sf * 50) {
+//                    for (int y = 0; y < canvas.getHeight(); y += sf * 50) {
+//                        canvas.drawPoint(x, y, whitePaint);
+//                    }
+//                }
 
-                float sf = gameSurfaceView.getWidth() / 1400f;
-                Log.d(TAG, "Scaling Factor: " + sf);
 
-                canvas.drawBitmap(
-                        BitmapFactory.decodeResource(getResources(), R.drawable.player0),
-                        null,
-                        new RectF(sf * 0, sf * 0, sf * 100, sf * 100),
-                        null);
+                for(int i = 1;; i=(i+10)%gameSurfaceView.getWidth()) {
+                    //must lock everytime
+                    canvas = gameSurfaceHolder.lockCanvas();
+                    try {
 
-                canvas.drawBitmap(
-                        BitmapFactory.decodeResource(getResources(), R.drawable.player3),
-                        null,
-                        new RectF(sf * 200, sf * 200, sf * 300, sf * 300),
-                        null);
-
-                Paint whitePaint = new Paint();
-                whitePaint.setColor(0xFFFFFFFF);
-                for (int x = 0; x < canvas.getWidth(); x += sf * 50) {
-                    for (int y = 0; y < canvas.getHeight(); y += sf * 50) {
-                        canvas.drawPoint(x, y, whitePaint);
+                        gameSurfaceView.drawScene(canvas, i , i/2);
+                        Log.d(TAG, "Bitmap Drawn");
+                        //sleep(33);
+                        Log.d(TAG, "Thread woke up from sleep");
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    gameSurfaceHolder.unlockCanvasAndPost(canvas);
                 }
 
-                gameSurfaceHolder.unlockCanvasAndPost(canvas);
+
+
             }
         };
         thread.start();
