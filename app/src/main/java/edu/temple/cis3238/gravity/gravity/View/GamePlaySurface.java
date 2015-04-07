@@ -90,7 +90,7 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
         List<ImageResourceWrapper> imgList ;//= gameModel.getFrame(this.getWidth(),this.getHeight());
         float sf = this.getWidth() / 1400f;
         imgList = new ArrayList<ImageResourceWrapper>();
-        imgList.add(new ImageResourceWrapper(new Point(x,y), "player0"));
+        imgList.add(new ImageResourceWrapper(new Point(x,y), "planet0"));
 
         //END TEST CODE
 
@@ -107,8 +107,11 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
                     sf * (img.position.y - bitmap.getHeight()/2),
                     sf * (img.position.x + bitmap.getWidth()/2),
                     sf * (img.position.y + bitmap.getHeight()/2));
+            //get an angle
+            canvas.rotate(x, rectF.centerX(), rectF.centerY());
             //draw the picture of the space object
             canvas.drawBitmap(bitmap, null, rectF, null);
+            canvas.restore();
 
         }
     }
