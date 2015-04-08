@@ -67,32 +67,34 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
     public void drawScene(Canvas canvas, int x , int y)throws Exception{
         //make sure the surface is ready
         if(canvas == null) throw new Exception("Canvas is null: the canvas have not been constructed on the surfaceView");
-        //first, clear the scene
-        canvas.drawColor(Color.BLACK);
+        //first, draw the background
+        drawBackground(canvas);
         //draw the separate layers on the screen
-        drawEntities(canvas, x, y);
+        drawEntities(canvas);
         drawMap(canvas);
         drawScore(canvas);
     }
 
+
     //Helper methods to drawScene()
+
+    /**
+     * draw the background of the scene
+     * @param canvas
+     */
+    private void drawBackground(Canvas canvas) {
+        canvas.drawColor(Color.BLACK);
+    }
 
     /**
      * draw the entities to the screen
      * @param canvas
-     * @param x: just for testing
-     * @param  y: just for testing
      */
-    private void drawEntities(Canvas canvas, int x, int y){
+    private void drawEntities(Canvas canvas){
 
 
         //TEST CODE
-        List<ImageResourceWrapper> imgList ;//= gameModel.getFrame(this.getWidth(),this.getHeight());
-        float sf = this.getWidth() / 1400f;
-        imgList = new ArrayList<ImageResourceWrapper>();
-        imgList.add(new ImageResourceWrapper(new Point(x,y), "planet0"));
-
-        //END TEST CODE
+        List<ImageResourceWrapper> imgList = gameModel.getFrame(this.getWidth(),this.getHeight());
 
         //a bitmap reference holder
         Bitmap bitmap;
@@ -108,10 +110,10 @@ public class GamePlaySurface extends SurfaceView implements SurfaceHolder.Callba
                     sf * (img.position.x + bitmap.getWidth()/2),
                     sf * (img.position.y + bitmap.getHeight()/2));
             //get an angle
-            canvas.rotate(x, rectF.centerX(), rectF.centerY());
+          //  canvas.rotate(x, rectF.centerX(), rectF.centerY());
             //draw the picture of the space object
             canvas.drawBitmap(bitmap, null, rectF, null);
-            canvas.restore();
+          //  canvas.restore();
 
         }
     }
