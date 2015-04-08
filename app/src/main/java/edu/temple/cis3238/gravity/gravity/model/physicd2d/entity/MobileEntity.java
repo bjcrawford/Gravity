@@ -76,11 +76,11 @@ abstract public class MobileEntity extends Entity {
             theta = Math.toDegrees(Math.atan(Math.abs(this.d2y / this.d2x))); // Otherwise theta must be calculated
             // Figure out which quadrant theta should point to
             if(this.d2x > 0 && this.d2y < 0) {  // Q4
-                theta += 270;
+                theta = 360 - theta;
             }else if(this.d2x < 0 && this.d2y < 0) {    // Q3
                 theta += 180;
             }else if(this.d2x < 0 && this.d2y > 0) {    // Q2
-                theta += 90;
+                theta = 180 - theta;
             }   // Q4 requires no action i.e theta += 0
         }
 

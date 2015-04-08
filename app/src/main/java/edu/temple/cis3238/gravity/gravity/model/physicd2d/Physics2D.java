@@ -83,6 +83,7 @@ public class Physics2D {
         }catch(JSONException e) {
             e.printStackTrace();
         }
+        //TODO: ConstructUniverse is a fairly intensive operation... May cause noticeable delay on initialization
         this.constructUniverse();
         this.placeEntities();
     }
@@ -185,22 +186,55 @@ public class Physics2D {
 
     /**
      * Initialize the gravity field of the universe (2DPlane)
+     * O(m*n) where:
+     *      - n is the number of regions in the universe.
+     *      - m is the number of landmarks in the universe.
+     * With considerable constant cost at each iteration.
      */
     private void constructUniverse() {
         for(int xNdex = 0; xNdex < this.universe.getPlaneWidth(); xNdex ++) {
             for(int yNdex = 0; yNdex < this.universe.getPlaneWidth(); yNdex ++) {
                 float d2xTally = 0, d2yTally = 0;
                 for(Landmark landmark : this.landmarks) {
+                    /** The following calculations assume that the mass of the player is negligible
+                     * relative to the masses of the landmarks (i.e planets).
+                     *
+                     * F = GM/(r^2) = GM/(sqrt(xDiff^2 + yDiff^2)^2) = GM/((xDiff^2 + yDiff^2))
+                     * sin(a) = (yDiff / r) && sin(a) = (Fy / F) => Fy = (F * (yDiff / r))
+                     * sin(b) = (xDiff / r) && sin(b) = (Fx / F) => Fx = (F * (xDiff / r))
+                     * P* : Player
+                     * M* : Mass
+                     *
+                     *                          P*
+                     *                        /
+                     *        F             / |
+                     *      /             /(b_|
+                     *     V            /     |
+                     *                /       |           Fy
+                     *          r   /         | yDiff     |
+                     *            /           |           V
+                     *          /             |
+                     *        /               |
+                     *      /                 |
+                     *    /)                 _|
+                     *   __a)_______________|
+                     * M*         xDiff
+                     *
+                     *           <- Fx
+                    */
                     int xDiff = landmark.getPosition().x - xNdex;
-                    float tmpD2X = this.gravConstant * (landmark.getMass() / (xDiff * xDiff));
-                    if(xDiff < 0) {
-                        tmpD2X *= -1;   // Apply gravity in the appropriate direction
+                    int yDiff = landmark.getPosition().y - yNdex;
+                    int r = (int) Math.sqrt((double) ((xDiff * xDiff) + (yDiff * yDiff)));      // sqrt(a^2 + b^2)
+                    float fGrav = (this.gravConstant * landmark.getMass()) / (r * r);   // F = GM/r^2
+
+                    float tmpD2X = fGrav * (Math.abs(yDiff) / r);
+                    if(xDiff < 0) {     // If the landmark is "behind" the region...
+                        tmpD2X *= -1;   // Gravity should pull backwards.
                     }
 
-                    int yDiff = landmark.getPosition().y - yNdex;
-                    float tmpD2Y = this.gravConstant * (landmark.getMass() / (yDiff * yDiff));
-                    if(yDiff < 0) {
-                        tmpD2Y *= -1;   // Apply gravity in the appropriate direction
+                    float tmpD2Y = fGrav * (Math.abs(xDiff) / r);
+                    if(yDiff < 0) {     // If the landmark is "below" the region...
+                        tmpD2Y *= -1;   // Gravity should pull downwards.
                     }
                     d2xTally += tmpD2X;
                     d2yTally += tmpD2Y;
@@ -211,8 +245,17 @@ public class Physics2D {
     }
 
     private void placeEntities() {
-
-        //TODO: set occupancy of entities in the universe(plane2d)
+        // For each entity in the universe...
+        for(Entity entity : this.entitiesLookupTable) {
+            // For each subsection of that entity, relative to the entitys center...
+            for(Point subsection : entity.getShape()) {
+                // Calculate that subsections absolute location.
+                Point translatedSubsection = new Point(subsection);
+                translatedSubsection.offset(entity.getPosition().x, entity.getPosition().y);
+                // Set the region associated with that subsection to occupied
+                this.universe.setRegionOccupied(translatedSubsection, entity.getId());
+            }
+        }
     }
 
 // Protected ---------------------------------------------------------------------------------------
@@ -335,11 +378,11 @@ public class Physics2D {
         // If the id corresponds to an invalid entity, return false.
         if(entWithID == null) return false;
         // If the entity is a body, apply acceleration.
-        if(entWithID.getClass().toString().contains("Body")){
+        if(entWithID instanceof Body){
             ((Body) entWithID).applyAcceleratingForce(delta_d2x, delta_d2y);
             return true;
         // If the entity is a phenomenon, apply acceleration.
-        }else if(entWithID.getClass().toString().contains("Phenomenon")) {
+        }else if(entWithID instanceof Phenomenon) {
             ((Phenomenon) entWithID).applyAcceleratingForce(delta_d2x, delta_d2y);
             return true;
         }
