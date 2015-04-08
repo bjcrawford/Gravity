@@ -61,6 +61,47 @@ public class GamePlaySurface extends SurfaceView {
         super(context, attrs);
     }
 
+    public GamePlaySurface(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    // This initializes the surface view by grabbing a reference to the surface holder and
+    // defining the call back methods. This is a more appropriate place for the methods.
+    public void init() {
+
+        surfaceHolder = getHolder();
+        surfaceHolder.addCallback(new SurfaceHolder.Callback() {
+
+            // When the surface is ready, start the thread
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                //controllerThread.setRunning(true);
+                controllerThread.start();
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+            }
+
+            // When the surface is being destroyed, attempt to alert the controller thread
+            // so we can shut down cleanly.
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                //boolean retry = true;
+                //controllerThread.setRunning(false);
+                //while (retry) {
+                //    try {
+                //        controllerThread.join();
+                //        retry = false;
+                //    }
+                //    catch (InterruptedException e) {
+                //    }
+                //}
+            }});
+    }
+
+
     /**
      * draw one frame of the scene
      * @param gameModel
@@ -150,41 +191,6 @@ public class GamePlaySurface extends SurfaceView {
     private void drawScore(Canvas canvas){}
 
 
-    // This initializes the surface view by grabbing a reference to the surface holder and
-    // defining the call back methods. This is a more appropriate place for the methods.
-    public void init() {
-
-        surfaceHolder = getHolder();
-        surfaceHolder.addCallback(new SurfaceHolder.Callback() {
-
-            // When the surface is ready, start the thread
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                //controllerThread.setRunning(true);
-                controllerThread.start();
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-            }
-
-            // When the surface is being destroyed, attempt to alert the controller thread
-            // so we can shut down cleanly.
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-                //boolean retry = true;
-                //controllerThread.setRunning(false);
-                //while (retry) {
-                //    try {
-                //        controllerThread.join();
-                //        retry = false;
-                //    }
-                //    catch (InterruptedException e) {
-                //    }
-                //}
-            }});
-    }
 
     // Just a testing draw method. The real workhorse of this class will be your drawScene method.
     // Also in any draw method, the canvas is passed in by the controller thread.
