@@ -2,29 +2,21 @@ package edu.temple.cis3238.gravity.gravity.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.net.Uri;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.controller.ControllerThread;
 import edu.temple.cis3238.gravity.gravity.model.Level;
-import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
+import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
@@ -33,9 +25,9 @@ import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
  * A reusable level fragment.
  *
  * @author Brett Crawford
- * @version 1.0c last modified 4/5/2015
+ * @version 1.0d last modified 4/6/2015
  */
-public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
+public class LevelFragment extends Fragment {
 
     /* Debug tag */
     private static final String TAG = "LevelFragment";
@@ -43,14 +35,14 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
     /* The fragment's view */
     private View view;
 
+    /* The ControllerThread for handling the main game loop */
+    private ControllerThread controllerThread;
+
     /* The GestureView used for receiving user input */
     private View gestureView;
 
     /* The SurfaceView used for drawing the game to the screen */
     private GamePlaySurface gameSurfaceView;
-
-    /* An interface for communication with the holder of the surface */
-    private SurfaceHolder gameSurfaceHolder;
 
     /* The level model object */
     private Level level;
@@ -142,14 +134,12 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
             }
         });
 
-        //set up the Surface view
-        //gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
-        gameSurfaceView = new GamePlaySurface(getActivity());
-        gameSurfaceHolder = gameSurfaceView.getHolder();
-        gameSurfaceHolder.addCallback(this);
-        RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.fragment_layout);
-        gameSurfaceView.setLayoutParams(layout.getLayoutParams());
-        layout.addView(gameSurfaceView);
+        // Set up the surface view, it is instantiated by the xml layout, fragment_level.xml,
+        // and we get a reference to it here.
+        gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
+
+        // Set up the controller thread with a reference to the surfaceview
+        controllerThread = new ControllerThread(gameSurfaceView);
 
         return view;
     }
@@ -188,6 +178,9 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart() fired");
+
+        // This is where we start the thread by calling to the surfaceviews init method
+        gameSurfaceView.init();
     }
 
     @Override
@@ -248,80 +241,6 @@ public class LevelFragment extends Fragment implements SurfaceHolder.Callback {
         if (listener != null) {
             listener.OnLevelFragmentInteraction(won);
         }
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-
-        Log.d(TAG, "SurfaceView width: " + gameSurfaceView.getWidth());
-        Log.d(TAG, "SurfaceView height: " + gameSurfaceView.getHeight());
-        //run the gamePlay thread as soon as the surface is created
-        //TEST THREAD DRAWING
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                Canvas canvas;// = gameSurfaceHolder.lockCanvas();
-                //canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.player0), 0, 0, null);
-                //canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.player3), 200, 200, null);
-
-//                Log.d(TAG, "Canvas width: " + canvas.getWidth());
-//                Log.d(TAG, "Canvas height: " + canvas.getHeight());
-//
-//                float sf = gameSurfaceView.getWidth() / 1400f;
-//                Log.d(TAG, "Scaling Factor: " + sf);
-//
-//                canvas.drawBitmap(
-//                        BitmapFactory.decodeResource(getResources(), R.drawable.player0),
-//                        null,
-//                        new RectF(sf * 0, sf * 0, sf * 100, sf * 100),
-//                        null);
-//
-//                canvas.drawBitmap(
-//                        BitmapFactory.decodeResource(getResources(), R.drawable.player3),
-//                        null,
-//                        new RectF(sf * 200, sf * 200, sf * 300, sf * 300),
-//                        null);
-//
-//                Paint whitePaint = new Paint();
-//                whitePaint.setColor(0xFFFFFFFF);
-//                for (int x = 0; x < canvas.getWidth(); x += sf * 50) {
-//                    for (int y = 0; y < canvas.getHeight(); y += sf * 50) {
-//                        canvas.drawPoint(x, y, whitePaint);
-//                    }
-//                }
-
-
-                for(int i = 1;; i=(i+10)%gameSurfaceView.getWidth()) {
-                    //must lock everytime
-                    canvas = gameSurfaceHolder.lockCanvas();
-                    try {
-
-                        gameSurfaceView.drawScene(canvas, i , i/2);
-                        Log.d(TAG, "Bitmap Drawn");
-                        //sleep(33);
-                        Log.d(TAG, "Thread woke up from sleep");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    gameSurfaceHolder.unlockCanvasAndPost(canvas);
-                }
-
-
-
-            }
-        };
-        thread.start();
-        //END TESTING
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        //We will not need this
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-
     }
 }
 
