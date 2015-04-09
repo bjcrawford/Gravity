@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.controller.ControllerThread;
 import edu.temple.cis3238.gravity.gravity.model.Level;
-import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
+import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;

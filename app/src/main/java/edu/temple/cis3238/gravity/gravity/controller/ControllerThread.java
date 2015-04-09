@@ -1,8 +1,16 @@
 package edu.temple.cis3238.gravity.gravity.controller;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.util.Log;
+import android.view.SurfaceHolder;
 
-import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
+import java.util.ArrayList;
+
+import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
 
 /**
  * A controller thread.
@@ -29,24 +37,65 @@ public class ControllerThread extends Thread {
     // main game logic loop is.
     @Override
     public void run() {
-        //while(running){
+        long currentTime = System.currentTimeMillis();
+        long deltaTime = 0;
+        SurfaceHolder holder = gamePlaySurface.getHolder();
+        long testTime = currentTime;
+        long testDelta = 0;
+        long testFPS = 0;
 
-            Canvas canvas = gamePlaySurface.getHolder().lockCanvas();
+        //TEST
+        int rate = 50;
+        ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+        //add bitmaps
+        for(int i = 0; i < rate; i ++){
+            bitmaps.add(BitmapFactory.decodeResource(gamePlaySurface.getResources(), R.drawable.planet1));
+        }
+        //END TESTg
 
+        //game loop
+        while(running){
+
+            //get the delta time and fix the current time
+            deltaTime =  System.currentTimeMillis() - currentTime;
+            currentTime = deltaTime + currentTime;
+
+            //get the canvas
+            Canvas canvas = holder.lockCanvas();
+
+            //draw on the canvas
             if(canvas != null){
-                synchronized (gamePlaySurface.getHolder()) {
-                    gamePlaySurface.drawSomething(canvas);
+                synchronized (holder) {
+                    //TEST
+                    gamePlaySurface.drawSomething(canvas, bitmaps);
+                    //END TEST
                 }
-                gamePlaySurface.getHolder().unlockCanvasAndPost(canvas);
+                // finished drawing
+                holder.unlockCanvasAndPost(canvas);
+            }
+            //check if need to sleep given the
+            if(deltaTime < 32){
+                try {
+                    sleep(32 - deltaTime);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
-            //try {
-            //    sleep(30);
-            //}
-            //catch (InterruptedException e) {
-            //    e.printStackTrace();
-            //}
+            //TEST FPS
+            testDelta = currentTime - testTime;
+            //increase the fps
+            testFPS++;
+            if(testDelta > 1000){
+                Log.d("Game FPS is: ", String.valueOf(testFPS));
+                testFPS = 0;
+                testTime = currentTime;
+                testDelta = 0;
+            }
+            //END TEST
 
-        //}
+
+        }
     }
 }
