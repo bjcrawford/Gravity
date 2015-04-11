@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
+import edu.temple.cis3238.gravity.gravity.model.Model;
 
 /**
  * A controller thread.
@@ -20,13 +21,14 @@ import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
  * @version 1.0b last modified 4/6/2015
  */
 public class ControllerThread extends Thread {
-
+    private  Model model;
     private GamePlaySurface gamePlaySurface;
     private boolean running = false;
 
-    public ControllerThread(GamePlaySurface gamePlaySurface) {
+    public ControllerThread(GamePlaySurface gamePlaySurface, Model model) {
         this.gamePlaySurface = gamePlaySurface;
         this.gamePlaySurface.setControllerThread(this);
+
     }
 
     public void setRunning(boolean run) {
@@ -44,21 +46,19 @@ public class ControllerThread extends Thread {
         long testDelta = 0;
         long testFPS = 0;
 
-        //TEST
-        int rate = 50;
-        ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
-        //add bitmaps
-        for(int i = 0; i < rate; i ++){
-            bitmaps.add(BitmapFactory.decodeResource(gamePlaySurface.getResources(), R.drawable.planet1));
-        }
-        //END TESTg
+        //initiate the model
 
         //game loop
         while(running){
 
+            // Pull all events from queue, handle appropriately
+
             //get the delta time and fix the current time
             deltaTime =  System.currentTimeMillis() - currentTime;
             currentTime = deltaTime + currentTime;
+
+            // Update model, update run
+            model.update((float) deltaTime);
 
             //get the canvas
             Canvas canvas = holder.lockCanvas();
@@ -67,7 +67,11 @@ public class ControllerThread extends Thread {
             if(canvas != null){
                 synchronized (holder) {
                     //TEST
-                    gamePlaySurface.drawSomething(canvas, bitmaps);
+                    try {
+                        gamePlaySurface.drawScene(canvas);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     //END TEST
                 }
                 // finished drawing
@@ -90,11 +94,14 @@ public class ControllerThread extends Thread {
             if(testDelta > 1000){
                 Log.d("Game FPS is: ", String.valueOf(testFPS));
                 testFPS = 0;
-                testTime = currentTime;
+                testTime = System.currentTimeMillis();
                 testDelta = 0;
             }
             //END TEST
 
+            // Empty contents of event queue checking for loop ending states
+
+            // Call to level fragment listener reporting loop ending state
 
         }
     }

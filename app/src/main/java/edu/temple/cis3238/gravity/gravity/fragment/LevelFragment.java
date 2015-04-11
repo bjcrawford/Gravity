@@ -20,6 +20,7 @@ import edu.temple.cis3238.gravity.gravity.View.GamePlaySurface;
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
+import edu.temple.cis3238.gravity.gravity.model.Story;
 
 /**
  * A reusable level fragment.
@@ -69,8 +70,18 @@ public class LevelFragment extends Fragment {
     public static LevelFragment newInstance(Level level) {
         LevelFragment lf = new LevelFragment();
         lf.setLevel(level);
+        lf.getLevel().initLevel();
 
         return lf;
+    }
+
+    /**
+     * Returns the level associated with this fragment
+     *
+     * @return A level model object
+     */
+    public Level getLevel() {
+        return this.level;
     }
 
     /**
@@ -139,7 +150,8 @@ public class LevelFragment extends Fragment {
         gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
 
         // Set up the controller thread with a reference to the surfaceview
-        controllerThread = new ControllerThread(gameSurfaceView);
+
+        controllerThread = new ControllerThread(gameSurfaceView, level.getModel());
 
         return view;
     }
@@ -180,7 +192,7 @@ public class LevelFragment extends Fragment {
         Log.d(TAG, "onStart() fired");
 
         // This is where we start the thread by calling to the surfaceviews init method
-        gameSurfaceView.init();
+        gameSurfaceView.init(level.getModel());
     }
 
     @Override

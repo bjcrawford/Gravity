@@ -37,10 +37,10 @@ public class GamePlaySurface extends SurfaceView {
     private Canvas canvas;
     private Bitmap bitmap;
     private ImageResourceWrapper imgRec;
-    private Model gameModel;
+    private Model model;
     private float sf;
     private static final String TAG = "GamePlaySurface";
-
+    private ArrayList<Bitmap> bitmaps;
     private SurfaceHolder surfaceHolder;
 
     // This will be the controller class
@@ -67,8 +67,8 @@ public class GamePlaySurface extends SurfaceView {
 
     // This initializes the surface view by grabbing a reference to the surface holder and
     // defining the call back methods. This is a more appropriate place for the methods.
-    public void init() {
-
+    public void init(Model model) {
+        this.model = model;
         surfaceHolder = getHolder();
         surfaceHolder.addCallback(new SurfaceHolder.Callback() {
 
@@ -99,18 +99,6 @@ public class GamePlaySurface extends SurfaceView {
                 //    }
                 //}
             }});
-    }
-
-
-    /**
-     * draw one frame of the scene
-     * @param gameModel
-     * @param sf
-     */
-    //TODO make sure that the init function has everything
-    public void init(Model gameModel, float sf) {
-        this.gameModel = gameModel;
-        this.sf = sf;
     }
 
     // We will need a reference to the controller thread so that when the surfaceview is ready
@@ -154,7 +142,7 @@ public class GamePlaySurface extends SurfaceView {
 
 
 
-        List<ImageResourceWrapper> imgList = gameModel.getFrame(this.getWidth(),this.getHeight());
+        List<ImageResourceWrapper> imgList = model.getFrame(this.getWidth(),this.getHeight());
 
         //a bitmap reference holder
         Bitmap bitmap;
@@ -163,7 +151,7 @@ public class GamePlaySurface extends SurfaceView {
         //for each element on the frame
         for(ImageResourceWrapper img: imgList){
             //get the picture of the space object
-            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(img.imgResID, "drawable", context.getPackageName()));
+            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(img.imgResID, "drawable-nodpi", context.getPackageName()));
             //set the rect
             rectF.set(sf * (img.position.x - bitmap.getWidth()/2),
                     sf * (img.position.y - bitmap.getHeight()/2),
@@ -194,7 +182,7 @@ public class GamePlaySurface extends SurfaceView {
 
     // Just a testing draw method. The real workhorse of this class will be your drawScene method.
     // Also in any draw method, the canvas is passed in by the controller thread.
-    public void drawSomething(Canvas canvas, ArrayList<Bitmap> bitmaps) {
+    public void drawSomething(Canvas canvas) {
 
 
 //        // Just testing the draw method, this method should eventually take in a list of ImageResourceWrapper
@@ -247,7 +235,7 @@ public class GamePlaySurface extends SurfaceView {
 //        }
 
         //TESTING
-        int rate = 50;
+        int rate = 10;
         canvas.drawColor(Color.BLACK);
         if(bitmaps == null){
             bitmaps = new ArrayList<Bitmap>();
@@ -258,7 +246,7 @@ public class GamePlaySurface extends SurfaceView {
             //draw bitmaps
             for(Bitmap bitmap: bitmaps){
                 double rand = Math.random();
-                canvas.drawBitmap(bitmap, (float) rand * this.getWidth(),(float) rand * this.getHeight()/2, null);
+                canvas.drawBitmap(bitmap, (float) rand * this.getWidth(),(float) Math.random() * this.getHeight()/2, null);
             }
 
         }else{
