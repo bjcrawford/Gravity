@@ -37,7 +37,7 @@ public class GamePlaySurface extends SurfaceView {
     private Canvas canvas;
     private Bitmap bitmap;
     private ImageResourceWrapper imgRec;
-    private Model gameModel;
+    private Model model;
     private float sf;
     private static final String TAG = "GamePlaySurface";
 
@@ -67,8 +67,9 @@ public class GamePlaySurface extends SurfaceView {
 
     // This initializes the surface view by grabbing a reference to the surface holder and
     // defining the call back methods. This is a more appropriate place for the methods.
-    public void init() {
+    public void init(Model model) {
 
+        this.model = model;
         surfaceHolder = getHolder();
         surfaceHolder.addCallback(new SurfaceHolder.Callback() {
 
@@ -76,6 +77,7 @@ public class GamePlaySurface extends SurfaceView {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 //controllerThread.setRunning(true);
+                GamePlaySurface.this.sf = GamePlaySurface.this.getWidth() / 1400f;
                 controllerThread.start();
             }
 
@@ -99,18 +101,6 @@ public class GamePlaySurface extends SurfaceView {
                 //    }
                 //}
             }});
-    }
-
-
-    /**
-     * draw one frame of the scene
-     * @param gameModel
-     * @param sf
-     */
-    //TODO make sure that the init function has everything
-    public void init(Model gameModel, float sf) {
-        this.gameModel = gameModel;
-        this.sf = sf;
     }
 
     // We will need a reference to the controller thread so that when the surfaceview is ready
@@ -154,7 +144,7 @@ public class GamePlaySurface extends SurfaceView {
 
 
         //TEST CODE
-        List<ImageResourceWrapper> imgList = gameModel.getFrame(this.getWidth(),this.getHeight());
+        List<ImageResourceWrapper> imgList = model.getFrame(this.getWidth(),this.getHeight());
 
         //a bitmap reference holder
         Bitmap bitmap;

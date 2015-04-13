@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
 
 /**
  * A level end fragment.
@@ -27,8 +28,8 @@ public class LevelEndFragment extends Fragment {
     /* The fragment's view */
     private View view;
 
-    /* The state of the level end, true = win */
-    private boolean won;
+    /* The state of the level end */
+    private GameState gamestate;
 
     private Button retryButton;
     private Button nextLevelButton;
@@ -49,19 +50,19 @@ public class LevelEndFragment extends Fragment {
      *
      * @return A LevelEndFragment.
      */
-    public static LevelEndFragment newInstance(boolean won) {
+    public static LevelEndFragment newInstance(GameState gamestate) {
         LevelEndFragment lef = new LevelEndFragment();
-        lef.setWon(won);
+        lef.setGameState(gamestate);
         return lef;
     }
 
     /**
      * Sets the state of the won flag
      *
-     * @param won True = win, false = loss
+     * @param gamestate
      */
-    private void setWon(boolean won) {
-        this.won = won;
+    private void setGameState(GameState gamestate) {
+        this.gamestate = gamestate;
     }
 
 /* ===================================== Lifecycle Methods ====================================== */
@@ -89,7 +90,7 @@ public class LevelEndFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView() fired");
 
-        if (won) { // Inflate the win layout
+        if (gamestate.getGameWon()) { // Inflate the win layout
             view = inflater.inflate(R.layout.fragment_level_end_win, container, false);
 
             // TODO: Set level end info

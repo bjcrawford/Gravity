@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
 import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.Graphics2D;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
@@ -110,8 +111,7 @@ public class Model {
         return rtrnResources;
     }
 
-    //TODO: discuss input format with brett
-    public void recieveInput() {
+    public void receiveInput(SwipeGameEvent swipeGameEvent) {
         float delta_d2x = 5.0f, delta_d2y = 5.0f;
         this.physModel.applyAcceleratingForceToBody(this.playerID, delta_d2x, delta_d2y);
     }

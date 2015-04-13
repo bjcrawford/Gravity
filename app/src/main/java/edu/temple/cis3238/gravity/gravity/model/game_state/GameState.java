@@ -125,7 +125,7 @@ public class GameState {
 //
 //        try{
 //            selfAsJSON.put("events", jEvents);
-//            selfAsJSON.put("objectves", jObjectives);
+//            selfAsJSON.put("objectives", jObjectives);
 //        }catch(JSONException e) {
 //            e.printStackTrace();
 //        }
@@ -141,6 +141,10 @@ public class GameState {
 
     public boolean getPlayable() {
         return this.playable;
+    }
+
+    public void setGameWon(boolean gameWon) {
+        this.gameWon = gameWon;
     }
 
     public void setPlayable(boolean playable) {this.playable = playable;}

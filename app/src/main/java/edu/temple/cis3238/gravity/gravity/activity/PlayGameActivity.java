@@ -19,6 +19,7 @@ import edu.temple.cis3238.gravity.gravity.fragment.LevelFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelSelectFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.PauseDialogFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.StorySelectFragment;
+import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
 
 /**
  * The play game activity.
@@ -38,6 +39,9 @@ public class PlayGameActivity extends Activity implements
     private static final String LEVEL_SEL_FRAG_TAG = "LevelSelectFragment";
     private static final String LEVEL_FRAG_TAG = "LevelFragment";
     private static final String LEVEL_END_FRAG = "LevelEndFragment";
+
+    private Story selectedStory;
+    private Level selectedLevel;
 
     private Button pauseButton;
 
@@ -132,6 +136,7 @@ public class PlayGameActivity extends Activity implements
      */
     @Override
     public void OnStorySelectFragmentInteraction(Story story) {
+        selectedStory = story;
         getFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, LevelSelectFragment.newInstance(story), LEVEL_SEL_FRAG_TAG)
                 .addToBackStack(LEVEL_SEL_FRAG_TAG)
@@ -145,6 +150,7 @@ public class PlayGameActivity extends Activity implements
      */
     @Override
     public void OnLevelSelectFragmentInteraction(Level level) {
+        selectedLevel = level;
         getFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, LevelFragment.newInstance(level), LEVEL_FRAG_TAG)
                 .addToBackStack(LEVEL_FRAG_TAG)
@@ -154,13 +160,13 @@ public class PlayGameActivity extends Activity implements
     /**
      * This listener method will receive calls from any LevelFragment
      * that is added to this activity.
-     * @param won
+     * @param gamestate
      */
     @Override
-    public void OnLevelFragmentInteraction(boolean won) {
+    public void OnLevelFragmentInteraction(GameState gamestate) {
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, LevelEndFragment.newInstance(won), LEVEL_END_FRAG)
+                .replace(R.id.fragment_container, LevelEndFragment.newInstance(gamestate), LEVEL_END_FRAG)
                 .commit();
     }
 

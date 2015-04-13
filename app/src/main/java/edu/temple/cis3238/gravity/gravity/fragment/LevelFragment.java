@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.controller.ControllerThread;
 import edu.temple.cis3238.gravity.gravity.model.Level;
+import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
 import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
@@ -69,6 +70,7 @@ public class LevelFragment extends Fragment {
     public static LevelFragment newInstance(Level level) {
         LevelFragment lf = new LevelFragment();
         lf.setLevel(level);
+        lf.getLevel().initLevel();
 
         return lf;
     }
@@ -80,6 +82,15 @@ public class LevelFragment extends Fragment {
      */
     private void setLevel(Level level) {
         this.level = level;
+    }
+
+    /**
+     * Returns the level associated with this fragment
+     *
+     * @return A level model object
+     */
+    public Level getLevel() {
+        return this.level;
     }
 
     // Temporary placement for testing, This should be in the controller class
@@ -124,13 +135,17 @@ public class LevelFragment extends Fragment {
         ((Button) view.findViewById(R.id.win_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onLevelEnd(true);
+                GameState gamestate = new GameState(null, null, null);
+                gamestate.setGameWon(true);
+                onLevelEnd(gamestate);
             }
         });
         ((Button) view.findViewById(R.id.lose_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onLevelEnd(false);
+                GameState gamestate = new GameState(null, null, null);
+                gamestate.setGameWon(false);
+                onLevelEnd(gamestate);
             }
         });
 
@@ -139,7 +154,7 @@ public class LevelFragment extends Fragment {
         gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
 
         // Set up the controller thread with a reference to the surfaceview
-        controllerThread = new ControllerThread(gameSurfaceView);
+        controllerThread = new ControllerThread(gameSurfaceView, level.getModel());
 
         return view;
     }
@@ -180,7 +195,7 @@ public class LevelFragment extends Fragment {
         Log.d(TAG, "onStart() fired");
 
         // This is where we start the thread by calling to the surfaceviews init method
-        gameSurfaceView.init();
+        gameSurfaceView.init(level.getModel());
     }
 
     @Override
@@ -229,17 +244,17 @@ public class LevelFragment extends Fragment {
      * activity.
      */
     public interface OnLevelFragmentInteractionListener {
-        public void OnLevelFragmentInteraction(boolean won);
+        public void OnLevelFragmentInteraction(GameState gamestate);
     }
 
     /**
      * This method will handle communication to the parent activity.
      *
-     * @param won
+     * @param gamestate
      */
-    public void onLevelEnd(boolean won) {
+    public void onLevelEnd(GameState gamestate) {
         if (listener != null) {
-            listener.OnLevelFragmentInteraction(won);
+            listener.OnLevelFragmentInteraction(gamestate);
         }
     }
 }
