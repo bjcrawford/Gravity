@@ -73,8 +73,12 @@ public class Physics2D {
      * Construct a physics object from the given JSON file.
      * @param selfAsJson A JSON representation of the desired physics object.
      */
-    public Physics2D(JSONObject selfAsJson) {
+    public Physics2D(JSONObject selfAsJson, int width, int height) {
         this.idCtr = 0;
+        this.bodies = new ArrayList<>();
+        this.landmarks = new ArrayList<>();
+        this.phenomena = new ArrayList<>();
+        this.universe = new Plane2D(width, height);
         this.gravConstant = 6;
         try{
             this.readBodies(selfAsJson.getJSONArray("bodies"));
@@ -192,6 +196,7 @@ public class Physics2D {
      * With considerable constant cost at each iteration.
      */
     private void constructUniverse() {
+
         for(int xNdex = 0; xNdex < this.universe.getPlaneWidth(); xNdex ++) {
             for(int yNdex = 0; yNdex < this.universe.getPlaneWidth(); yNdex ++) {
                 float d2xTally = 0, d2yTally = 0;
@@ -225,14 +230,27 @@ public class Physics2D {
                     int xDiff = landmark.getPosition().x - xNdex;
                     int yDiff = landmark.getPosition().y - yNdex;
                     int r = (int) Math.sqrt((double) ((xDiff * xDiff) + (yDiff * yDiff)));      // sqrt(a^2 + b^2)
-                    float fGrav = (this.gravConstant * landmark.getMass()) / (r * r);   // F = GM/r^2
+                    //TODO efficiently handle divide by zero
+                    float fGrav = 0;
+                    if(r != 0) {
+                        fGrav = (this.gravConstant * landmark.getMass()) / (r * r);   // F = GM/r^2
+                    }
 
-                    float tmpD2X = fGrav * (Math.abs(yDiff) / r);
+
+                    float tmpD2X = 0;
+                    if(r != 0){
+                        tmpD2X = fGrav * (Math.abs(yDiff) / r);
+                    }
+
                     if(xDiff < 0) {     // If the landmark is "behind" the region...
                         tmpD2X *= -1;   // Gravity should pull backwards.
                     }
 
-                    float tmpD2Y = fGrav * (Math.abs(xDiff) / r);
+                    float tmpD2Y = 0;
+                    if(tmpD2Y != 0){
+                        tmpD2Y = fGrav * (Math.abs(xDiff) / r);
+                    }
+
                     if(yDiff < 0) {     // If the landmark is "below" the region...
                         tmpD2Y *= -1;   // Gravity should pull downwards.
                     }
