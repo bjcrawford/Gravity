@@ -7,10 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.R;
@@ -39,6 +41,7 @@ public class GamePlaySurface extends SurfaceView {
     private float sf;
     private static final String TAG = "GamePlaySurface";
     private ArrayList<Bitmap> bitmaps;
+    private HashMap<String, Bitmap> imgMap;
     private SurfaceHolder surfaceHolder;
 
     // This will be the controller class
@@ -53,14 +56,17 @@ public class GamePlaySurface extends SurfaceView {
     // There was only two before and only the first was labeled as public.
     public GamePlaySurface(Context context){
         super(context);
+        this.context = context;
     }
 
     public GamePlaySurface(Context context, AttributeSet attrs){
         super(context, attrs);
+        this.context = context;
     }
 
     public GamePlaySurface(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.context = context;
     }
 
     // This initializes the surface view by grabbing a reference to the surface holder and
@@ -68,12 +74,30 @@ public class GamePlaySurface extends SurfaceView {
     public void init(Model model) {
         this.model = model;
         surfaceHolder = getHolder();
+        imgMap = new HashMap<String, Bitmap>();
+
+        //cache all images
+        for(int i = 0; i < 12; i++){
+            // get planets
+            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("planet"+String.valueOf(i), "drawable", context.getPackageName()));
+            imgMap.put("planet"+String.valueOf(i),bitmap);
+            // get players
+            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("player"+String.valueOf(i), "drawable", context.getPackageName()));
+            imgMap.put("player"+String.valueOf(i),bitmap);
+            // get objectives
+            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("objective"+String.valueOf(i), "drawable", context.getPackageName()));
+            imgMap.put("objective"+String.valueOf(i),bitmap);
+        }
+
+        //add call back
         surfaceHolder.addCallback(new SurfaceHolder.Callback() {
 
             // When the surface is ready, start the thread
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                GamePlaySurface.this.sf = GamePlaySurface.this.getWidth() / 1400f;
+                GamePlaySurface.this.sf = GamePlaySurface.this.getWidth()/1400f;
+                Log.d("screen width: ",String.valueOf(GamePlaySurface.this.getWidth()));
+                Log.d("sf is: ",String.valueOf(sf));
                 controllerThread.setRun(true);
                 controllerThread.start();
             }
@@ -149,12 +173,15 @@ public class GamePlaySurface extends SurfaceView {
         //for each element on the frame
         for(ImageResourceWrapper img: imgList){
             //get the picture of the space object
-            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(img.imgResID, "drawable-nodpi", getContext().getPackageName()));
+//            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(img.imgResID, "drawable", context.getPackageName()));
+            bitmap = imgMap.get(img.imgResID);
             //set the rect
-            rectF.set(sf * (img.position.x - bitmap.getWidth()/2),
-                    sf * (img.position.y - bitmap.getHeight()/2),
-                    sf * (img.position.x + bitmap.getWidth()/2),
-                    sf * (img.position.y + bitmap.getHeight()/2));
+            rectF.set(
+                    sf * (img.position.x - bitmap.getWidth()/2) + this.getWidth()/2,
+                    sf * (img.position.y - bitmap.getHeight()/2) + this.getHeight()/2,
+                    sf * (img.position.x + bitmap.getWidth()/2) + this.getWidth()/2,
+                    sf * (img.position.y + bitmap.getHeight()/2) + this.getHeight()/2
+            );
             //get an angle
           //  canvas.rotate(x, rectF.centerX(), rectF.centerY());
             //draw the picture of the space object
