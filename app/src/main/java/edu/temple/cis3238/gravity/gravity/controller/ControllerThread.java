@@ -1,6 +1,8 @@
 package edu.temple.cis3238.gravity.gravity.controller;
 
 import android.graphics.Canvas;
+import android.util.Log;
+import android.view.SurfaceHolder;
 
 import edu.temple.cis3238.gravity.gravity.model.Model;
 import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
@@ -22,6 +24,7 @@ public class ControllerThread extends Thread {
         this.gamePlaySurface = gamePlaySurface;
         this.model = model;
         this.gamePlaySurface.setControllerThread(this);
+
     }
 
     public void setRun(boolean run) {
@@ -37,21 +40,51 @@ public class ControllerThread extends Thread {
 
         // Record start time
 
-        //while(run){
+        long currentTime = System.currentTimeMillis();
+        long deltaTime = 0;
+        SurfaceHolder holder = gamePlaySurface.getHolder();
+        long testTime = currentTime;
+        long testDelta = 0;
+        long testFPS = 0;
+
+        //game loop
+        while (run) {
 
             // Pull all events from queue, handle appropriately
 
+            //get the delta time and fix the current time
+            deltaTime =  System.currentTimeMillis() - currentTime;
+            currentTime = deltaTime + currentTime;
+
             // Update model, update run
+            model.update((float) deltaTime);
+
+            //get the canvas
+            Canvas canvas = holder.lockCanvas();
 
             // Update view
-            Canvas canvas = gamePlaySurface.getHolder().lockCanvas();
             if(canvas != null){
-                synchronized (gamePlaySurface.getHolder()) {
-                    gamePlaySurface.drawSomething(canvas);
+                synchronized (holder) {
+                    //TEST
+                    try {
+                        gamePlaySurface.drawScene(canvas);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //END TEST
                 }
-                gamePlaySurface.getHolder().unlockCanvasAndPost(canvas);
+                // finished drawing
+                holder.unlockCanvasAndPost(canvas);
             }
-
+            //check if need to sleep given the
+            if(deltaTime < 32){
+                try {
+                    sleep(32 - deltaTime);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             // Handling of frame rate
 
 
@@ -60,5 +93,22 @@ public class ControllerThread extends Thread {
         // Empty contents of event queue checking for loop ending states
 
         // Call to level fragment listener reporting loop ending state
+            //TEST FPS
+            testDelta = currentTime - testTime;
+            //increase the fps
+            testFPS++;
+            if(testDelta > 1000){
+                Log.d("Game FPS is: ", String.valueOf(testFPS));
+                testFPS = 0;
+                testTime = System.currentTimeMillis();
+                testDelta = 0;
+            }
+            //END TEST
+
+            // Empty contents of event queue checking for loop ending states
+
+            // Call to level fragment listener reporting loop ending state
+
+        }
     }
 }

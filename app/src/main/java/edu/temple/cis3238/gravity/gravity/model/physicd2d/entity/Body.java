@@ -97,6 +97,7 @@ public class Body extends MobileEntity {
                 // Append the new point list to this.shapes.
                 this.shapes.add(loadedShape);
             }
+            this.shape = this.shapes.get(this.calcOrientation());
         }catch(JSONException e) {
             e.printStackTrace();
         }

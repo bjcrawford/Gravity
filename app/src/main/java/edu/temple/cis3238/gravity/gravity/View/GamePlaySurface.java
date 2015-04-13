@@ -5,10 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -40,7 +38,7 @@ public class GamePlaySurface extends SurfaceView {
     private Model model;
     private float sf;
     private static final String TAG = "GamePlaySurface";
-
+    private ArrayList<Bitmap> bitmaps;
     private SurfaceHolder surfaceHolder;
 
     // This will be the controller class
@@ -68,7 +66,6 @@ public class GamePlaySurface extends SurfaceView {
     // This initializes the surface view by grabbing a reference to the surface holder and
     // defining the call back methods. This is a more appropriate place for the methods.
     public void init(Model model) {
-
         this.model = model;
         surfaceHolder = getHolder();
         surfaceHolder.addCallback(new SurfaceHolder.Callback() {
@@ -76,8 +73,8 @@ public class GamePlaySurface extends SurfaceView {
             // When the surface is ready, start the thread
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                //controllerThread.setRunning(true);
                 GamePlaySurface.this.sf = GamePlaySurface.this.getWidth() / 1400f;
+                controllerThread.setRun(true);
                 controllerThread.start();
             }
 
@@ -142,7 +139,6 @@ public class GamePlaySurface extends SurfaceView {
      */
     private void drawEntities(Canvas canvas){
 
-
         //TEST CODE
         List<ImageResourceWrapper> imgList = model.getFrame(this.getWidth(),this.getHeight());
 
@@ -153,7 +149,7 @@ public class GamePlaySurface extends SurfaceView {
         //for each element on the frame
         for(ImageResourceWrapper img: imgList){
             //get the picture of the space object
-            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(img.imgResID, "drawable", context.getPackageName()));
+            bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(img.imgResID, "drawable-nodpi", getContext().getPackageName()));
             //set the rect
             rectF.set(sf * (img.position.x - bitmap.getWidth()/2),
                     sf * (img.position.y - bitmap.getHeight()/2),
@@ -187,55 +183,77 @@ public class GamePlaySurface extends SurfaceView {
     public void drawSomething(Canvas canvas) {
 
 
-        // Just testing the draw method, this method should eventually take in a list of ImageResourceWrapper
-        Log.d(TAG, "Canvas width: " + canvas.getWidth());
-        Log.d(TAG, "Canvas height: " + canvas.getHeight());
+//        // Just testing the draw method, this method should eventually take in a list of ImageResourceWrapper
+//      //  Log.d(TAG, "Canvas width: " + canvas.getWidth());
+//      //  Log.d(TAG, "Canvas height: " + canvas.getHeight());
+//
+//        // Determine scaling factor
+//        float sf = canvas.getWidth() / 1400f;
+//      //  Log.d(TAG, "Scaling Factor: " + sf);
+//
+//        // Draw player 0
+//        Bitmap player0 = BitmapFactory.decodeResource(getResources(), R.drawable.player0);
+//        int player0x = 0;
+//        int player0y = 0;
+//        int player0Width = player0.getWidth();
+//        int player0Height = player0.getHeight();
+//    //    Log.d(TAG, "Player0 width: " + player0Width);
+//    //    Log.d(TAG, "Player0 height: " + player0Height);
+//        RectF player0Dimen = new RectF(
+//                sf * player0x,
+//                sf * player0y,
+//                sf * player0x + sf * player0Width,
+//                sf * player0y + sf * player0Height);
+//
+//        canvas.drawBitmap(player0, null, player0Dimen, null);
+//
+//        // Draw player 3
+//        Bitmap player3 = BitmapFactory.decodeResource(getResources(), R.drawable.player3);
+//        int player3x = 200;
+//        int player3y = 200;
+//        int player3Width = player3.getWidth();
+//        int player3Height = player3.getHeight();
+//    //    Log.d(TAG, "Player3 width: " + player3Width);
+//     //   Log.d(TAG, "Player3 height: " + player3Height);
+//        RectF player3Dimen = new RectF(
+//                sf * player3x,
+//                sf * player3y,
+//                sf * player3x + sf * player3Width,
+//                sf * player3y + sf * player3Height);
+//
+//        canvas.drawBitmap(player3, null, player3Dimen, null);
+//
+//        // Draw grid
+//        Paint whitePaint = new Paint();
+//        whitePaint.setColor(0xFFFFFFFF);
+//        for (int x = 0; x < canvas.getWidth(); x += sf * 50) {
+//            for (int y = 0; y < canvas.getHeight(); y += sf * 50) {
+//                canvas.drawPoint(x, y, whitePaint);
+//            }
+//        }
 
-        // Determine scaling factor
-        float sf = canvas.getWidth() / 1400f;
-        Log.d(TAG, "Scaling Factor: " + sf);
+        //TESTING
+        int rate = 10;
+        canvas.drawColor(Color.BLACK);
+        if(bitmaps == null){
+            bitmaps = new ArrayList<Bitmap>();
+            //add bitmaps
+            for(int i = 0; i < rate; i ++){
+                bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.planet1));
+            }
+            //draw bitmaps
+            for(Bitmap bitmap: bitmaps){
+                double rand = Math.random();
+                canvas.drawBitmap(bitmap, (float) rand * this.getWidth(),(float) Math.random() * this.getHeight()/2, null);
+            }
 
-        // Draw player 0
-        Bitmap player0 = BitmapFactory.decodeResource(getResources(), R.drawable.player0);
-        int player0x = 0;
-        int player0y = 0;
-        int player0Width = player0.getWidth();
-        int player0Height = player0.getHeight();
-        Log.d(TAG, "Player0 width: " + player0Width);
-        Log.d(TAG, "Player0 height: " + player0Height);
-        RectF player0Dimen = new RectF(
-                sf * player0x,
-                sf * player0y,
-                sf * player0x + sf * player0Width,
-                sf * player0y + sf * player0Height);
-
-        canvas.drawBitmap(player0, null, player0Dimen, null);
-
-        // Draw player 3
-        Bitmap player3 = BitmapFactory.decodeResource(getResources(), R.drawable.player3);
-        int player3x = 200;
-        int player3y = 200;
-        int player3Width = player3.getWidth();
-        int player3Height = player3.getHeight();
-        Log.d(TAG, "Player3 width: " + player3Width);
-        Log.d(TAG, "Player3 height: " + player3Height);
-        RectF player3Dimen = new RectF(
-                sf * player3x,
-                sf * player3y,
-                sf * player3x + sf * player3Width,
-                sf * player3y + sf * player3Height);
-
-        canvas.drawBitmap(player3, null, player3Dimen, null);
-
-        // Draw grid
-        Paint whitePaint = new Paint();
-        whitePaint.setColor(0xFFFFFFFF);
-        for (int x = 0; x < canvas.getWidth(); x += sf * 50) {
-            for (int y = 0; y < canvas.getHeight(); y += sf * 50) {
-                canvas.drawPoint(x, y, whitePaint);
+        }else{
+            for(Bitmap bitmap: bitmaps){
+                double rand = Math.random();
+                canvas.drawBitmap(bitmap, (float) rand * this.getWidth(),(float) rand * this.getHeight()/2, null);
             }
         }
-
+        //END TEST
 
 
     }

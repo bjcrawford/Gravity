@@ -72,6 +72,7 @@ public class Landmark extends FixedEntity {
                 // Append the new point list to this.shapes.
                 this.shapes.add(loadedShape);
             }
+            this.shape = this.shapes.get(0);
         }catch(JSONException e) {
             e.printStackTrace();
         }

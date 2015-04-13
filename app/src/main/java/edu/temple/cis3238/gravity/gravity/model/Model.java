@@ -42,7 +42,10 @@ public class Model {
 
     public Model(JSONObject selfAsJson) {
         try {
-            this.physModel = new Physics2D(selfAsJson.getJSONObject("physics"));
+            //TODO: scaling factor
+            int width = selfAsJson.getInt("width");
+            int height = selfAsJson.getInt("height");
+            this.physModel = new Physics2D(selfAsJson.getJSONObject("physics"), width, height);
             this.graphModel = new Graphics2D(selfAsJson.getJSONObject("graphics"));
             this.gameStateModel = new GameState(selfAsJson.getJSONObject("gamestate"));
         }catch(JSONException e) {
@@ -59,7 +62,7 @@ public class Model {
     public void update(float deltaT) {
         this.physModel.update(deltaT);
         if(this.physModel.getEntity(this.playerID) != null) {
-            this.gameStateModel.updateGameState(this.physModel.getEntity(this.playerID).getPosition());
+            //this.gameStateModel.updateGameState(this.physModel.getEntity(this.playerID).getPosition());
         }else {
             this.gameStateModel.setPlayable(false);
         }
