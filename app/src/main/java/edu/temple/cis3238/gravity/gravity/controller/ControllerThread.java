@@ -77,14 +77,15 @@ public class ControllerThread extends Thread {
                 holder.unlockCanvasAndPost(canvas);
             }
             //check if need to sleep given the
-//            if(deltaTime < 32){
-//                try {
-//                    sleep(32 - deltaTime);
-//                }
-//                catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+            //this gives 30fps
+            if(deltaTime < 64){
+                try {
+                    sleep(64 - deltaTime);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             // Handling of frame rate
 
 
@@ -94,14 +95,14 @@ public class ControllerThread extends Thread {
 
         // Call to level fragment listener reporting loop ending state
             //TEST FPS
-//            testDelta = currentTime - testTime;
-//            //increase the fps
-//            testFPS++;
-//            if(testDelta > 1000){
-//                Log.d("Game FPS is: ", String.valueOf(testFPS));
-//                testFPS = 0;
-//                testTime = System.currentTimeMillis();
-//            }
+            testDelta = currentTime - testTime;
+            //increase the fps
+            testFPS++;
+            if(testDelta > 1000){
+                Log.d("Game FPS is: ", String.valueOf(testFPS));
+                testFPS = 0;
+                testTime = System.currentTimeMillis();
+            }
             //END TEST
 
             // Empty contents of event queue checking for loop ending states

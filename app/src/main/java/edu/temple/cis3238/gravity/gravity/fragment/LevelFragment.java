@@ -202,18 +202,21 @@ public class LevelFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume() fired");
+        controllerThread.setRun(true);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause() fired");
+        controllerThread.setRun(false);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop() fired");
+        controllerThread.setRun(false);
     }
 
     @Override
