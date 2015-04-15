@@ -123,14 +123,14 @@ public class ControllerThread extends Thread {
             // Handling of frame rate
             //check if need to sleep given the
             //this gives 30fps
-            if(deltaTime < 64){
-                try {
-                    sleep(64 - deltaTime);
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+//            if(deltaTime < 64){
+//                try {
+//                    sleep(64 - deltaTime);
+//                }
+//                catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
 
 
             //TEST FPS
@@ -138,7 +138,7 @@ public class ControllerThread extends Thread {
             //increase the fps
             testFPS++;
             if(testDelta > 1000){
-             //   Log.d("Game FPS is: ", String.valueOf(testFPS));
+                Log.d("Game FPS is: ", String.valueOf(testFPS));
                 testFPS = 0;
                 testTime = System.currentTimeMillis();
             }

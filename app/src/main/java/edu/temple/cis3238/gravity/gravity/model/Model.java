@@ -94,7 +94,7 @@ public class Model {
      * @return A list of entities which appear (wholly, or partially) in the given frame
      */
     public List<ImageResourceWrapper> getFrame(int xDiff, int yDiff) {
-        System.out.println("xDiff: " + xDiff + " yDiff: " + yDiff);
+       // System.out.println("xDiff: " + xDiff + " yDiff: " + yDiff);
         // Get the players position.
         Point center = this.physModel.getEntity(this.playerID).getPosition();
         //Log.d("Model", "Player Position: x: " + center.x + " y: " + center.y);
@@ -112,7 +112,7 @@ public class Model {
             int graphX = physEntity.getPosition().x - center.x;
             int graphY = physEntity.getPosition().y - center.y;
             //TODO: remove debug statement
-            System.out.println("Entity: " + physEntity.getId() + " graphX: " + graphX + " graphY: " + graphY);
+         //   System.out.println("Entity: " + physEntity.getId() + " graphX: " + graphX + " graphY: " + graphY);
             String imgResource = graphEntity.getImgResId(physEntity.getOrientation());
             rtrnResources.add(new ImageResourceWrapper(new Point(graphX, graphY), imgResource));
         }
