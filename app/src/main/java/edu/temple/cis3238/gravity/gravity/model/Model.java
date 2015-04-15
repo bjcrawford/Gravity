@@ -94,12 +94,13 @@ public class Model {
      * @return A list of entities which appear (wholly, or partially) in the given frame
      */
     public List<ImageResourceWrapper> getFrame(int xDiff, int yDiff) {
+        System.out.println("xDiff: " + xDiff + " yDiff: " + yDiff);
         // Get the players position.
         Point center = this.physModel.getEntity(this.playerID).getPosition();
         //Log.d("Model", "Player Position: x: " + center.x + " y: " + center.y);
         // Get a list of entities surrounding the player.
         List<edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity> physEnts =
-                this.physModel.observe(center, (int)((xDiff * this.physToGraphicsScalar) / 2), (int)((yDiff * this.physToGraphicsScalar)  / 2));
+                this.physModel.observe(center, (int)(xDiff / 2), (int)(yDiff / 2));
 
         // Declare a new list to hold the rendering info for the physics objects.
         List<ImageResourceWrapper> rtrnResources = new ArrayList<>();
@@ -108,8 +109,10 @@ public class Model {
             // Get the graphics entity corresponding to the current physics entity.
             edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
                     = this.graphModel.getEntityByID(physEntity.getId());
-            int graphX = (int) (physEntity.getPosition().x * this.physToGraphicsScalar);
-            int graphY = (int) (physEntity.getPosition().y * this.physToGraphicsScalar);
+            int graphX = physEntity.getPosition().x - center.x;
+            int graphY = physEntity.getPosition().y - center.y;
+            //TODO: remove debug statement
+            System.out.println("Entity: " + physEntity.getId() + " graphX: " + graphX + " graphY: " + graphY);
             String imgResource = graphEntity.getImgResId(physEntity.getOrientation());
             rtrnResources.add(new ImageResourceWrapper(new Point(graphX, graphY), imgResource));
         }

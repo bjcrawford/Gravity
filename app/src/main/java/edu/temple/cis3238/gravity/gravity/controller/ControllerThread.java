@@ -96,7 +96,7 @@ public class ControllerThread extends Thread {
 
                 if (gameEvent instanceof SwipeGameEvent) {
                     model.receiveInput((SwipeGameEvent) gameEvent);
-                    Log.d(TAG, "Sending swipe event");
+                 //   Log.d(TAG, "Sending swipe event");
                 }
 
             }
@@ -138,7 +138,7 @@ public class ControllerThread extends Thread {
             //increase the fps
             testFPS++;
             if(testDelta > 1000){
-                Log.d("Game FPS is: ", String.valueOf(testFPS));
+             //   Log.d("Game FPS is: ", String.valueOf(testFPS));
                 testFPS = 0;
                 testTime = System.currentTimeMillis();
             }

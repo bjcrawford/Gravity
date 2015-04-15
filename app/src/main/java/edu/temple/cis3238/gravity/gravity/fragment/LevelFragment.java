@@ -218,7 +218,7 @@ public class LevelFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause() fired");
-        controllerThread.setRun(false);
+        controllerThread.setPause(true);
     }
 
     @Override
