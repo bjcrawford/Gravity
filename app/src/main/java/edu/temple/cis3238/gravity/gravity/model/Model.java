@@ -44,7 +44,6 @@ public class Model {
 
     public Model(JSONObject selfAsJson) {
         try {
-            //TODO: scaling factor
             int width = selfAsJson.getInt("width");
             int height = selfAsJson.getInt("height");
             this.physModel = new Physics2D(selfAsJson.getJSONObject("physics"), width, height);

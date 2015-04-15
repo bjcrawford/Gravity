@@ -344,6 +344,8 @@ public class Physics2D {
                 this.universe.setRegionEmpty(translatedPoint);
             }
 
+            Region2D tempRegion = this.universe.accessRegion(body.getPosition());
+            body.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
             body.update(deltaT);
 
             int xPos = body.getPosition().x, yPos = body.getPosition().y;
@@ -369,6 +371,8 @@ public class Physics2D {
                 this.universe.setRegionEmpty(translatedPoint);
             }
 
+            Region2D tempRegion = this.universe.accessRegion(phenomenon.getPosition());
+            phenomenon.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
             phenomenon.update(deltaT);
 
             int xPos = phenomenon.getPosition().x, yPos = phenomenon.getPosition().y;
