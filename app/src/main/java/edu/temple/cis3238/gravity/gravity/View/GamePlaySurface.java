@@ -153,10 +153,12 @@ public class GamePlaySurface extends SurfaceView {
 
         // a bitmap reference holder
         Bitmap bitmap;
+        //set scalar
+        final int scalar = PlayGameActivity.PIXELS_PER_PHYSICS_GRID;
         // a rectangle reference holder
         RectF rectF = new RectF();
         // for each element on the frame
-        Log.d(TAG, "Entities in frame: " + imgList.size());
+       // Log.d(TAG, "Entities in frame: " + imgList.size());
         for(ImageResourceWrapper img: imgList){
             //Log.d(TAG, "IRW: " + img);
             // get the picture of the space object
@@ -164,10 +166,10 @@ public class GamePlaySurface extends SurfaceView {
             bitmap = imgMap.get(img.imgResID);
             // set the rect
             rectF.set(
-                    sf * (img.position.x - bitmap.getWidth()/2) + this.getWidth()/2,
-                    sf * (img.position.y - bitmap.getHeight()/2) + this.getHeight()/2,
-                    sf * (img.position.x + bitmap.getWidth()/2) + this.getWidth()/2,
-                    sf * (img.position.y + bitmap.getHeight()/2) + this.getHeight()/2
+                    sf * (img.position.x * scalar - bitmap.getWidth()/2) + this.getWidth()/2,
+                    sf * (img.position.y * scalar - bitmap.getHeight()/2) + this.getHeight()/2,
+                    sf * (img.position.x * scalar + bitmap.getWidth()/2) + this.getWidth()/2,
+                    sf * (img.position.y * scalar + bitmap.getHeight()/2) + this.getHeight()/2
             );
             // get an angle
             //canvas.rotate(x, rectF.centerX(), rectF.centerY());
