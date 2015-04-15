@@ -4,6 +4,10 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import edu.temple.cis3238.gravity.gravity.event.GameEvent;
+import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
 import edu.temple.cis3238.gravity.gravity.model.Model;
 import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
 
@@ -16,23 +20,31 @@ import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
  */
 public class ControllerThread extends Thread {
 
+    private static final String TAG = "ControllerThread";
+
     private GamePlaySurface gamePlaySurface;
     private Model model;
-    private boolean run = false;
+    private ConcurrentLinkedQueue<GameEvent> eventQueue;
+    private boolean run;
+    private boolean pause;
 
-    public ControllerThread(GamePlaySurface gamePlaySurface, Model model) {
+    public ControllerThread(GamePlaySurface gamePlaySurface, Model model, ConcurrentLinkedQueue<GameEvent> eventQueue) {
         this.gamePlaySurface = gamePlaySurface;
-        this.model = model;
         this.gamePlaySurface.setControllerThread(this);
-
+        this.model = model;
+        this.eventQueue = eventQueue;
+        this.run = false;
+        this.pause = false;
     }
 
-    public void setRun(boolean run) {
+    public synchronized void setRun(boolean run) {
         this.run = run;
     }
 
-    // Just testing a single call to the draw method now, but ultimately this will be where the
-    // main game logic loop is.
+    public synchronized void setPause(boolean pause) {
+        this.pause = pause;
+    }
+
     @Override
     public void run() {
 
@@ -41,41 +53,74 @@ public class ControllerThread extends Thread {
         // Record start time
 
         long currentTime = System.currentTimeMillis();
+        long pauseStartTime = 0;
         long deltaTime = 0;
-        SurfaceHolder holder = gamePlaySurface.getHolder();
         long testTime = currentTime;
         long testDelta = 0;
         long testFPS = 0;
+        boolean wasPaused = false;
 
         //game loop
         while (run) {
 
-            // Pull all events from queue, handle appropriately
+            if (pause) {
+                // Record pause start time to fix delta after pause is released
+                pauseStartTime = System.currentTimeMillis();
+            }
+
+            // Handle pause state
+            while (pause) {
+                synchronized (this) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    wasPaused = true;
+                }
+            }
+
+            if (wasPaused) {
+                // Add length of pause to the current time
+                currentTime += (System.currentTimeMillis() - pauseStartTime);
+                wasPaused = false;
+            }
 
             //get the delta time and fix the current time
             deltaTime =  System.currentTimeMillis() - currentTime;
             currentTime = deltaTime + currentTime;
 
+            // Pull all events from queue, handle appropriately
+            GameEvent gameEvent;
+            while ((gameEvent = eventQueue.poll()) != null) {
+
+                if (gameEvent instanceof SwipeGameEvent) {
+                    model.receiveInput((SwipeGameEvent) gameEvent);
+                    Log.d(TAG, "Sending swipe event");
+                }
+
+            }
+
+
             // Update model, update run
             model.update((float) deltaTime);
 
             //get the canvas
-            Canvas canvas = holder.lockCanvas();
+            Canvas canvas = gamePlaySurface.getHolder().lockCanvas();
 
             // Update view
             if(canvas != null){
-                synchronized (holder) {
-                    //TEST
+                synchronized (gamePlaySurface.getHolder()) {
                     try {
                         gamePlaySurface.drawScene(canvas);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    //END TEST
                 }
-                // finished drawing
-                holder.unlockCanvasAndPost(canvas);
+                gamePlaySurface.getHolder().unlockCanvasAndPost(canvas);
             }
+
+            // Handling of frame rate
             //check if need to sleep given the
             //this gives 30fps
             if(deltaTime < 64){
@@ -86,14 +131,8 @@ public class ControllerThread extends Thread {
                     e.printStackTrace();
                 }
             }
-            // Handling of frame rate
 
 
-        //}
-
-        // Empty contents of event queue checking for loop ending states
-
-        // Call to level fragment listener reporting loop ending state
             //TEST FPS
             testDelta = currentTime - testTime;
             //increase the fps
@@ -103,12 +142,12 @@ public class ControllerThread extends Thread {
                 testFPS = 0;
                 testTime = System.currentTimeMillis();
             }
-            //END TEST
-
-            // Empty contents of event queue checking for loop ending states
-
-            // Call to level fragment listener reporting loop ending state
 
         }
+
+        // Empty contents of event queue checking for loop ending states
+
+        // Call to level fragment listener reporting loop ending state
+
     }
 }

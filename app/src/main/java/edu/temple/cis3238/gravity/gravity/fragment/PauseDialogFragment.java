@@ -3,6 +3,7 @@ package edu.temple.cis3238.gravity.gravity.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import edu.temple.cis3238.gravity.gravity.activity.MainMenuActivity;
 import edu.temple.cis3238.gravity.gravity.activity.OptionsActivity;
 import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.controller.ControllerThread;
 
 /**
  * A DialogFragment for the pause menu.
@@ -29,6 +31,16 @@ public class PauseDialogFragment extends DialogFragment {
 
     /* The exit button associated with the DialogFragment's layout */
     private Button exitButton;
+
+    /* A reference to the controller to release upon dialog dismissal */
+    private ControllerThread controllerThread;
+
+    /* A setter for the controller that allows chaining on construction */
+    public PauseDialogFragment setController(ControllerThread controllerThread) {
+        this.controllerThread = controllerThread;
+
+        return this;
+    }
 
     /**
      * Called when the Dialog is created. Handles defining button event
@@ -93,6 +105,15 @@ public class PauseDialogFragment extends DialogFragment {
 
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        controllerThread.setPause(false);
+        synchronized (controllerThread) {
+            controllerThread.notifyAll();
+        }
     }
 
 }

@@ -23,4 +23,11 @@ public class ImageResourceWrapper {
         this.imgResID = imgResID;
     }
 
+    public String toString() {
+        return "x: " + position.x +
+                ", y: " + position.y +
+                ", imgResId: " + imgResID;
+
+    }
+
 }

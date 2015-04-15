@@ -39,8 +39,10 @@ public class LevelFragment extends Fragment {
     /* The ControllerThread for handling the main game loop */
     private ControllerThread controllerThread;
 
-    /* The GestureView used for receiving user input */
+    /* The Gesture classes used for receiving user input */
     private View gestureView;
+    private GestureDetector gestureDetector;
+    private GestureDetector.SimpleOnGestureListener gestureListener;
 
     /* The SurfaceView used for drawing the game to the screen */
     private GamePlaySurface gameSurfaceView;
@@ -131,7 +133,7 @@ public class LevelFragment extends Fragment {
         gestureView.setClickable(true);
         gestureView.setFocusable(true);
 
-        // Temporary placement for testing level end fragment on win/loss
+        // Temporary placement for testing level end fragment on win/loss and pause
         ((Button) view.findViewById(R.id.win_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,13 +150,20 @@ public class LevelFragment extends Fragment {
                 onLevelEnd(gamestate);
             }
         });
+        ((Button) view.findViewById(R.id.pause_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controllerThread.setPause(true);
+                new PauseDialogFragment().setController(controllerThread).show(getFragmentManager(), null);
+            }
+        });
 
         // Set up the surface view, it is instantiated by the xml layout, fragment_level.xml,
         // and we get a reference to it here.
         gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
 
         // Set up the controller thread with a reference to the surfaceview
-        controllerThread = new ControllerThread(gameSurfaceView, level.getModel());
+        controllerThread = new ControllerThread(gameSurfaceView, level.getModel(), eventQueue);
 
         return view;
     }
@@ -166,8 +175,8 @@ public class LevelFragment extends Fragment {
 
         // First create the GestureListener that will include all our callbacks.
         // Then create the GestureDetector, which takes that listener as an argument.
-        GestureDetector.SimpleOnGestureListener gestureListener = new GestureListener(eventQueue);
-        final GestureDetector gd = new GestureDetector(getActivity(), gestureListener);
+        gestureListener = new GestureListener(eventQueue);
+        gestureDetector = new GestureDetector(getActivity(), gestureListener);
 
         // For the view where gestures will occur, create an onTouchListener that sends
         // all motion events to the gesture detector.  When the gesture detector
@@ -176,7 +185,7 @@ public class LevelFragment extends Fragment {
         gestureView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                gd.onTouchEvent(motionEvent);
+                gestureDetector.onTouchEvent(motionEvent);
                 return false;
             }
         });

@@ -20,8 +20,8 @@
                             "bronze": "0:00"
                         },
                         "model": {
-                            "width": "256",
-                            "height": "192",
+                            "width": "2560",
+                            "height": "1920",
                             "player_width": "60",
                             "player_height": "60",
                             "physics": {

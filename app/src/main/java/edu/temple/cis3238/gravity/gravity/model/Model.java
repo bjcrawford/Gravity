@@ -1,5 +1,7 @@
 package edu.temple.cis3238.gravity.gravity.model;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -94,6 +96,7 @@ public class Model {
     public List<ImageResourceWrapper> getFrame(int xDiff, int yDiff) {
         // Get the players position.
         Point center = this.physModel.getEntity(this.playerID).getPosition();
+        //Log.d("Model", "Player Position: x: " + center.x + " y: " + center.y);
         // Get a list of entities surrounding the player.
         List<edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity> physEnts =
                 this.physModel.observe(center, (int)((xDiff * this.physToGraphicsScalar) / 2), (int)((yDiff * this.physToGraphicsScalar)  / 2));
@@ -115,7 +118,8 @@ public class Model {
     }
 
     public void receiveInput(SwipeGameEvent swipeGameEvent) {
-        float delta_d2x = 5.0f, delta_d2y = 5.0f;
+        float delta_d2x = swipeGameEvent.getSx() / 1000000f;
+        float delta_d2y = swipeGameEvent.getSy() / 1000000f;
         this.physModel.applyAcceleratingForceToBody(this.playerID, delta_d2x, delta_d2y);
     }
 

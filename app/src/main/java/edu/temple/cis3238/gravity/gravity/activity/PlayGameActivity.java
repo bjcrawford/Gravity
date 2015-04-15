@@ -40,10 +40,12 @@ public class PlayGameActivity extends Activity implements
     private static final String LEVEL_FRAG_TAG = "LevelFragment";
     private static final String LEVEL_END_FRAG = "LevelEndFragment";
 
+    public static final float STANDARD_WIDTH = 1000f;
+    public static final int PIXELS_PER_PHYSICS_GRID = 10;
+
     private Story selectedStory;
     private Level selectedLevel;
 
-    private Button pauseButton;
 
 /* ===================================== Lifecycle Methods ====================================== */
 
@@ -55,15 +57,6 @@ public class PlayGameActivity extends Activity implements
 
         // I don't think we will use the action bar at all.
         getActionBar().hide();
-
-        // Just testing pause functionality
-        pauseButton = (Button) findViewById(R.id.pause_button);
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new PauseDialogFragment().show(getFragmentManager(), null);
-            }
-        });
 
         // Create and add the story select fragment
         if (getFragmentManager().findFragmentByTag(STORY_SEL_FRAG_TAG) == null) {
@@ -104,9 +97,7 @@ public class PlayGameActivity extends Activity implements
         info = info.concat("\n  List: ");
         info = info.concat(sp.getString(OptionsActivity.PREF_LIST_KEY, "Item 1"));
 
-        // Display the string in the textview
-        //gameInfo.setText(info); Change this to display a toast
-        Toast.makeText(this, info, Toast.LENGTH_LONG).show();
+        Log.d(TAG, info);
     }
 
     @Override
