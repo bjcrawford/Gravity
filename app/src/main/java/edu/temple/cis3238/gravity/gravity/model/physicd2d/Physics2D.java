@@ -458,4 +458,8 @@ public class Physics2D {
     public List<Landmark> getLandmarks() {
         return this.landmarks;
     }
+
+    public Point getUniverseDimensions(){
+        return new Point(this.universe.getPlaneHeight(), this.universe.getPlaneWidth());
+    }
 }
