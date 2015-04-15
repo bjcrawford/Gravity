@@ -77,13 +77,16 @@ public class Model {
     public List<ImageResourceWrapper> getMap() {
         // Declare a new list to hold the rendering info for the physics objects.
         List<ImageResourceWrapper> rtrnResources = new ArrayList<>();
-        for(Landmark landmark : this.physModel.getLandmarks()) {
+        for(edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity entity : this.physModel.getEntities()) {
             // Get the graphics entity corresponding to the current physics entity.
             edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
-                    = this.graphModel.getEntityByID(landmark.getId());
-            String imgResource = graphEntity.getImgResId(landmark.getOrientation());
-            rtrnResources.add(new ImageResourceWrapper(new Point(landmark.getPosition().x, landmark.getPosition().x), imgResource));
+                    = this.graphModel.getEntityByID(entity.getId());
+            String imgResource = graphEntity.getImgResId(entity.getOrientation());
+            rtrnResources.add(new ImageResourceWrapper(new Point(entity.getPosition().x, entity.getPosition().y), imgResource));
         }
+//        for(Objective objective : this.gameStateModel.) {
+//
+//        }
         return rtrnResources;
     }
 

@@ -186,7 +186,7 @@ public class GamePlaySurface extends SurfaceView {
     private void drawMap(Canvas canvas){
         int worldWidth = 256;
         int worldHeight = 192;
-        List<ImageResourceWrapper> imgList = model.getFrame((int) standardScreenWidth,(int) standardScreenHeight);
+        List<ImageResourceWrapper> imgList = model.getMap();
         Paint paint = new Paint();
         //fix the rectangle coordinates
         rectF.set(
@@ -200,12 +200,6 @@ public class GamePlaySurface extends SurfaceView {
         //background
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
-        //draw rectangle
-        canvas.drawRect(rectF, paint);
-        //foreground
-        paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(2);
         //draw rectangle
         canvas.drawRect(rectF, paint);
 
@@ -237,9 +231,16 @@ public class GamePlaySurface extends SurfaceView {
             canvas.drawCircle(
                     (this.getWidth() * 7/8) + img.position.x/4,
                     (this.getHeight() * 7/8) + img.position.y/4,
-                    1,
+                    2*sf,
                     paint
             );
+
+            //foreground
+            paint.setColor(Color.WHITE);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(2);
+            //draw rectangle
+            canvas.drawRect(rectF, paint);
         }
     }
 

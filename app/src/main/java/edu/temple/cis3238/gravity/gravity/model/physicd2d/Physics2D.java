@@ -471,4 +471,8 @@ public class Physics2D {
     public Point getUniverseDimensions(){
         return new Point(this.universe.getPlaneHeight(), this.universe.getPlaneWidth());
     }
+
+    public List<Entity> getEntities() {
+        return this.entitiesLookupTable;
+    }
 }
