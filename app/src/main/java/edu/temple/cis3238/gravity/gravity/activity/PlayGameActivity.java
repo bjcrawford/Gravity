@@ -1,6 +1,7 @@
 package edu.temple.cis3238.gravity.gravity.activity;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -43,6 +44,7 @@ public class PlayGameActivity extends Activity implements
     public static final float STANDARD_WIDTH = 1000f;
     public static final int PIXELS_PER_PHYSICS_GRID = 10;
 
+    private Fragment currentFrag;
     private Story selectedStory;
     private Level selectedLevel;
 
@@ -83,6 +85,7 @@ public class PlayGameActivity extends Activity implements
         // options that are displayed to the toast message. This way the info will be updated
         // when the user adjusts the options using the pause menu in the play game activity.
 
+        /*
         // Grab a reference to the shared preferences
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -98,6 +101,7 @@ public class PlayGameActivity extends Activity implements
         info = info.concat(sp.getString(OptionsActivity.PREF_LIST_KEY, "Item 1"));
 
         Log.d(TAG, info);
+        */
     }
 
     @Override
@@ -118,6 +122,16 @@ public class PlayGameActivity extends Activity implements
         Log.d(TAG, "onDestroy() fired");
     }
 
+    @Override
+    public void onBackPressed() {
+        if(currentFrag instanceof LevelFragment) {
+            ((LevelFragment) currentFrag).launchPauseMenu();
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
 /* ================================= Fragment Listener Methods ================================== */
 
     /**
@@ -128,8 +142,9 @@ public class PlayGameActivity extends Activity implements
     @Override
     public void OnStorySelectFragmentInteraction(Story story) {
         selectedStory = story;
+        currentFrag = LevelSelectFragment.newInstance(story);
         getFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, LevelSelectFragment.newInstance(story), LEVEL_SEL_FRAG_TAG)
+                .add(R.id.fragment_container, currentFrag, LEVEL_SEL_FRAG_TAG)
                 .addToBackStack(LEVEL_SEL_FRAG_TAG)
                 .commit();
     }
@@ -142,8 +157,9 @@ public class PlayGameActivity extends Activity implements
     @Override
     public void OnLevelSelectFragmentInteraction(Level level) {
         selectedLevel = level;
+        currentFrag = LevelFragment.newInstance(level);
         getFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, LevelFragment.newInstance(level), LEVEL_FRAG_TAG)
+                .add(R.id.fragment_container, currentFrag, LEVEL_FRAG_TAG)
                 .addToBackStack(LEVEL_FRAG_TAG)
                 .commit();
     }
@@ -156,8 +172,9 @@ public class PlayGameActivity extends Activity implements
     @Override
     public void OnLevelFragmentInteraction(GameState gamestate) {
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        currentFrag = LevelEndFragment.newInstance(gamestate);
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, LevelEndFragment.newInstance(gamestate), LEVEL_END_FRAG)
+                .replace(R.id.fragment_container, currentFrag, LEVEL_END_FRAG)
                 .commit();
     }
 

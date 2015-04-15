@@ -3,35 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="pref_category1"
-        android:title="@string/pref_category1" >
-
-        <CheckBoxPreference
-            android:key="pref_checkbox"
-            android:title="@string/pref_checkbox"
-            android:summary="@string/pref_checkbox_desc"
-            android:defaultValue="true" />
-
-    </PreferenceCategory>
-
-
-    <PreferenceCategory
-        android:key="pref_category2"
-        android:title="@string/pref_category2" >
-
-        <EditTextPreference
-            android:key="pref_edittext"
-            android:title="@string/pref_edittext"
-            android:summary="@string/pref_edittext_desc"
-            android:defaultValue="@string/pref_edittext_default" />
+        android:key="pref_game_settings"
+        android:title="@string/pref_game_settings" >
 
         <ListPreference
-            android:key="pref_list"
-            android:title="@string/pref_list"
-            android:dialogTitle="@string/pref_list"
-            android:entries="@array/pref_list_entries"
-            android:entryValues="@array/pref_list_values"
-            android:defaultValue="@string/pref_list_default" />
+            android:key="pref_difficulty"
+            android:title="@string/pref_difficulty"
+            android:dialogTitle="@string/pref_difficulty"
+            android:entries="@array/pref_difficulty_entries"
+            android:entryValues="@array/pref_difficulty_values"
+            android:defaultValue="@string/pref_difficulty_default" />
 
     </PreferenceCategory>
 

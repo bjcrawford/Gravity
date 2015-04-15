@@ -17,14 +17,6 @@
         android:layout_height="match_parent"/>
 
     <Button
-        android:id="@+id/pause_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:text="@string/pause_button" />
-
-    <Button
         android:id="@+id/win_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

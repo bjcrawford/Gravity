@@ -458,4 +458,13 @@ public class Physics2D {
     public List<Landmark> getLandmarks() {
         return this.landmarks;
     }
+
+    /**
+     * Set the gravity constant.
+     *
+     * @param gravConstant
+     */
+    public void setGravConstant(int gravConstant) {
+        this.gravConstant = gravConstant;
+    }
 }

@@ -2,7 +2,9 @@ package edu.temple.cis3238.gravity.gravity.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.activity.OptionsActivity;
 import edu.temple.cis3238.gravity.gravity.controller.ControllerThread;
 import edu.temple.cis3238.gravity.gravity.model.Level;
 import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
@@ -28,7 +31,8 @@ import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
  * @author Brett Crawford
  * @version 1.0d last modified 4/6/2015
  */
-public class LevelFragment extends Fragment {
+public class LevelFragment extends Fragment implements
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     /* Debug tag */
     private static final String TAG = "LevelFragment";
@@ -150,13 +154,6 @@ public class LevelFragment extends Fragment {
                 onLevelEnd(gamestate);
             }
         });
-        ((Button) view.findViewById(R.id.pause_button)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                controllerThread.setPause(true);
-                new PauseDialogFragment().setController(controllerThread).show(getFragmentManager(), null);
-            }
-        });
 
         // Set up the surface view, it is instantiated by the xml layout, fragment_level.xml,
         // and we get a reference to it here.
@@ -203,6 +200,10 @@ public class LevelFragment extends Fragment {
         super.onStart();
         Log.d(TAG, "onStart() fired");
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int gravConstant = Integer.decode(sp.getString(OptionsActivity.PREF_DIFFICULTY_KEY, "6"));
+        level.getModel().setGravConstant(gravConstant);
+
         // This is where we start the thread by calling to the surfaceviews init method
         gameSurfaceView.init(level.getModel());
     }
@@ -212,13 +213,19 @@ public class LevelFragment extends Fragment {
         super.onResume();
         Log.d(TAG, "onResume() fired");
         controllerThread.setRun(true);
+
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause() fired");
-        controllerThread.setPause(true);
+
+
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -247,6 +254,7 @@ public class LevelFragment extends Fragment {
         listener = null;
     }
 
+
 /* =========================== Parent Activity Communication Methods ============================ */
 
     /**
@@ -267,6 +275,24 @@ public class LevelFragment extends Fragment {
     public void onLevelEnd(GameState gamestate) {
         if (listener != null) {
             listener.OnLevelFragmentInteraction(gamestate);
+        }
+    }
+
+    public void launchPauseMenu() {
+        controllerThread.setPause(true);
+        new PauseDialogFragment().setController(controllerThread).show(getFragmentManager(), null);
+    }
+
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+        switch (key) {
+            case OptionsActivity.PREF_DIFFICULTY_KEY:
+                int gravConstant = Integer.decode(sp.getString(OptionsActivity.PREF_DIFFICULTY_KEY, "6"));
+                level.getModel().setGravConstant(gravConstant);
+                break;
+            default:
+                break;
         }
     }
 }
