@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,8 @@ import edu.temple.cis3238.gravity.gravity.controller.ControllerThread;
  * @version 1.0a last modified 3/15/2015
  */
 public class PauseDialogFragment extends DialogFragment {
+
+    private static final String TAG = "PauseDialogFragment";
 
     /* The options button associated with the DialogFragment's layout */
     private Button optionsButton;
@@ -79,6 +82,7 @@ public class PauseDialogFragment extends DialogFragment {
                 // By calling finish(), we can destroy this activity. This will
                 // return us to the previous activity, which in this case will
                 // be the main menu activity
+                PauseDialogFragment.this.dismiss();
                 getActivity().finish();
             }
         });
@@ -90,6 +94,7 @@ public class PauseDialogFragment extends DialogFragment {
                 // and have the main menu activity exit the application. We can set
                 // an extra (key-value pair) in the intent to signal the main menu
                 // activity to exit.
+                PauseDialogFragment.this.dismiss();
                 Intent exitIntent = new Intent(getActivity(), MainMenuActivity.class);
                 exitIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 exitIntent.putExtra("EXIT", true);
@@ -110,6 +115,7 @@ public class PauseDialogFragment extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+        Log.d(TAG, "onDismiss() fired");
         controllerThread.setPause(false);
         synchronized (controllerThread) {
             controllerThread.notifyAll();

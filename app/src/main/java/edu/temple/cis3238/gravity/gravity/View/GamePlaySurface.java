@@ -156,7 +156,7 @@ public class GamePlaySurface extends SurfaceView {
         // a rectangle reference holder
         RectF rectF = new RectF();
         // for each element on the frame
-        Log.d(TAG, "Entities in frame: " + imgList.size());
+        //Log.d(TAG, "Entities in frame: " + imgList.size());
         for(ImageResourceWrapper img: imgList){
             //Log.d(TAG, "IRW: " + img);
             // get the picture of the space object
