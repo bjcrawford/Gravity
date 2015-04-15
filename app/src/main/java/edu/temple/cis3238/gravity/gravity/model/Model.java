@@ -75,11 +75,16 @@ public class Model {
      * @return A list of the relative positions of the landmark physics entities.
      */
     public List<ImageResourceWrapper> getMap() {
-        //TODO: get a list of the landmarks. Should be generated once and stored to prevent redundant acquisitions
-//        for(Landmark landmark : this.physModel.getLandmarks()) {
-//
-//        }
-        return new ArrayList<>();
+        // Declare a new list to hold the rendering info for the physics objects.
+        List<ImageResourceWrapper> rtrnResources = new ArrayList<>();
+        for(Landmark landmark : this.physModel.getLandmarks()) {
+            // Get the graphics entity corresponding to the current physics entity.
+            edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
+                    = this.graphModel.getEntityByID(landmark.getId());
+            String imgResource = graphEntity.getImgResId(landmark.getOrientation());
+            rtrnResources.add(new ImageResourceWrapper(new Point(landmark.getPosition().x, landmark.getPosition().x), imgResource));
+        }
+        return rtrnResources;
     }
 
     /**
@@ -149,4 +154,12 @@ public class Model {
     public void setGravConstant(int gravConstant) {
         physModel.setGravConstant(gravConstant);
     }
+    /**
+     * Get the dimensions of the universe.
+     * @return The dimensions (x, y) of the universe.
+     */
+    public Point getUniverseDimensions(){
+        return this.physModel.getUniverseDimensions();
+    }
+
 }

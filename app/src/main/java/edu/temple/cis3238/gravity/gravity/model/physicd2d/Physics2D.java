@@ -467,4 +467,8 @@ public class Physics2D {
     public void setGravConstant(int gravConstant) {
         this.gravConstant = gravConstant;
     }
+
+    public Point getUniverseDimensions(){
+        return new Point(this.universe.getPlaneHeight(), this.universe.getPlaneWidth());
+    }
 }
