@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -40,6 +41,7 @@ public class GamePlaySurface extends SurfaceView {
     private float standardScreenWidth;
     private float standardScreenHeight;
     private ArrayList<Bitmap> bitmaps;
+    private RectF rectF = new RectF();
 
     public GamePlaySurface(Context context){
         super(context);
@@ -156,7 +158,6 @@ public class GamePlaySurface extends SurfaceView {
         //set scalar
         final int scalar = PlayGameActivity.PIXELS_PER_PHYSICS_GRID;
         // a rectangle reference holder
-        RectF rectF = new RectF();
         // for each element on the frame
         for(ImageResourceWrapper img: imgList){
             //Log.d(TAG, "IRW: " + img);
@@ -182,7 +183,65 @@ public class GamePlaySurface extends SurfaceView {
      * draw the small map on the screen
      * @param canvas
      */
-    private void drawMap(Canvas canvas){}
+    private void drawMap(Canvas canvas){
+        int worldWidth = 256;
+        int worldHeight = 192;
+        List<ImageResourceWrapper> imgList = model.getFrame((int) standardScreenWidth,(int) standardScreenHeight);
+        Paint paint = new Paint();
+        //fix the rectangle coordinates
+        rectF.set(
+                (this.getWidth()*3)/4,
+                (this.getHeight()*3)/4,
+            this.getWidth(),
+            this.getHeight()
+        );
+
+        //set the paint property
+        //background
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
+        //draw rectangle
+        canvas.drawRect(rectF, paint);
+        //foreground
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(2);
+        //draw rectangle
+        canvas.drawRect(rectF, paint);
+
+        //draw map objects
+        for(ImageResourceWrapper img: imgList){
+
+            //set style
+            paint.setStyle(Paint.Style.FILL);
+
+            //set the color
+            switch (img.imgResID.substring(0,4)){
+                case "play":
+                    paint.setColor(Color.GREEN);
+                    break;
+                case "plan":
+                    paint.setColor(Color.BLUE);
+                    break;
+                case "obje":
+                    paint.setColor(Color.GREEN);
+                    break;
+                default:
+                    paint.setColor(Color.RED);
+                    ;
+
+            }
+            //finally draw
+            //set the object location
+            //TODO modify to accept a map instead of a frame
+            canvas.drawCircle(
+                    (this.getWidth() * 7/8) + img.position.x/4,
+                    (this.getHeight() * 7/8) + img.position.y/4,
+                    1,
+                    paint
+            );
+        }
+    }
 
     /**
      * draw score bord, life and other things

@@ -64,7 +64,7 @@ public class Physics2D {
         this.bodies = new ArrayList<>();
         this.landmarks = new ArrayList<>();
         this.phenomena = new ArrayList<>();
-        this.gravConstant = 6;
+        this.gravConstant = 100000000;
 
         this.universe = new Plane2D(width, height);
     }

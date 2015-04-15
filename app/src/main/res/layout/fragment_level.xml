@@ -20,8 +20,8 @@
         android:id="@+id/win_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_above="@+id/lose_button"
         android:text="@string/win_button"/>
 
     <Button
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:text="@string/lose_button"/>
 
 
