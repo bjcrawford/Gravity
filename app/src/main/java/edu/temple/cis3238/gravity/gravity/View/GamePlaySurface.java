@@ -41,7 +41,7 @@ public class GamePlaySurface extends SurfaceView {
     private float standardScreenWidth;
     private float standardScreenHeight;
     private ArrayList<Bitmap> bitmaps;
-    private RectF rectF = new RectF();
+    private RectF miniMapBounds;
 
     public GamePlaySurface(Context context){
         super(context);
@@ -142,6 +142,7 @@ public class GamePlaySurface extends SurfaceView {
      * @param canvas
      */
     private void drawBackground(Canvas canvas) {
+
         canvas.drawColor(Color.BLACK);
     }
 
@@ -165,16 +166,16 @@ public class GamePlaySurface extends SurfaceView {
             //bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(img.imgResID, "drawable", context.getPackageName()));
             bitmap = imgMap.get(img.imgResID);
             // set the rect
-            rectF.set(
-                    sf * (img.position.x * scalar - bitmap.getWidth()/2) + this.getWidth()/2,
-                    sf * (img.position.y * scalar - bitmap.getHeight()/2) + this.getHeight()/2,
-                    sf * (img.position.x * scalar + bitmap.getWidth()/2) + this.getWidth()/2,
-                    sf * (img.position.y * scalar + bitmap.getHeight()/2) + this.getHeight()/2
+            miniMapBounds.set(
+                    sf * (img.position.x * scalar - bitmap.getWidth() / 2) + this.getWidth() / 2,
+                    sf * (img.position.y * scalar - bitmap.getHeight() / 2) + this.getHeight() / 2,
+                    sf * (img.position.x * scalar + bitmap.getWidth() / 2) + this.getWidth() / 2,
+                    sf * (img.position.y * scalar + bitmap.getHeight() / 2) + this.getHeight() / 2
             );
             // get an angle
-            //canvas.rotate(x, rectF.centerX(), rectF.centerY());
+            //canvas.rotate(x, miniMapBounds.centerX(), miniMapBounds.centerY());
             // draw the picture of the space object
-            canvas.drawBitmap(bitmap, null, rectF, null);
+            canvas.drawBitmap(bitmap, null, miniMapBounds, null);
             //canvas.restore();
         }
     }
@@ -184,16 +185,21 @@ public class GamePlaySurface extends SurfaceView {
      * @param canvas
      */
     private void drawMap(Canvas canvas){
-        int worldWidth = 256;
-        int worldHeight = 192;
+
+        Log.d(TAG, "Level dimens " + model.getUniverseDimensions());
+
+        int levelWidth = model.getUniverseDimensions().x;
+        int levelHeight = model.getUniverseDimensions().y;
+
         List<ImageResourceWrapper> imgList = model.getMap();
         Paint paint = new Paint();
+
         //fix the rectangle coordinates
-        rectF.set(
-                (this.getWidth()*3)/4,
-                (this.getHeight()*3)/4,
-            this.getWidth(),
-            this.getHeight()
+        miniMapBounds.set(
+                (this.getWidth() * 3) / 4,
+                (this.getHeight() * 3) / 4,
+                this.getWidth(),
+                this.getHeight()
         );
 
         //set the paint property
@@ -201,10 +207,10 @@ public class GamePlaySurface extends SurfaceView {
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         //draw rectangle
-        canvas.drawRect(rectF, paint);
+        canvas.drawRect(miniMapBounds, paint);
 
         //draw map objects
-        for(ImageResourceWrapper img: imgList){
+        for(ImageResourceWrapper img : imgList){
 
             //set style
             paint.setStyle(Paint.Style.FILL);
@@ -212,18 +218,16 @@ public class GamePlaySurface extends SurfaceView {
             //set the color
             switch (img.imgResID.substring(0,4)){
                 case "play":
-                    paint.setColor(Color.GREEN);
+                    paint.setColor(0xFF43E119);
                     break;
                 case "plan":
-                    paint.setColor(Color.BLUE);
+                    paint.setColor(0xFF2C46E1);
                     break;
                 case "obje":
-                    paint.setColor(Color.GREEN);
+                    paint.setColor(0xFFF08D33);
                     break;
                 default:
                     paint.setColor(Color.RED);
-                    ;
-
             }
             //finally draw
             //set the object location
@@ -240,7 +244,7 @@ public class GamePlaySurface extends SurfaceView {
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(2);
             //draw rectangle
-            canvas.drawRect(rectF, paint);
+            canvas.drawRect(miniMapBounds, paint);
         }
     }
 

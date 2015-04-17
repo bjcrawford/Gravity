@@ -510,7 +510,7 @@ public class Physics2D {
     }
 
     public Point getUniverseDimensions(){
-        return new Point(this.universe.getPlaneHeight(), this.universe.getPlaneWidth());
+        return new Point(this.universe.getPlaneWidth(), this.universe.getPlaneHeight());
     }
 
     public List<Entity> getEntities() {
