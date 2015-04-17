@@ -12,6 +12,9 @@ import edu.temple.cis3238.gravity.gravity.model.Point;
 public abstract class GamePiece {
     // Fields ------------------------------------------------------------------------------------------
 
+    /**The unique identifier of the gamepiece.*/
+    protected int id;
+
     /**The radial threshold for activating the player.*/
     protected int proximity;
 
@@ -35,6 +38,10 @@ public abstract class GamePiece {
 
 
 // Getters and Setters -----------------------------------------------------------------------------
+
+    public int getId() {
+        return id;
+    }
 
     public int getProximity() {
         return proximity;

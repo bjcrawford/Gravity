@@ -18,13 +18,15 @@ public class Objective extends GamePiece {
 
 // Constructors ------------------------------------------------------------------------------------
 
-    public Objective(Point position, int proximity) {
+    public Objective(int id, Point position, int proximity) {
+        this.id = id;
         this.position = new Point(position);
         this.proximity = proximity;
     }
 
     public Objective(JSONObject selfAsJSON) {
         try {
+            this.id = selfAsJSON.getInt("id");
             this.position = new Point(selfAsJSON.getInt("x0"), selfAsJSON.getInt("y0"));
             this.proximity = selfAsJSON.getInt("proximity");
         }

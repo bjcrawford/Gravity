@@ -148,6 +148,10 @@ public class GameState {
 
 // Getters and Setters -----------------------------------------------------------------------------
 
+    public List<Objective> getObjectives() {
+        return this.objectives;
+    }
+
     public boolean getGameWon() {
         return this.gameWon;
     }

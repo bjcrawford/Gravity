@@ -11,6 +11,7 @@ import java.util.List;
 import edu.temple.cis3238.gravity.gravity.activity.PlayGameActivity;
 import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
 import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
+import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Objective;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.Graphics2D;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.Physics2D;
@@ -89,9 +90,13 @@ public class Model {
             String imgResource = graphEntity.getImgResId(entity.getOrientation());
             rtrnResources.add(new ImageResourceWrapper(new Point(entity.getPosition().x, entity.getPosition().y), imgResource));
         }
-//        for(Objective objective : this.gameStateModel.) {
-//
-//        }
+        for(Objective objective : this.gameStateModel.getObjectives()) {
+            edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
+                    = this.graphModel.getEntityByID(objective.getId());
+            // TODO: Orientation for objectives
+            String imgResource = graphEntity.getImgResId(0);
+            rtrnResources.add(new ImageResourceWrapper(new Point(objective.getPosition().x, objective.getPosition().y), imgResource));
+        }
         return rtrnResources;
     }
 
