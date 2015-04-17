@@ -30,4 +30,8 @@ public class Point {
         this.x += deltaX;
         this.y += deltaY;
     }
+
+    public String toString() {
+        return "x: " + x + ", y: " + y;
+    }
 }
