@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.temple.cis3238.gravity.gravity.R;
+import edu.temple.cis3238.gravity.gravity.model.Level;
 import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
 
 /**
@@ -25,18 +27,31 @@ public class LevelEndFragment extends Fragment {
     /* Debug tag */
     private static final String TAG = "LevelEndFragment";
 
+    /* An interface to communicate with the parent activity (PlayGameActivity) */
+    public interface OnLevelEndFragmentInteractionListener {
+        public void OnLevelEndFragmentLaunchLevel(Level level);
+    }
+
+    /* The interface to communicate with the parent activity (PlayGameActivity) */
+    private OnLevelEndFragmentInteractionListener listener;
+
     /* The fragment's view */
     private View view;
 
     /* The state of the level end */
     private GameState gamestate;
 
+    /* Buttons for navigating from this fragment */
     private Button retryButton;
     private Button nextLevelButton;
     private Button mainMenuButton;
 
-    /* The interface to communicate with the parent activity (PlayGameActivity) */
-    private OnLevelEndFragmentInteractionListener listener;
+    /* The level to use on retry button presses */
+    private Level retryLevel;
+
+    /* The level to use on next level button presses */
+    private Level nextLevel;
+
 
     /**
      * The required public empty constructor
@@ -50,22 +65,29 @@ public class LevelEndFragment extends Fragment {
      *
      * @return A LevelEndFragment.
      */
-    public static LevelEndFragment newInstance(GameState gamestate) {
+    public static LevelEndFragment newInstance(GameState gamestate, Level retryLevel, Level nextLevel) {
         LevelEndFragment lef = new LevelEndFragment();
         lef.setGameState(gamestate);
+        lef.setRetryLevel(retryLevel);
+        lef.setNextLevel(nextLevel);
         return lef;
     }
 
-    /**
-     * Sets the state of the won flag
-     *
-     * @param gamestate
-     */
     private void setGameState(GameState gamestate) {
         this.gamestate = gamestate;
     }
 
+    private void setRetryLevel(Level retryLevel) {
+        this.retryLevel = retryLevel;
+    }
+
+    private void setNextLevel(Level nextLevel) {
+        this.nextLevel = nextLevel;
+    }
+
+
 /* ===================================== Lifecycle Methods ====================================== */
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -95,7 +117,7 @@ public class LevelEndFragment extends Fragment {
 
             // TODO: Set level end info
             //((TextView) view.findViewById(R.id.grade)).setText("");
-            //((TextView) view.findViewById(R.id.score)).setText("");
+            ((TextView) view.findViewById(R.id.score)).setText(gamestate.getScore());
             //((TextView) view.findViewById(R.id.time)).setText("");
 
             nextLevelButton = (Button) view.findViewById(R.id.next_level_button);
@@ -103,6 +125,7 @@ public class LevelEndFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "Next level button pressed");
+                    Toast.makeText(getActivity(), "Not yet working...", Toast.LENGTH_LONG);
                 }
             });
 
@@ -116,6 +139,7 @@ public class LevelEndFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Retry level button pressed");
+                onLaunchLevelSelected(retryLevel);
             }
         });
 
@@ -124,6 +148,7 @@ public class LevelEndFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Main menu button pressed");
+                getActivity().finish();
             }
         });
 
@@ -186,22 +211,19 @@ public class LevelEndFragment extends Fragment {
         listener = null;
     }
 
+
 /* =========================== Parent Activity Communication Methods ============================ */
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     */
-    public interface OnLevelEndFragmentInteractionListener {
-        public void OnLevelEndFragmentInteraction(Uri uri);
-    }
 
-    public void onSomeEvent(Uri uri) {
+    /**
+     * Calls to the parent activity (PlayGameActivity) to request a level
+     * to be launched.
+     *
+     * @param levelToLaunch The level to launch
+     */
+    public void onLaunchLevelSelected(Level levelToLaunch) {
         if (listener != null) {
-            listener.OnLevelEndFragmentInteraction(uri);
+            listener.OnLevelEndFragmentLaunchLevel(levelToLaunch);
         }
     }
-
 }
