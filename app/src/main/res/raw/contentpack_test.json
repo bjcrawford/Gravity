@@ -33,7 +33,7 @@
                                         "y0": "96",
                                         "dx0": "0",
                                         "dy0": "0",
-                                        "lifespan": "0",
+                                        "lifespan": "-1",
                                         "img_res_id0": "player0",
                                         "img_res_id1": "player1",
                                         "img_res_id2": "player2",

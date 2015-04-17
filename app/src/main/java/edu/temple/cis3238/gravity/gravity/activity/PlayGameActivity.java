@@ -3,14 +3,8 @@ package edu.temple.cis3238.gravity.gravity.activity;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelEndFragment;
@@ -18,7 +12,6 @@ import edu.temple.cis3238.gravity.gravity.model.Level;
 import edu.temple.cis3238.gravity.gravity.model.Story;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.LevelSelectFragment;
-import edu.temple.cis3238.gravity.gravity.fragment.PauseDialogFragment;
 import edu.temple.cis3238.gravity.gravity.fragment.StorySelectFragment;
 import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
 
@@ -39,7 +32,7 @@ public class PlayGameActivity extends Activity implements
     private static final String STORY_SEL_FRAG_TAG = "StorySelectFragment";
     private static final String LEVEL_SEL_FRAG_TAG = "LevelSelectFragment";
     private static final String LEVEL_FRAG_TAG = "LevelFragment";
-    private static final String LEVEL_END_FRAG = "LevelEndFragment";
+    private static final String LEVEL_END_FRAG_TAG = "LevelEndFragment";
 
     public static final float STANDARD_WIDTH = 1000f;
     public static final int PIXELS_PER_PHYSICS_GRID = 10;
@@ -57,8 +50,6 @@ public class PlayGameActivity extends Activity implements
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate() fired");
         setContentView(R.layout.activity_play_game);
-
-        // I don't think we will use the action bar at all.
         getActionBar().hide();
 
         // Create and add the story select fragment
@@ -81,28 +72,6 @@ public class PlayGameActivity extends Activity implements
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume() fired");
-
-        // We'll use the onResume method to handle the creation of the info regarding the selected
-        // options that are displayed to the toast message. This way the info will be updated
-        // when the user adjusts the options using the pause menu in the play game activity.
-
-        /*
-        // Grab a reference to the shared preferences
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-
-        // Build a string using the shared preference values
-        String info = "Selected options:\n  CheckBox: ";
-        if (sp.getBoolean(OptionsActivity.PREF_CHECKBOX_KEY, true))
-            info = info.concat("checked");
-        else
-            info = info.concat("unchecked");
-        info = info.concat("\n  EditText: ");
-        info = info.concat(sp.getString(OptionsActivity.PREF_EDITTEXT_KEY, ""));
-        info = info.concat("\n  List: ");
-        info = info.concat(sp.getString(OptionsActivity.PREF_LIST_KEY, "Item 1"));
-
-        Log.d(TAG, info);
-        */
     }
 
     @Override
@@ -136,8 +105,9 @@ public class PlayGameActivity extends Activity implements
 /* ================================= Fragment Listener Methods ================================== */
 
     /**
-     * This listener method will receive calls from any StorySelectFragment
-     * that is added to this activity.
+     * This listener method will receive calls from the story select fragment
+     * when a story has been selected.
+     *
      * @param story The story object selected.
      */
     @Override
@@ -151,14 +121,15 @@ public class PlayGameActivity extends Activity implements
     }
 
     /**
-     * This listener method will receive calls from any LevelSelectFragment
-     * that is added to this activity.
-     * @param level The level object selected.
+     * This listener method will receive calls from the level select fragment
+     * when a level has been selected.
+     *
+     * @param selectedLevel The level object selected.
      */
     @Override
-    public void OnLevelSelectFragmentInteraction(Level level) {
-        selectedLevel = level;
-        currentFrag = LevelFragment.newInstance(level);
+    public void OnLevelSelectFragmentInteraction(Level selectedLevel) {
+        this.selectedLevel = selectedLevel;
+        currentFrag = LevelFragment.newInstance(selectedLevel);
         getFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, currentFrag, LEVEL_FRAG_TAG)
                 .addToBackStack(LEVEL_FRAG_TAG)
@@ -166,26 +137,34 @@ public class PlayGameActivity extends Activity implements
     }
 
     /**
-     * This listener method will receive calls from any LevelFragment
-     * that is added to this activity.
-     * @param gamestate
+     * This listener method will receive calls from the level fragment when
+     * it has finished.
+     *
+     * @param gamestate The game state at level end
+     * @param currentLevel The level that was played
      */
     @Override
-    public void OnLevelFragmentInteraction(GameState gamestate) {
+    public void OnLevelFragmentEnd(GameState gamestate, Level currentLevel) {
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        currentFrag = LevelEndFragment.newInstance(gamestate);
+        currentFrag = LevelEndFragment.newInstance(gamestate, currentLevel, null);
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, currentFrag, LEVEL_END_FRAG)
+                .replace(R.id.fragment_container, currentFrag, LEVEL_END_FRAG_TAG)
                 .commit();
     }
 
     /**
-     * This listener method will receive calls from any LevelEndFragment
-     * that is added to this activity.
-     * @param uri
+     * This listener method will receive calls from the level end fragment
+     * on requests to launch a new level.
+     *
+     * @param levelToLaunch The level to play
      */
     @Override
-    public void OnLevelEndFragmentInteraction(Uri uri) {
-
+    public void OnLevelEndFragmentLaunchLevel(Level levelToLaunch) {
+        selectedLevel = levelToLaunch;
+        currentFrag = LevelFragment.newInstance(levelToLaunch);
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, currentFrag, LEVEL_FRAG_TAG)
+                .addToBackStack(LEVEL_FRAG_TAG)
+                .commit();
     }
 }

@@ -143,6 +143,10 @@ public class GameState {
         return this.playable;
     }
 
+    public int getScore() {
+        return this.score;
+    }
+
     public void setGameWon(boolean gameWon) {
         this.gameWon = gameWon;
     }

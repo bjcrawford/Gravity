@@ -165,11 +165,11 @@ public class LevelSelectFragment extends Fragment implements
     /**
      * This method will handle the communication of the selected level to the parent activity.
      *
-     * @param level The Level object selected.
+     * @param selectedLevel The Level object selected.
      */
-    public void onLevelSelected(Level level) {
+    public void onLevelSelected(Level selectedLevel) {
         if (listener != null) {
-            listener.OnLevelSelectFragmentInteraction(level);
+            listener.OnLevelSelectFragmentInteraction(selectedLevel);
         }
     }
 
@@ -180,7 +180,7 @@ public class LevelSelectFragment extends Fragment implements
      * activity.
      */
     public interface OnLevelSelectFragmentInteractionListener {
-        public void OnLevelSelectFragmentInteraction(Level level);
+        public void OnLevelSelectFragmentInteraction(Level selectedLevel);
     }
 
 /* =========================== RecyclerView Communication Methods ============================ */
