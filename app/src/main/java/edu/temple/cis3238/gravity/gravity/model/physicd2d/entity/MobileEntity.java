@@ -61,25 +61,27 @@ abstract public class MobileEntity extends Entity {
      * @return The orientation of the entity
      */
     protected int calcOrientation() {
-        // Rotation
-        // Acceleration vector <d2x, d2y>
-        // Theta = aTan(d2y / d2x) ***Ensuring theta is in degrees, not radians***
-        // Positions = [0, 1, ...n]
-        // Corresponding to [0, 1, ...n] * (360 / n)
-        // Position = round(arcTan(Theta / (360 / n)))
+        /* Rotation ********************************************************************************
+            Acceleration vector <dx, dy>
+            Theta = aTan( |dy| / |dx| ) ***Ensuring theta is in degrees, not radians***
+            Positions = [0, 1, ...n]
+            Corresponding to [0, 1, ...n] * (360 / n)
+            Position = round(arcTan(Theta / (360 / n)))
+            ****************************************************************************************
+        */
         double theta;
-        if(this.d2x == 0) {
-            theta = this.d2y > 0 ? 90 : 270; // If d2x is 0, theta is a function of d2y exclusively
-        }else if(this.d2y == 0) {
-            theta = this.d2x > 0 ? 0 : 180; // If d2y is 0, theta is a function of d2x exclusively
+        if(this.dx == 0) {
+            theta = this.dy > 0 ? 90 : 270; // If d2x is 0, theta is a function of d2y exclusively
+        }else if(this.dy == 0) {
+            theta = this.dx > 0 ? 0 : 180; // If d2y is 0, theta is a function of d2x exclusively
         }else {
-            theta = Math.toDegrees(Math.atan(Math.abs(this.d2y / this.d2x))); // Otherwise theta must be calculated
+            theta = Math.toDegrees(Math.atan(Math.abs(this.dy / this.dx))); // Otherwise theta must be calculated
             // Figure out which quadrant theta should point to
-            if(this.d2x > 0 && this.d2y < 0) {  // Q4
+            if(this.dx > 0 && this.dy < 0) {  // Q4
                 theta = 360 - theta;
-            }else if(this.d2x < 0 && this.d2y < 0) {    // Q3
+            }else if(this.dx < 0 && this.dy < 0) {    // Q3
                 theta += 180;
-            }else if(this.d2x < 0 && this.d2y > 0) {    // Q2
+            }else if(this.dx < 0 && this.dy > 0) {    // Q2
                 theta = 180 - theta;
             }   // Q4 requires no action i.e theta += 0
         }
