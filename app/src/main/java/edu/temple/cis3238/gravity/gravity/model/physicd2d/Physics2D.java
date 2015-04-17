@@ -336,40 +336,60 @@ public class Physics2D {
      */
     public void update(float deltaT) {
 
+        Log.d(TAG, "New Update");
+        Log.d(TAG, "  Time delta " + deltaT);
+
         // Update each of the bodies.
         for (Body body : this.bodies) {
-            Point preImagePosition = new Point(body.getPosition());
-            // Remove the body's occupied space projection from the plane.
-            for (Point subsection : body.getShape()) {
-                // Copy each of the points in the body's shape, and translate them by the previous <x, y> offset of the body's position.
-                Point translatedPoint = new Point(subsection);
-                translatedPoint.offset(preImagePosition.x, preImagePosition.y);
-                //Set the associated region to empty.
-                this.universe.setRegionEmpty(translatedPoint);
+
+            if(body.getId() == 0) {
+                Log.d(TAG, "  Player " + body.getPosition());
             }
 
-            Region2D tempRegion = this.universe.accessRegion(body.getPosition());
-            body.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
-            body.update(deltaT);
+            // Player center out of bounds
+            if (body.getId() == 0 && (body.getPosition().x < 0 || body.getPosition().x >= universe.getPlaneWidth() ||
+                        body.getPosition().y < 0 || body.getPosition().y >= universe.getPlaneHeight())) {
+                Log.d(TAG, "  Collision with level bounds detected  " + body.getPosition());
+                Log.d(TAG, "    Plane bounds: " + universe.getPlaneWidth() + " x " + universe.getPlaneHeight());
+                body.setLifespan(0);
+            }
+            else {
 
-            int xPos = body.getPosition().x, yPos = body.getPosition().y;
-            // Add the body's occupied space projection to the plane.
-            for (Point subsection : body.getShape()) {
-                // Copy each of the points in the body's shape, and translate them by the current <x, y> offset of the body.
-                Point translatedPoint = new Point(subsection);
-                translatedPoint.offset(xPos, yPos);
-
-                // Check for player collision
-                if (body.getId() == 0 &&
-                        this.universe.accessRegion(translatedPoint) != null &&
-                        this.universe.accessRegion(translatedPoint).getOccupantID() != -1) {
-                    // Player has collided with an entity
-                    Log.d(TAG, "Collision detected");
-                    body.setLifespan(0);
+                Point preImagePosition = new Point(body.getPosition());
+                // Remove the body's occupied space projection from the plane.
+                for (Point subsection : body.getShape()) {
+                    // Copy each of the points in the body's shape, and translate them by the previous <x, y> offset of the body's position.
+                    Point translatedPoint = new Point(subsection);
+                    translatedPoint.offset(preImagePosition.x, preImagePosition.y);
+                    //Set the associated region to empty.
+                    this.universe.setRegionEmpty(translatedPoint);
                 }
 
-                //Set the associated region to occupied.
-                this.universe.setRegionOccupied(translatedPoint, body.getId());
+                Region2D tempRegion = this.universe.accessRegion(body.getPosition());
+                Log.d(TAG, "  Grav Region d2x: " + tempRegion.getD2xGrav() + ", d2y: " + tempRegion.getD2yGrav());
+                //body.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
+                body.update(deltaT);
+
+                int xPos = body.getPosition().x, yPos = body.getPosition().y;
+                // Add the body's occupied space projection to the plane.
+                for (Point subsection : body.getShape()) {
+                    // Copy each of the points in the body's shape, and translate them by the current <x, y> offset of the body.
+                    Point translatedPoint = new Point(subsection);
+                    translatedPoint.offset(xPos, yPos);
+
+                    // Check for player collision
+                    if (body.getId() == 0 && this.universe.accessRegion(translatedPoint) != null) {
+                        int occId = this.universe.accessRegion(translatedPoint).getOccupantID();
+                        if (occId != -1) {
+                            // Player has collided with an entity
+                            Log.d(TAG, "Collision with id " + occId + " detected @ " + translatedPoint);
+                            body.setLifespan(0);
+                        }
+                    }
+
+                    //Set the associated region to occupied.
+                    this.universe.setRegionOccupied(translatedPoint, body.getId());
+                }
             }
         }
 
