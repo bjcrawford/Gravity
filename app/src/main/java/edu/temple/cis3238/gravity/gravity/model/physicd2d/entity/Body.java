@@ -112,7 +112,8 @@ public class Body extends MobileEntity {
     public void update(float deltaT) {
         this.accelerate(deltaT);
         this.displace(deltaT);
-        this.shape = this.shapes.get(this.calcOrientation());
+        this.orientation = this.calcOrientation();
+        this.shape = this.shapes.get(this.orientation);
     }
 
     /**
