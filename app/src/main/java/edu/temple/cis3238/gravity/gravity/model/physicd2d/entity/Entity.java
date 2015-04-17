@@ -130,4 +130,12 @@ public abstract class Entity {
         return this.orientation;
     }
 
+    /**
+     * Sets the time remaining until the entity expires.
+     * @param lifespan The remaining lifespan of this entity.
+     */
+    public void setLifespan(int lifespan) {
+        this.lifespan = lifespan;
+    }
+
 }

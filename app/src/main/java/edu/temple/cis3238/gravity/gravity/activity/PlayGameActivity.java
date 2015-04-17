@@ -43,6 +43,7 @@ public class PlayGameActivity extends Activity implements
 
     public static final float STANDARD_WIDTH = 1000f;
     public static final int PIXELS_PER_PHYSICS_GRID = 10;
+    public static final float SWIPE_VEL_CONVERSION = 1000000f;
 
     private Fragment currentFrag;
     private Story selectedStory;

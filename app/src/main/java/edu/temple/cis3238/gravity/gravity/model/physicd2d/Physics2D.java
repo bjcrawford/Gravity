@@ -1,5 +1,7 @@
 package edu.temple.cis3238.gravity.gravity.model.physicd2d;
 
+import android.util.Log;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -18,6 +20,8 @@ import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Phenomenon;
  * @version 1.0a last modified 4/6/2015
  */
 public class Physics2D {
+
+    private static final String TAG = "Physics2D";
 
 // Fields ------------------------------------------------------------------------------------------
 
@@ -354,6 +358,16 @@ public class Physics2D {
                 // Copy each of the points in the body's shape, and translate them by the current <x, y> offset of the body.
                 Point translatedPoint = new Point(subsection);
                 translatedPoint.offset(xPos, yPos);
+
+                // Check for player collision
+                if (body.getId() == 0 &&
+                        this.universe.accessRegion(translatedPoint) != null &&
+                        this.universe.accessRegion(translatedPoint).getOccupantID() != -1) {
+                    // Player has collided with an entity
+                    Log.d(TAG, "Collision detected");
+                    body.setLifespan(0);
+                }
+
                 //Set the associated region to occupied.
                 this.universe.setRegionOccupied(translatedPoint, body.getId());
             }
@@ -381,6 +395,9 @@ public class Physics2D {
                 // Copy each of the points in the phenomenon's shape, and translate them by the current <x, y> offset of the phenomenon.
                 Point translatedPoint = new Point(subsection);
                 translatedPoint.offset(xPos, yPos);
+
+                // TODO: Check for phenomenon collisions
+
                 //Set the associated region to occupied.
                 this.universe.setRegionOccupied(translatedPoint, phenomenon.getId());
             }

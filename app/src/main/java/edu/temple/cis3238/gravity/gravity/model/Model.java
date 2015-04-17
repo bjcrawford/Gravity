@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.temple.cis3238.gravity.gravity.activity.PlayGameActivity;
 import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
 import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.Graphics2D;
@@ -21,6 +22,8 @@ import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Landmark;
  * @version 1.0a last modified 4/6/2015
  */
 public class Model {
+
+    private static final String TAG = "Model";
 
 // Fields ------------------------------------------------------------------------------------------
 
@@ -62,9 +65,12 @@ public class Model {
 
     public void update(float deltaT) {
         this.physModel.update(deltaT);
-        if(this.physModel.getEntity(this.playerID) != null) {
+
+        // Changed to check for zero life span rather than a null reference
+        if(this.physModel.getEntity(this.playerID).getLifespan() != 0) {
             //this.gameStateModel.updateGameState(this.physModel.getEntity(this.playerID).getPosition());
         }else {
+            Log.d(TAG, "Player has zero lifespan");
             this.gameStateModel.setPlayable(false);
         }
     }
@@ -129,8 +135,8 @@ public class Model {
     }
 
     public void receiveInput(SwipeGameEvent swipeGameEvent) {
-        float delta_d2x = swipeGameEvent.getSx() / 1000000f;
-        float delta_d2y = swipeGameEvent.getSy() / 1000000f;
+        float delta_d2x = swipeGameEvent.getSx() / PlayGameActivity.SWIPE_VEL_CONVERSION;
+        float delta_d2y = swipeGameEvent.getSy() / PlayGameActivity.SWIPE_VEL_CONVERSION;
         this.physModel.applyAcceleratingForceToBody(this.playerID, delta_d2x, delta_d2y);
     }
 
@@ -156,12 +162,21 @@ public class Model {
     public void setGravConstant(int gravConstant) {
         physModel.setGravConstant(gravConstant);
     }
+
     /**
      * Get the dimensions of the universe.
      * @return The dimensions (x, y) of the universe.
      */
     public Point getUniverseDimensions(){
         return this.physModel.getUniverseDimensions();
+    }
+
+    /**
+     * Gets the game state component of the game model.
+     * @return The game state component object
+     */
+    public GameState getGameStateModel() {
+        return this.gameStateModel;
     }
 
 }
