@@ -1,6 +1,7 @@
 package edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.temple.cis3238.gravity.gravity.model.Point;
@@ -8,7 +9,8 @@ import edu.temple.cis3238.gravity.gravity.model.Point;
 /**
  *
  * @author Ian M. Speers
- * @version 1.0a last modified 3/31/2015
+ * @author Brett Crawford
+ * @version 1.0a last modified 4/17/2015
  */
 public class Objective extends GamePiece {
 
@@ -21,8 +23,14 @@ public class Objective extends GamePiece {
         this.proximity = proximity;
     }
 
-    public Objective(JSONArray selfAsJSON) {
-
+    public Objective(JSONObject selfAsJSON) {
+        try {
+            this.position = new Point(selfAsJSON.getInt("x0"), selfAsJSON.getInt("y0"));
+            this.proximity = selfAsJSON.getInt("proximity");
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 // Private -----------------------------------------------------------------------------------------

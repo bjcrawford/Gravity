@@ -132,6 +132,7 @@
                                         "x0": "224",
                                         "y0": "96",
                                         "radius": "15",
+                                        "proximity": "15",
                                         "img_res_id0": "objective0",
                                         "img_res_id1": "objective1",
                                         "img_res_id2": "objective2",

@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.model.Point;
@@ -14,7 +15,8 @@ import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Player;
 /**
  *
  * @author Ian M. Speers
- * @version 1.0a last modified 3/21/2015
+ * @author Brett Crawford
+ * @version 1.0b last modified 3/17/2015
  */
 public class GameState {
 
@@ -53,12 +55,23 @@ public class GameState {
     }
 
     public GameState(JSONObject selfAsJSON) {
-        //TODO: json constructor
-//        try {
-//
-//        }catch(JSONException e) {
-//            e.printStackTrace();
-//        }
+
+        this.events = new ArrayList<Event>();
+        this.objectives = new ArrayList<Objective>();
+        try {
+            JSONArray eventJsonArray = selfAsJSON.getJSONArray("events");
+            for (int i = 0; i < eventJsonArray.length(); i++) {
+                events.add(new Event(eventJsonArray.getJSONObject(i)));
+            }
+
+            JSONArray objectivesJsonArray = selfAsJSON.getJSONArray("objectives");
+            for (int i = 0; i < objectivesJsonArray.length(); i++) {
+                objectives.add(new Objective(objectivesJsonArray.getJSONObject(i)));
+            }
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
         this.playable = true;
         this.gameWon = false;
         this.score = 0;
