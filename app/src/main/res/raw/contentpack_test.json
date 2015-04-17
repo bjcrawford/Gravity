@@ -34,282 +34,18 @@
                                         "dx0": "0",
                                         "dy0": "0",
                                         "lifespan": "0",
-                                        "shapes": [
-                                            [
-                                                {
-                                                    "x": "0",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "1",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "2",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "1",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "2",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "2"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "2"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "2"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "-2"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "-2"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "-2"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "-3"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "-3"
-                                                }
-                                            ],
-                                            [
-                                                {
-                                                    "x": "0",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "1",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "-2"
-                                                },
-                                                {
-                                                    "x": "1",
-                                                    "y": "-2"
-                                                },
-                                                {
-                                                    "x": "2",
-                                                    "y": "-2"
-                                                },
-                                                {
-                                                    "x": "1",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "2"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "3"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "2"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "-4",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "-1"
-                                                }
-                                            ],
-                                            [
-                                                {
-                                                    "x": "0",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "2"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "3"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "0",
-                                                    "y": "-2"
-                                                },
-                                                {
-                                                    "x": "1",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "1",
-                                                    "y": "-2"
-                                                },
-                                                {
-                                                    "x": "1",
-                                                    "y": "-3"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "2"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "-1",
-                                                    "y": "-2"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "2"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-4",
-                                                    "y": "1"
-                                                },
-                                                {
-                                                    "x": "-2",
-                                                    "y": "-1"
-                                                },
-                                                {
-                                                    "x": "-3",
-                                                    "y": "0"
-                                                },
-                                                {
-                                                    "x": "-4",
-                                                    "y": "0"
-                                                }
-                                            ]
-                                        ]
+                                        "img_res_id0": "player0",
+                                        "img_res_id1": "player1",
+                                        "img_res_id2": "player2",
+                                        "img_res_id3": "player3",
+                                        "img_res_id4": "player4",
+                                        "img_res_id5": "player5",
+                                        "img_res_id6": "player6",
+                                        "img_res_id7": "player7",
+                                        "img_res_id8": "player8",
+                                        "img_res_id9": "player9",
+                                        "img_res_id10": "player10",
+                                        "img_res_id11": "player11"
                                     }
                                 ],
                                 "phenomena": [
@@ -325,14 +61,18 @@
                                         "mass": "300",
                                         "dTheta": "0",
                                         "lifespan": "0",
-                                        "shapes": [
-                                            [
-                                                {
-                                                    "x": "0",
-                                                    "y": "0"
-                                                }
-                                            ]
-                                        ]
+                                        "img_res_id0": "planet0",
+                                        "img_res_id1": "planet1",
+                                        "img_res_id2": "planet2",
+                                        "img_res_id3": "planet3",
+                                        "img_res_id4": "planet4",
+                                        "img_res_id5": "planet5",
+                                        "img_res_id6": "planet6",
+                                        "img_res_id7": "planet7",
+                                        "img_res_id8": "planet8",
+                                        "img_res_id9": "planet9",
+                                        "img_res_id10": "planet10",
+                                        "img_res_id11": "planet11"
                                     },
                                     {
                                         "id": "2",
@@ -344,14 +84,18 @@
                                         "mass": "300",
                                         "dTheta": "0",
                                         "lifespan": "0",
-                                        "shapes": [
-                                            [
-                                                {
-                                                    "x": "0",
-                                                    "y": "0"
-                                                }
-                                            ]
-                                        ]
+                                        "img_res_id0": "planet0",
+                                        "img_res_id1": "planet1",
+                                        "img_res_id2": "planet2",
+                                        "img_res_id3": "planet3",
+                                        "img_res_id4": "planet4",
+                                        "img_res_id5": "planet5",
+                                        "img_res_id6": "planet6",
+                                        "img_res_id7": "planet7",
+                                        "img_res_id8": "planet8",
+                                        "img_res_id9": "planet9",
+                                        "img_res_id10": "planet10",
+                                        "img_res_id11": "planet11"
                                     },
                                     {
                                         "id": "3",
@@ -363,14 +107,43 @@
                                         "mass": "300",
                                         "dTheta": "0",
                                         "lifespan": "0",
-                                        "shapes": [
-                                            [
-                                                {
-                                                    "x": "0",
-                                                    "y": "0"
-                                                }
-                                            ]
-                                        ]
+                                        "img_res_id0": "planet0",
+                                        "img_res_id1": "planet1",
+                                        "img_res_id2": "planet2",
+                                        "img_res_id3": "planet3",
+                                        "img_res_id4": "planet4",
+                                        "img_res_id5": "planet5",
+                                        "img_res_id6": "planet6",
+                                        "img_res_id7": "planet7",
+                                        "img_res_id8": "planet8",
+                                        "img_res_id9": "planet9",
+                                        "img_res_id10": "planet10",
+                                        "img_res_id11": "planet11"
+                                    }
+                                ]
+                            },
+                            "gamestate": {
+                                "events": [
+                                ],
+                                "objectives": [
+                                    {
+                                        "id": "4",
+                                        "name": "objective_1",
+                                        "x0": "224",
+                                        "y0": "96",
+                                        "radius": "15",
+                                        "img_res_id0": "objective0",
+                                        "img_res_id1": "objective1",
+                                        "img_res_id2": "objective2",
+                                        "img_res_id3": "objective3",
+                                        "img_res_id4": "objective4",
+                                        "img_res_id5": "objective5",
+                                        "img_res_id6": "objective6",
+                                        "img_res_id7": "objective7",
+                                        "img_res_id8": "objective8",
+                                        "img_res_id9": "objective9",
+                                        "img_res_id10": "objective10",
+                                        "img_res_id11": "objective11"
                                     }
                                 ]
                             },
@@ -394,7 +167,7 @@
                                     },
                                     {
                                         "id": "1",
-                                        "name": "planet1",
+                                        "name": "planet_1",
                                         "img_res_id0": "planet0",
                                         "img_res_id1": "planet1",
                                         "img_res_id2": "planet2",
@@ -457,19 +230,6 @@
                                         "img_res_id11": "objective11"
                                     }
                                 ]
-                            },
-                            "gamestate": {
-                                "events": [
-                                ],
-                                "objectives": [
-                                    {
-                                        "id": "4",
-                                        "name": "objective_1",
-                                        "x0": "224",
-                                        "y0": "96",
-                                        "radius": "15"
-                                    }
-                                ]
                             }
                         }
                     },
@@ -494,14 +254,14 @@
                             "landmarks": [
                             ]
                         },
-                        "graphics": {
-                            "entities": [
-                            ]
-                        },
                         "gamestate": {
                             "events": [
                             ],
                             "objectives": [
+                            ]
+                        },
+                        "graphics": {
+                            "entities": [
                             ]
                         }
                     },
@@ -526,14 +286,14 @@
                             "landmarks": [
                             ]
                         },
-                        "graphics": {
-                            "entities": [
-                            ]
-                        },
                         "gamestate": {
                             "events": [
                             ],
                             "objectives": [
+                            ]
+                        },
+                        "graphics": {
+                            "entities": [
                             ]
                         }
                     },
@@ -550,24 +310,24 @@
                             "silver": "0:00",
                             "bronze": "0:00"
                         },
-                        "physics": {
-                            "bodies": [
-                            ],
-                            "phenomena": [
-                            ],
-                            "landmarks": [
-                            ]
-                        },
-                        "graphics": {
-                            "entities": [
-                            ]
-                        },
-                        "gamestate": {
-                            "events": [
-                            ],
-                            "objectives": [
-                            ]
-                        }
+                         "physics": {
+                             "bodies": [
+                             ],
+                             "phenomena": [
+                             ],
+                             "landmarks": [
+                             ]
+                         },
+                         "gamestate": {
+                             "events": [
+                             ],
+                             "objectives": [
+                             ]
+                         },
+                         "graphics": {
+                             "entities": [
+                             ]
+                         }
                     }
                 ]
             },

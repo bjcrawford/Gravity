@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.model.Point;
+import edu.temple.cis3238.gravity.gravity.util.Util;
 
 /**
  *
@@ -56,22 +57,15 @@ public class Landmark extends FixedEntity {
             }else {
                 this.lifespan = selfAsJSON.getInt("lifespan");
             }
-            // Read Shapes list<list> out from json object.
-            this.shapes = new ArrayList<>();
-            JSONArray jShapes = selfAsJSON.getJSONArray("shapes");
-            // For each shape in the list of shapes.
-            for(int index = 0; index < jShapes.length(); index ++) {
-                // Create a new point list.
-                JSONArray jShape = jShapes.getJSONArray(index);
-                ArrayList<Point> loadedShape = new ArrayList<>();
-                // Add each point in the current shape to the new point list.
-                for(int jndex = 0; jndex < jShape.length(); jndex ++) {
-                    JSONObject jPoint = jShape.getJSONObject(jndex);
-                    loadedShape.add(new Point(jPoint.getInt("x"), jPoint.getInt("y")));
-                }
-                // Append the new point list to this.shapes.
-                this.shapes.add(loadedShape);
+
+            // Changed to use shapes generator method
+            List<String> imgResIds = new ArrayList<String>();
+            for (int i = 0; i < 12; i++) {
+                imgResIds.add(selfAsJSON.getString("img_res_id" + i));
             }
+            this.shapes = Util.getShapes(imgResIds);
+
+            // TODO: Orientation calculation for landmark rotation
             this.shape = this.shapes.get(0);
         }catch(JSONException e) {
             e.printStackTrace();
