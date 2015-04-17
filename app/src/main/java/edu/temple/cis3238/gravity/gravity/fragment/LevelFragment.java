@@ -29,13 +29,22 @@ import edu.temple.cis3238.gravity.gravity.gesture_detection.GestureListener;
  * A reusable level fragment.
  *
  * @author Brett Crawford
- * @version 1.0d last modified 4/6/2015
+ * @version 1.0e last modified 4/17/2015
  */
 public class LevelFragment extends Fragment implements
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener,
+        ControllerThread.OnControllerThreadInteractionListener {
 
     /* Debug tag */
     private static final String TAG = "LevelFragment";
+
+    /* An interface for communicating with the parent activity (PlayGameActivity) */
+    public interface OnLevelFragmentInteractionListener {
+        public void OnLevelFragmentEnd(GameState gamestate, Level currentLevel);
+    }
+
+    /* The interface to communicate with the parent activity (PlayGameActivity) */
+    private OnLevelFragmentInteractionListener listener;
 
     /* The fragment's view */
     private View view;
@@ -54,11 +63,8 @@ public class LevelFragment extends Fragment implements
     /* The level model object */
     private Level level;
 
-    // Temporary placement for testing, This should be in the controller class
+    /* The thread safe event queue */
     private GameEventQueue eventQueue;
-
-    /* The interface to communicate with the parent activity (PlayGameActivity) */
-    private OnLevelFragmentInteractionListener listener;
 
     /**
      * The required public empty constructor
@@ -79,29 +85,6 @@ public class LevelFragment extends Fragment implements
         lf.getLevel().initLevel();
 
         return lf;
-    }
-
-    /**
-     * Sets the level associated with this fragment
-     *
-     * @param level A level model object
-     */
-    private void setLevel(Level level) {
-        this.level = level;
-    }
-
-    /**
-     * Returns the level associated with this fragment
-     *
-     * @return A level model object
-     */
-    public Level getLevel() {
-        return this.level;
-    }
-
-    // Temporary placement for testing, This should be in the controller class
-    public ConcurrentLinkedQueue<GameEvent> getEventQueue() {
-        return eventQueue;
     }
 
 /* ===================================== Lifecycle Methods ====================================== */
@@ -137,21 +120,13 @@ public class LevelFragment extends Fragment implements
         gestureView.setClickable(true);
         gestureView.setFocusable(true);
 
-        // Temporary placement for testing level end fragment on win/loss and pause
+        // Temporary placement for testing level end fragment on loss
         ((Button) view.findViewById(R.id.win_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GameState gamestate = new GameState(null, null, null);
                 gamestate.setGameWon(true);
-                onLevelEnd(gamestate);
-            }
-        });
-        ((Button) view.findViewById(R.id.lose_button)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GameState gamestate = new GameState(null, null, null);
-                gamestate.setGameWon(false);
-                onLevelEnd(gamestate);
+                onLevelEnd(gamestate, level);
             }
         });
 
@@ -160,7 +135,7 @@ public class LevelFragment extends Fragment implements
         gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
 
         // Set up the controller thread with a reference to the surfaceview
-        controllerThread = new ControllerThread(gameSurfaceView, level.getModel(), eventQueue);
+        controllerThread = new ControllerThread(this, gameSurfaceView, level.getModel(), eventQueue);
 
         return view;
     }
@@ -200,6 +175,7 @@ public class LevelFragment extends Fragment implements
         super.onStart();
         Log.d(TAG, "onStart() fired");
 
+        // Pull the preference value for difficulty and set it in the model
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int gravConstant = Integer.decode(sp.getString(OptionsActivity.PREF_DIFFICULTY_KEY, "6"));
         level.getModel().setGravConstant(gravConstant);
@@ -214,6 +190,7 @@ public class LevelFragment extends Fragment implements
         Log.d(TAG, "onResume() fired");
         controllerThread.setRun(true);
 
+        // Register a listener for detecting preferences changes
         PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .registerOnSharedPreferenceChangeListener(this);
     }
@@ -223,7 +200,7 @@ public class LevelFragment extends Fragment implements
         super.onPause();
         Log.d(TAG, "onPause() fired");
 
-
+        // Unregister the preference changes listener
         PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
@@ -232,6 +209,8 @@ public class LevelFragment extends Fragment implements
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop() fired");
+
+        // The activity is stopping, shut down the thread
         controllerThread.setRun(false);
     }
 
@@ -255,29 +234,24 @@ public class LevelFragment extends Fragment implements
     }
 
 
-/* =========================== Parent Activity Communication Methods ============================ */
+/* =========================== External Communication Methods ============================ */
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
+     * This method will report the game state and the current level back to the parent
      * activity.
-     */
-    public interface OnLevelFragmentInteractionListener {
-        public void OnLevelFragmentInteraction(GameState gamestate);
-    }
-
-    /**
-     * This method will handle communication to the parent activity.
      *
-     * @param gamestate
+     * @param gamestate The game state component
+     * @param currentLevel The current level
      */
-    public void onLevelEnd(GameState gamestate) {
+    public void onLevelEnd(GameState gamestate, Level currentLevel) {
         if (listener != null) {
-            listener.OnLevelFragmentInteraction(gamestate);
+            listener.OnLevelFragmentEnd(gamestate, currentLevel);
         }
     }
 
+    /**
+     * Pauses the controller thread and launches the pause dialog menu.
+     */
     public void launchPauseMenu() {
         controllerThread.setPause(true);
         new PauseDialogFragment().setController(controllerThread).show(getFragmentManager(), null);
@@ -294,6 +268,38 @@ public class LevelFragment extends Fragment implements
             default:
                 break;
         }
+    }
+
+    @Override
+    public void OnControllerThreadEnd(GameState gamestate) {
+        onLevelEnd(gamestate, level);
+    }
+
+    /**
+     * Sets the level associated with this fragment
+     *
+     * @param level A level model object
+     */
+    private void setLevel(Level level) {
+        this.level = level;
+    }
+
+    /**
+     * Returns the level associated with this fragment
+     *
+     * @return A level model object
+     */
+    public Level getLevel() {
+        return this.level;
+    }
+
+    /**
+     * Returns the game event queue
+     *
+     * @return The thread safe game event queue
+     */
+    public GameEventQueue getEventQueue() {
+        return eventQueue;
     }
 }
 

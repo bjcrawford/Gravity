@@ -2,13 +2,12 @@ package edu.temple.cis3238.gravity.gravity.controller;
 
 import android.graphics.Canvas;
 import android.util.Log;
-import android.view.SurfaceHolder;
-
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
+import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
 import edu.temple.cis3238.gravity.gravity.model.Model;
+import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
 import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
 
 /**
@@ -16,33 +15,55 @@ import edu.temple.cis3238.gravity.gravity.view.GamePlaySurface;
  *
  * @author Ayad Aliomer
  * @author Brett Crawford
- * @version 1.0b last modified 4/6/2015
+ * @version 1.0c last modified 4/17/2015
  */
 public class ControllerThread extends Thread {
 
+    /* Debug tag */
     private static final String TAG = "ControllerThread";
 
+    /* An interface for communicating with the level fragment */
+    public interface OnControllerThreadInteractionListener {
+        public void OnControllerThreadEnd(GameState gamestate);
+    }
+
+    /* The interface to communicate with the level fragment */
+    private OnControllerThreadInteractionListener levelFragmentListener;
+
+    /* The SurfaceView the game will be drawn to */
     private GamePlaySurface gamePlaySurface;
+
+    /* The game model for the current level */
     private Model model;
-    private ConcurrentLinkedQueue<GameEvent> eventQueue;
+
+    /* The thread safe event queue */
+    private GameEventQueue eventQueue;
+
+    /* The run state of the game */
     private boolean run;
+
+    /* The pause state of the game */
     private boolean pause;
 
-    public ControllerThread(GamePlaySurface gamePlaySurface, Model model, ConcurrentLinkedQueue<GameEvent> eventQueue) {
+    /**
+     * Constructs a controller thread. Both run and pause states are set to false.
+     * The game play surface will the call run method of this class during the
+     * onSurfaceCreated event.
+     *
+     * @param levelFragmentListener The level fragment listener interface
+     * @param gamePlaySurface The game play surface view component
+     * @param model The game model component
+     * @param eventQueue The game event queue
+     */
+    public ControllerThread(OnControllerThreadInteractionListener levelFragmentListener,
+                            GamePlaySurface gamePlaySurface, Model model, GameEventQueue eventQueue) {
+        this.levelFragmentListener = levelFragmentListener;
         this.gamePlaySurface = gamePlaySurface;
         this.gamePlaySurface.setControllerThread(this);
         this.model = model;
         this.eventQueue = eventQueue;
         this.run = false;
         this.pause = false;
-    }
-
-    public synchronized void setRun(boolean run) {
-        this.run = run;
-    }
-
-    public synchronized void setPause(boolean pause) {
-        this.pause = pause;
     }
 
     @Override
@@ -104,6 +125,9 @@ public class ControllerThread extends Thread {
 
             // Update model, update run
             model.update((float) deltaTime);
+            if (!model.getGameStateModel().getPlayable()) {
+                run = false;
+            }
 
             //get the canvas
             Canvas canvas = gamePlaySurface.getHolder().lockCanvas();
@@ -147,7 +171,41 @@ public class ControllerThread extends Thread {
 
         // Empty contents of event queue checking for loop ending states
 
-        // Call to level fragment listener reporting loop ending state
+        // Call to level fragment levelFragmentListener reporting loop ending state
+        onControllerThreadEnd(model.getGameStateModel());
+
 
     }
+
+    /**
+     *  Handles passing the game state to the level fragment when the controller
+     *  thread has ended.
+     *
+     * @param gamestate The end level gamestate
+     */
+    public void onControllerThreadEnd(GameState gamestate) {
+        if (levelFragmentListener != null) {
+            levelFragmentListener.OnControllerThreadEnd(gamestate);
+        }
+    }
+
+    /**
+     * Sets the runnable state of the game
+     *
+     * @param run False to end the game, otherwise continue running
+     */
+    public synchronized void setRun(boolean run) {
+        this.run = run;
+    }
+
+    /**
+     * Sets the paused state of the game
+     *
+     * @param pause True to pause the game, otherwise continue running
+     */
+    public synchronized void setPause(boolean pause) {
+        this.pause = pause;
+    }
+
+
 }
