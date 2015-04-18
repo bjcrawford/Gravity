@@ -1,5 +1,7 @@
 package edu.temple.cis3238.gravity.gravity.model.physicd2d.entity;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,8 @@ import edu.temple.cis3238.gravity.gravity.util.Util;
  * @version 1.0a last modified 3/21/2015
  */
 public class Body extends MobileEntity {
+
+    private static final String TAG = "Body";
 
 // Fields ------------------------------------------------------------------------------------------
 
@@ -110,10 +114,20 @@ public class Body extends MobileEntity {
 
     @Override
     public void update(float deltaT) {
+
+        Log.d(TAG, toString());
+
         this.accelerate(deltaT);
         this.displace(deltaT);
         this.orientation = this.calcOrientation();
         this.shape = this.shapes.get(this.orientation);
+
+        // After calculating change in velocity and change in position,
+        // zero the acceleration. The region and input accelerations
+        // will be updated with new values on the next frame.
+        this.d2x = 0f;
+        this.d2y = 0f;
+
     }
 
     /**
@@ -123,6 +137,18 @@ public class Body extends MobileEntity {
      */
     public JSONObject toJSON() {
         return super.toJSON();
+    }
+
+    public String toString() {
+        return "Id: " + this.getId() +
+                ", x: " + this.position.x +
+                ", y: " + this.position.y +
+                ", dx: " + this.dx +
+                ", dy: " + this.dy +
+                ", d2x: " + this.d2x +
+                ", d2y: " + this.dy +
+                ", orientation: " + this.orientation +
+                ", lifespan: " + this.getLifespan();
     }
 
 // Getters and Setters -----------------------------------------------------------------------------
