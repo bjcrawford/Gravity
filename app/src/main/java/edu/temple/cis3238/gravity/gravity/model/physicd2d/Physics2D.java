@@ -333,21 +333,20 @@ public class Physics2D {
      */
     public void update(float deltaT) {
 
-        Log.d(TAG, "New Update");
-        Log.d(TAG, "  Time delta " + deltaT);
+        Log.d(TAG, "Time delta " + deltaT);
 
         // Update each of the bodies.
         for (Body body : this.bodies) {
 
             if(body.getId() == 0) {
-                Log.d(TAG, "  Player " + body.getPosition());
+                Log.d(TAG, "Player " + body.getPosition());
             }
 
             // Player center out of bounds
             if (body.getId() == 0 && (body.getPosition().x < 0 || body.getPosition().x >= universe.getPlaneWidth() ||
                         body.getPosition().y < 0 || body.getPosition().y >= universe.getPlaneHeight())) {
-                Log.d(TAG, "  Collision with level bounds detected  " + body.getPosition());
-                Log.d(TAG, "    Plane bounds: " + universe.getPlaneWidth() + " x " + universe.getPlaneHeight());
+                Log.d(TAG, "Collision with level bounds detected  " + body.getPosition());
+                Log.d(TAG, "Plane bounds: " + universe.getPlaneWidth() + " x " + universe.getPlaneHeight());
                 body.setLifespan(0);
             }
             else {
@@ -369,7 +368,7 @@ public class Physics2D {
                         && body.getPosition().y < this.universe.getPlaneHeight()) {
                     Region2D tempRegion = this.universe.accessRegion(body.getPosition());       // If it is, apply gravity
                     body.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
-                    //Log.d(TAG, "  Grav Region d2x: " + tempRegion.getD2xGrav() + ", d2y: " + tempRegion.getD2yGrav());
+                    Log.d(TAG, "  Grav Region d2x: " + tempRegion.getD2xGrav() + ", d2y: " + tempRegion.getD2yGrav());
                 }
 
                 body.update(deltaT);
