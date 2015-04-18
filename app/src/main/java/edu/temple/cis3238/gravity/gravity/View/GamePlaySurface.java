@@ -215,8 +215,6 @@ public class GamePlaySurface extends SurfaceView {
         //draw map objects
         for(ImageResourceWrapper img : imgList){
 
-            Log.d(TAG, img.toString());
-
             //set style
             paint.setStyle(Paint.Style.FILL);
 
