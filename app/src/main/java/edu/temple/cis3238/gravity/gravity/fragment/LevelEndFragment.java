@@ -117,7 +117,7 @@ public class LevelEndFragment extends Fragment {
 
             // TODO: Set level end info
             //((TextView) view.findViewById(R.id.grade)).setText("");
-            ((TextView) view.findViewById(R.id.score)).setText(gamestate.getScore());
+            ((TextView) view.findViewById(R.id.score)).setText("" + gamestate.getScore());
             //((TextView) view.findViewById(R.id.time)).setText("");
 
             nextLevelButton = (Button) view.findViewById(R.id.next_level_button);

@@ -123,10 +123,6 @@ abstract public class MobileEntity extends Entity {
     @Override
     public int getOrientation() {
 
-
-        Log.d("Mobile Entity", "Orientation: " + this.orientation);
-        Log.d("Mobile Entity", "Velocity: x: " + this.dx + ", y: " + this.dy);
-
         return this.orientation;
     }
 }

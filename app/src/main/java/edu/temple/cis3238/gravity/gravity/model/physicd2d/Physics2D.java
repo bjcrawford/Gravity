@@ -340,10 +340,6 @@ public class Physics2D {
         // Update each of the bodies.
         for (Body body : this.bodies) {
 
-            if(body.getId() == 0) {
-                Log.d(TAG, "Player " + body.getPosition());
-            }
-
             // Player center out of bounds
             if (body.getId() == 0 && (body.getPosition().x < 0 || body.getPosition().x >= universe.getPlaneWidth() ||
                         body.getPosition().y < 0 || body.getPosition().y >= universe.getPlaneHeight())) {
