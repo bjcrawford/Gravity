@@ -199,8 +199,8 @@ public class GamePlaySurface extends SurfaceView {
 
         //fix the rectangle coordinates
         miniMapBounds.set(
-                (this.getWidth() * 3) / 4,
-                (this.getHeight() * 3) / 4,
+                this.getWidth() - sf * levelWidth,
+                this.getHeight() - sf * levelHeight,
                 this.getWidth(),
                 this.getHeight()
         );
@@ -214,6 +214,8 @@ public class GamePlaySurface extends SurfaceView {
 
         //draw map objects
         for(ImageResourceWrapper img : imgList){
+
+            Log.d(TAG, img.toString());
 
             //set style
             paint.setStyle(Paint.Style.FILL);
@@ -236,9 +238,9 @@ public class GamePlaySurface extends SurfaceView {
             //set the object location
             //TODO modify to accept a map instead of a frame
             canvas.drawCircle(
-                    (this.getWidth() * 7/8) + img.position.x/4,
-                    (this.getHeight() * 7/8) + img.position.y/4,
-                    2*sf,
+                    this.getWidth() - sf * levelWidth + sf * img.position.x,
+                    this.getHeight() - sf * levelHeight + sf * img.position.y,
+                    3*sf,
                     paint
             );
 
