@@ -7,12 +7,12 @@
         "stories": [
             {
                 "name": "Test Story 0",
-                "thumb": "R.drawable.thumb_test_story",
+                "thumb": "R.drawable.thumb_test_story0",
                 "description": "This is a story for testing. It contains only a single level.",
                 "levels": [
                     {
                         "name": "Test Level 0",
-                        "thumb": "R.drawable.thumb_test_level",
+                        "thumb": "R.drawable.thumb_test_level0",
                         "description": "This is a level for testing.",
                         "scoring": {
                             "gold": "0:00",
@@ -58,7 +58,7 @@
                                         "y0": "96",
                                         "dx0": "0",
                                         "dy0": "0",
-                                        "mass": "300",
+                                        "mass": "30",
                                         "dTheta": "0",
                                         "lifespan": "0",
                                         "img_res_id0": "planet0",
@@ -81,7 +81,7 @@
                                         "y0": "24",
                                         "dx0": "0",
                                         "dy0": "0",
-                                        "mass": "300",
+                                        "mass": "30",
                                         "dTheta": "0",
                                         "lifespan": "0",
                                         "img_res_id0": "planet0",
@@ -104,7 +104,7 @@
                                         "y0": "144",
                                         "dx0": "0",
                                         "dy0": "0",
-                                        "mass": "300",
+                                        "mass": "30",
                                         "dTheta": "0",
                                         "lifespan": "0",
                                         "img_res_id0": "planet0",
@@ -236,8 +236,8 @@
                     },
                     {
                         "name": "Test Level 1",
-                        "thumb": "R.drawable.thumb_test_level",
-                        "description": "This is a level for testing.",
+                        "thumb": "R.drawable.thumb_test_level1",
+                        "description": "Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.",
                         "width": "2560",
                         "height": "1920",
                         "player_width": "60",
@@ -268,8 +268,8 @@
                     },
                     {
                         "name": "Test Level 2",
-                        "thumb": "R.drawable.thumb_test_level",
-                        "description": "This is a level for testing.",
+                        "thumb": "R.drawable.thumb_test_level2",
+                        "description": "Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.",
                         "width": "2560",
                         "height": "1920",
                         "player_width": "60",
@@ -300,8 +300,8 @@
                     },
                     {
                         "name": "Test Level 3",
-                        "thumb": "R.drawable.thumb_test_level",
-                        "description": "This is a level for testing.",
+                        "thumb": "R.drawable.thumb_test_level3",
+                        "description": "Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.",
                         "width": "2560",
                         "height": "1920",
                         "player_width": "60",
@@ -334,26 +334,20 @@
             },
             {
                 "name": "Test Story 1",
-                "thumb": "R.drawable.thumb_test_story",
-                "description": "This is a story for testing. It contains no levels.",
+                "thumb": "R.drawable.thumb_test_story1",
+                "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
                 "levels": []
             },
             {
                 "name": "Test Story 2",
-                "thumb": "R.drawable.thumb_test_story",
-                "description": "This is a story for testing. It contains no levels.",
+                "thumb": "R.drawable.thumb_test_story2",
+                "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ",
                 "levels": []
             },
             {
                 "name": "Test Story 3",
-                "thumb": "R.drawable.thumb_test_story",
-                "description": "This is a story for testing. It contains no levels.",
-                "levels": []
-            },
-            {
-                "name": "Test Story 4",
-                "thumb": "R.drawable.thumb_test_story",
-                "description": "This is a story for testing. It contains no levels.",
+                "thumb": "R.drawable.thumb_test_story3",
+                "description": "Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.",
                 "levels": []
             }
         ]
