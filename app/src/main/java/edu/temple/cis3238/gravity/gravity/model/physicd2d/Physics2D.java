@@ -68,7 +68,7 @@ public class Physics2D {
         this.bodies = new ArrayList<>();
         this.landmarks = new ArrayList<>();
         this.phenomena = new ArrayList<>();
-        this.gravConstant = 0.0005f;
+        this.gravConstant = 0;
 
         this.universe = new Plane2D(width, height);
     }
@@ -83,7 +83,7 @@ public class Physics2D {
         this.landmarks = new ArrayList<>();
         this.phenomena = new ArrayList<>();
         this.universe = new Plane2D(width, height);
-        this.gravConstant = 0.0005f;
+        this.gravConstant = 0;
         try{
             this.readBodies(selfAsJson.getJSONArray("bodies"));
             this.readLandmarks(selfAsJson.getJSONArray("landmarks"));
@@ -91,9 +91,6 @@ public class Physics2D {
         }catch(JSONException e) {
             e.printStackTrace();
         }
-        this.constructUniverse();
-        this.constructEntitiesLookupTable();
-        this.placeEntities();
     }
 
 // Private -----------------------------------------------------------------------------------------
@@ -335,7 +332,7 @@ public class Physics2D {
      */
     public void update(float deltaT) {
 
-        Log.d(TAG, "Time delta " + deltaT);
+        //Log.d(TAG, "Time delta " + deltaT);
 
         // Update each of the bodies.
         for (Body body : this.bodies) {
@@ -366,7 +363,7 @@ public class Physics2D {
                         && body.getPosition().y < this.universe.getPlaneHeight()) {
                     Region2D tempRegion = this.universe.accessRegion(body.getPosition());       // If it is, apply gravity
                     body.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
-                    Log.d(TAG, "  Grav Region d2x: " + tempRegion.getD2xGrav() + ", d2y: " + tempRegion.getD2yGrav());
+                    //Log.d(TAG, "  Grav Region d2x: " + tempRegion.getD2xGrav() + ", d2y: " + tempRegion.getD2yGrav());
                 }
 
                 body.update(deltaT);
@@ -511,8 +508,11 @@ public class Physics2D {
      *
      * @param gravConstant
      */
-    public void setGravConstant(int gravConstant) {
+    public void setGravConstant(float gravConstant) {
         this.gravConstant = gravConstant;
+        this.constructUniverse();
+        this.constructEntitiesLookupTable();
+        this.placeEntities();
     }
 
     public Point getUniverseDimensions(){

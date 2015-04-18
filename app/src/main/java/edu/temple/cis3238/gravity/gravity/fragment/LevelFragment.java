@@ -177,7 +177,7 @@ public class LevelFragment extends Fragment implements
 
         // Pull the preference value for difficulty and set it in the model
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int gravConstant = Integer.decode(sp.getString(OptionsActivity.PREF_DIFFICULTY_KEY, "6"));
+        float gravConstant = Float.parseFloat(sp.getString(OptionsActivity.PREF_DIFFICULTY_KEY, "0.00001"));
         level.getModel().setGravConstant(gravConstant);
 
         // This is where we start the thread by calling to the surfaceviews init method
@@ -262,7 +262,7 @@ public class LevelFragment extends Fragment implements
     public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
         switch (key) {
             case OptionsActivity.PREF_DIFFICULTY_KEY:
-                int gravConstant = Integer.decode(sp.getString(OptionsActivity.PREF_DIFFICULTY_KEY, "6"));
+                float gravConstant = Float.parseFloat(sp.getString(OptionsActivity.PREF_DIFFICULTY_KEY, "0.00001"));
                 level.getModel().setGravConstant(gravConstant);
                 break;
             default:

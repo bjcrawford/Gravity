@@ -46,6 +46,11 @@ public class Model {
 
 // Constructors ------------------------------------------------------------------------------------
 
+    /**
+     * Constructs a model object from a json representation. The setGravConstant() method
+     * must be called following construction and prior to using the model.
+     * @param selfAsJson
+     */
     public Model(JSONObject selfAsJson) {
         try {
             int width = selfAsJson.getInt("width") / PlayGameActivity.PIXELS_PER_PHYSICS_GRID;
@@ -163,7 +168,7 @@ public class Model {
      *
      * @param gravConstant
      */
-    public void setGravConstant(int gravConstant) {
+    public void setGravConstant(float gravConstant) {
         physModel.setGravConstant(gravConstant);
     }
 

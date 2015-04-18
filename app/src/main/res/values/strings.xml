@@ -15,11 +15,11 @@
         <item>Heavy</item>
     </string-array>
     <string-array name="pref_difficulty_values">
-        <item>6</item>
-        <item>12</item>
-        <item>18</item>
+        <item>0.00001</item>
+        <item>0.00005</item>
+        <item>0.00009</item>
     </string-array>
-    <string name="pref_difficulty_default">6</string>
+    <string name="pref_difficulty_default">0.00001</string>
 
   <!-- Play game activity strings -->
     <string name="play_game_title">Play Game Activity</string>
