@@ -91,7 +91,6 @@ public class Physics2D {
         }catch(JSONException e) {
             e.printStackTrace();
         }
-        //TODO: ConstructUniverse is a fairly intensive operation... May cause noticeable delay on initialization
         this.constructUniverse();
         this.constructEntitiesLookupTable();
         this.placeEntities();
@@ -235,16 +234,14 @@ public class Physics2D {
                     int xDiff = landmark.getPosition().x - xNdex;
                     int yDiff = landmark.getPosition().y - yNdex;
                     int r = (int) Math.sqrt((double) ((xDiff * xDiff) + (yDiff * yDiff)));      // sqrt(a^2 + b^2)
-                    //TODO efficiently handle divide by zero
                     float fGrav = 0;
                     if(r != 0) {
-                        fGrav = (this.gravConstant * landmark.getMass()) / (r * r);   // F = GM/r^2
+                        fGrav = ((float)(this.gravConstant * landmark.getMass())) / ((float)(r * r));   // F = GM/r^2
                     }
-
 
                     float tmpD2X = 0;
                     if(r != 0){
-                        tmpD2X = fGrav * (Math.abs(yDiff) / r);
+                        tmpD2X = fGrav * ((float)(Math.abs(yDiff)) / ((float)r));
                     }
 
                     if(xDiff < 0) {     // If the landmark is "behind" the region...
@@ -252,8 +249,8 @@ public class Physics2D {
                     }
 
                     float tmpD2Y = 0;
-                    if(tmpD2Y != 0){
-                        tmpD2Y = fGrav * (Math.abs(xDiff) / r);
+                    if(r != 0){
+                        tmpD2Y = fGrav * ((float)Math.abs(xDiff) / ((float)r));
                     }
 
                     if(yDiff < 0) {     // If the landmark is "below" the region...
@@ -365,9 +362,16 @@ public class Physics2D {
                     this.universe.setRegionEmpty(translatedPoint);
                 }
 
-                Region2D tempRegion = this.universe.accessRegion(body.getPosition());
-                Log.d(TAG, "  Grav Region d2x: " + tempRegion.getD2xGrav() + ", d2y: " + tempRegion.getD2yGrav());
-                //body.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
+                // Check that the body is still within the bounds of the universe
+                if(body.getPosition().x >=0
+                        && body.getPosition().x < this.universe.getPlaneWidth()
+                        && body.getPosition().y >= 0
+                        && body.getPosition().y < this.universe.getPlaneHeight()) {
+                    Region2D tempRegion = this.universe.accessRegion(body.getPosition());       // If it is, apply gravity
+                    body.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
+                    //Log.d(TAG, "  Grav Region d2x: " + tempRegion.getD2xGrav() + ", d2y: " + tempRegion.getD2yGrav());
+                }
+
                 body.update(deltaT);
 
                 int xPos = body.getPosition().x, yPos = body.getPosition().y;
@@ -405,9 +409,14 @@ public class Physics2D {
                 this.universe.setRegionEmpty(translatedPoint);
             }
 
-            Region2D tempRegion = this.universe.accessRegion(phenomenon.getPosition());
-            phenomenon.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
-            phenomenon.update(deltaT);
+            // Check that the phenomenon is still within the bounds of the universe
+            if(phenomenon.getPosition().x >=0
+                    && phenomenon.getPosition().x < this.universe.getPlaneWidth()
+                    && phenomenon.getPosition().y >= 0
+                    && phenomenon.getPosition().y < this.universe.getPlaneHeight()) {
+                Region2D tempRegion = this.universe.accessRegion(phenomenon.getPosition());     // If so, apply gravity
+                phenomenon.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
+            }
 
             int xPos = phenomenon.getPosition().x, yPos = phenomenon.getPosition().y;
             // Add the phenomenon's occupied space projection to the plane.
