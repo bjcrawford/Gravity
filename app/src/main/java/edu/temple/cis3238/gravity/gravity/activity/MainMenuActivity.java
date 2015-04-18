@@ -48,9 +48,6 @@ public class MainMenuActivity extends Activity {
         // The following line sets the view of the activity with the given xml layout
         setContentView(R.layout.activity_main_menu);
 
-        // I don't think we will use the action bar at all.
-        getActionBar().hide();
-
         // Now we associate the button variables with their buttons on the layout
         // The view IDs are defined in the activity_main_menu.xml file
         playGameButton = (Button) findViewById(R.id.play_game_button);

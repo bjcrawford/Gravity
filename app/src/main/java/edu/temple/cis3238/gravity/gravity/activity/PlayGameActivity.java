@@ -50,7 +50,6 @@ public class PlayGameActivity extends Activity implements
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate() fired");
         setContentView(R.layout.activity_play_game);
-        getActionBar().hide();
 
         // Create and add the story select fragment
         if (getFragmentManager().findFragmentByTag(STORY_SEL_FRAG_TAG) == null) {

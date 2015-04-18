@@ -3,7 +3,7 @@
 
     <!-- Activity themes -->
 
-    <style name="Theme.Base" parent="android:Theme.Light" />
+    <style name="Theme.Base" parent="android:Theme.Light.NoTitleBar.Fullscreen" />
 
     <style name="Theme.Sample" parent="Theme.Base" />
 
