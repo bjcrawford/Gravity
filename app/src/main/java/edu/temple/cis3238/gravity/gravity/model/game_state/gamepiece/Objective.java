@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.temple.cis3238.gravity.gravity.activity.PlayGameActivity;
 import edu.temple.cis3238.gravity.gravity.model.Point;
 
 /**
@@ -27,8 +28,11 @@ public class Objective extends GamePiece {
     public Objective(JSONObject selfAsJSON) {
         try {
             this.id = selfAsJSON.getInt("id");
-            this.position = new Point(selfAsJSON.getInt("x0"), selfAsJSON.getInt("y0"));
-            this.proximity = selfAsJSON.getInt("proximity");
+            this.position = new Point(
+                    selfAsJSON.getInt("x0") / PlayGameActivity.PIXELS_PER_PHYSICS_GRID,
+                    selfAsJSON.getInt("y0") / PlayGameActivity.PIXELS_PER_PHYSICS_GRID
+            );
+            this.proximity = selfAsJSON.getInt("proximity") / PlayGameActivity.PIXELS_PER_PHYSICS_GRID;
         }
         catch (JSONException e) {
             e.printStackTrace();

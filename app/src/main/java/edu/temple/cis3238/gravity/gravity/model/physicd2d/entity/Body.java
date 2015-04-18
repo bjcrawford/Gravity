@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.temple.cis3238.gravity.gravity.activity.PlayGameActivity;
 import edu.temple.cis3238.gravity.gravity.model.Point;
 import edu.temple.cis3238.gravity.gravity.util.Util;
 
@@ -76,7 +77,10 @@ public class Body extends MobileEntity {
     public Body(JSONObject selfAsJSON) {
         try {
             this.id = selfAsJSON.getInt("id");
-            this.position = new Point(selfAsJSON.getInt("x0"), selfAsJSON.getInt("y0"));
+            this.position = new Point(
+                    selfAsJSON.getInt("x0") / PlayGameActivity.PIXELS_PER_PHYSICS_GRID,
+                    selfAsJSON.getInt("y0") / PlayGameActivity.PIXELS_PER_PHYSICS_GRID
+            );
             this.dx = (float) selfAsJSON.getDouble("dx0");
             this.dy = (float) selfAsJSON.getDouble("dy0");
             this.d2x = 0f;

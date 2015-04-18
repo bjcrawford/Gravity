@@ -48,8 +48,8 @@ public class Model {
 
     public Model(JSONObject selfAsJson) {
         try {
-            int width = selfAsJson.getInt("width");
-            int height = selfAsJson.getInt("height");
+            int width = selfAsJson.getInt("width") / PlayGameActivity.PIXELS_PER_PHYSICS_GRID;
+            int height = selfAsJson.getInt("height") / PlayGameActivity.PIXELS_PER_PHYSICS_GRID;
             this.physModel = new Physics2D(selfAsJson.getJSONObject("physics"), width, height);
             this.graphModel = new Graphics2D(selfAsJson.getJSONObject("graphics"));
             this.gameStateModel = new GameState(selfAsJson.getJSONObject("gamestate"));
