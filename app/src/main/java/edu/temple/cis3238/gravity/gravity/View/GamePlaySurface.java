@@ -40,7 +40,8 @@ public class GamePlaySurface extends SurfaceView {
     private float sf;
     private float standardScreenWidth;
     private float standardScreenHeight;
-    private ArrayList<Bitmap> bitmaps;
+    private int levelWidth;
+    private int levelHeight;
     private RectF miniMapBounds;
 
     public GamePlaySurface(Context context){
@@ -67,8 +68,12 @@ public class GamePlaySurface extends SurfaceView {
     // This initializes the surface view by grabbing a reference to the surface holder and
     // defining the call back methods. This is a more appropriate place for the methods.
     public void init(Model model) {
+
+        this.miniMapBounds = new RectF();
         this.model = model;
-        imgMap = new HashMap<String, Bitmap>();
+        this.imgMap = new HashMap<String, Bitmap>();
+        this.levelWidth = model.getUniverseDimensions().x;
+        this.levelHeight = model.getUniverseDimensions().y;
 
         //cache all images
         Bitmap bitmap;
@@ -156,6 +161,9 @@ public class GamePlaySurface extends SurfaceView {
 
         // a bitmap reference holder
         Bitmap bitmap;
+
+        RectF bitmapBounds = new RectF();
+
         //set scalar
         final int scalar = PlayGameActivity.PIXELS_PER_PHYSICS_GRID;
         // a rectangle reference holder
@@ -166,7 +174,7 @@ public class GamePlaySurface extends SurfaceView {
             //bitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(img.imgResID, "drawable", context.getPackageName()));
             bitmap = imgMap.get(img.imgResID);
             // set the rect
-            miniMapBounds.set(
+            bitmapBounds.set(
                     sf * (img.position.x * scalar - bitmap.getWidth() / 2) + this.getWidth() / 2,
                     sf * (img.position.y * scalar - bitmap.getHeight() / 2) + this.getHeight() / 2,
                     sf * (img.position.x * scalar + bitmap.getWidth() / 2) + this.getWidth() / 2,
@@ -175,7 +183,7 @@ public class GamePlaySurface extends SurfaceView {
             // get an angle
             //canvas.rotate(x, miniMapBounds.centerX(), miniMapBounds.centerY());
             // draw the picture of the space object
-            canvas.drawBitmap(bitmap, null, miniMapBounds, null);
+            canvas.drawBitmap(bitmap, null, bitmapBounds, null);
             //canvas.restore();
         }
     }
@@ -185,11 +193,6 @@ public class GamePlaySurface extends SurfaceView {
      * @param canvas
      */
     private void drawMap(Canvas canvas){
-
-        Log.d(TAG, "Level dimens " + model.getUniverseDimensions());
-
-        int levelWidth = model.getUniverseDimensions().x;
-        int levelHeight = model.getUniverseDimensions().y;
 
         List<ImageResourceWrapper> imgList = model.getMap();
         Paint paint = new Paint();
