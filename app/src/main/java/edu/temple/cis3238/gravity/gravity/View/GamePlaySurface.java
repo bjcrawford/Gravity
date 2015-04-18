@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -16,10 +17,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.activity.PlayGameActivity;
 import edu.temple.cis3238.gravity.gravity.model.ImageResourceWrapper;
 import edu.temple.cis3238.gravity.gravity.model.Model;
 import edu.temple.cis3238.gravity.gravity.controller.ControllerThread;
+
+import static edu.temple.cis3238.gravity.gravity.activity.PlayGameActivity.PIXELS_PER_PHYSICS_GRID;
 
 
 /**
@@ -43,6 +47,9 @@ public class GamePlaySurface extends SurfaceView {
     private int levelWidth;
     private int levelHeight;
     private RectF miniMapBounds;
+    private Rect fromBackground = new Rect();
+    private Rect toBackground = new Rect();
+    private Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
 
     public GamePlaySurface(Context context){
         super(context);
@@ -147,8 +154,41 @@ public class GamePlaySurface extends SurfaceView {
      * @param canvas
      */
     private void drawBackground(Canvas canvas) {
+        canvas.drawColor(Color.RED);
+        ImageResourceWrapper player = null;
+        fromBackground = new Rect();
+        List<ImageResourceWrapper> imgMap = model.getMap();
 
-        canvas.drawColor(Color.BLACK);
+        //find the player
+        for(ImageResourceWrapper img: imgMap){
+            if(img.imgResID.substring(0,4).equals("play") ){
+                player = new ImageResourceWrapper(img.position, img.imgResID);
+                break;
+            }
+        }
+        //set part of background
+        float top = ((player.position.x * PIXELS_PER_PHYSICS_GRID  - this.getWidth()) / (float)(levelWidth *PIXELS_PER_PHYSICS_GRID) * (float)background.getWidth()),
+            left = ((player.position.y * PIXELS_PER_PHYSICS_GRID  - this.getHeight()) / (float)(levelHeight * PIXELS_PER_PHYSICS_GRID)) * (float)background.getHeight(),
+            bottom = ((player.position.x * PIXELS_PER_PHYSICS_GRID  + this.getWidth()) / (float)(levelWidth *PIXELS_PER_PHYSICS_GRID) * (float)background.getWidth()),
+            right = ((player.position.y * PIXELS_PER_PHYSICS_GRID  + this.getHeight()) / (float)(levelHeight * PIXELS_PER_PHYSICS_GRID)) * (float)background.getHeight();
+
+        Log.d("Dimentions: ", " top " + top + " left "+ left + " buttom "+bottom+" right "+ right);
+
+        fromBackground.set(
+                (int)top,
+                (int)left,
+                (int)bottom,
+                (int)right
+        );
+
+        //set the frame rect
+        toBackground.set(
+                0,
+                0,
+                this.getWidth(),
+                this.getHeight()
+        );
+        canvas.drawBitmap(background, fromBackground, toBackground, null);
     }
 
     /**
@@ -165,7 +205,7 @@ public class GamePlaySurface extends SurfaceView {
         RectF bitmapBounds = new RectF();
 
         //set scalar
-        final int scalar = PlayGameActivity.PIXELS_PER_PHYSICS_GRID;
+        final int scalar = PIXELS_PER_PHYSICS_GRID;
         // a rectangle reference holder
         // for each element on the frame
         for(ImageResourceWrapper img: imgList){
