@@ -3,6 +3,9 @@ package edu.temple.cis3238.gravity.gravity.controller;
 import android.graphics.Canvas;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
@@ -45,6 +48,9 @@ public class ControllerThread extends Thread {
     /* The pause state of the game */
     private boolean pause;
 
+    /* An list of pending swipe events */
+    private List<SwipeGameEvent> pendingSwipeEvents;
+
     /**
      * Constructs a controller thread. Both run and pause states are set to false.
      * The game play surface will the call run method of this class during the
@@ -64,6 +70,7 @@ public class ControllerThread extends Thread {
         this.eventQueue = eventQueue;
         this.run = false;
         this.pause = false;
+        this.pendingSwipeEvents = new ArrayList<SwipeGameEvent>();
     }
 
     @Override
@@ -116,12 +123,19 @@ public class ControllerThread extends Thread {
             while ((gameEvent = eventQueue.poll()) != null) {
 
                 if (gameEvent instanceof SwipeGameEvent) {
-                    model.receiveInput((SwipeGameEvent) gameEvent);
-                 //   Log.d(TAG, "Sending swipe event");
+                    pendingSwipeEvents.add((SwipeGameEvent) gameEvent);
                 }
 
             }
 
+            // Apply and consume swipe events
+            for (SwipeGameEvent swe : pendingSwipeEvents) {
+                swe.updateDt(deltaTime);
+                model.receiveInput(swe.getSx(), swe.getSy());
+                if (swe.getDt() < 0) {
+                    pendingSwipeEvents.remove(swe);
+                }
+            }
 
             // Update model, update run
             model.update((float) deltaTime);

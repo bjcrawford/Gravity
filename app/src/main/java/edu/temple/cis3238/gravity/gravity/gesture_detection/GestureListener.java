@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
+import edu.temple.cis3238.gravity.gravity.activity.PlayGameActivity;
 import edu.temple.cis3238.gravity.gravity.event.GameEventQueue;
 import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
 
@@ -65,8 +66,12 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                            float velocityY) {
         // Fling event occurred.  Notification of this one happens after an "up" event.
-        Log.i(TAG, "Fling, vel_x: " + velocityX + ", vel_y: " + velocityY);
-        eventQueue.add(new SwipeGameEvent(velocityX, velocityY));
+        //Log.i(TAG, "Fling, vel_x: " + velocityX + ", vel_y: " + velocityY);
+        eventQueue.add(new SwipeGameEvent(
+                PlayGameActivity.ROCKET_BOOST_DURATION,
+                velocityX / PlayGameActivity.SWIPE_VEL_CONVERSION,
+                velocityY / PlayGameActivity.SWIPE_VEL_CONVERSION)
+        );
         return false;
     }
 

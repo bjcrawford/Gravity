@@ -139,9 +139,8 @@ public class Model {
         return rtrnResources;
     }
 
-    public void receiveInput(SwipeGameEvent swipeGameEvent) {
-        float delta_d2x = swipeGameEvent.getSx() / PlayGameActivity.SWIPE_VEL_CONVERSION;
-        float delta_d2y = swipeGameEvent.getSy() / PlayGameActivity.SWIPE_VEL_CONVERSION;
+    public void receiveInput(float delta_d2x, float delta_d2y) {
+        Log.i(TAG, "Received input: delta_d2x: " + delta_d2x + ", delta_d2y: " + delta_d2y);
         this.physModel.applyAcceleratingForceToBody(this.playerID, delta_d2x, delta_d2y);
     }
 
