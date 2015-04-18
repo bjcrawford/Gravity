@@ -343,8 +343,8 @@ public class Physics2D {
             // Player center out of bounds
             if (body.getId() == 0 && (body.getPosition().x < 0 || body.getPosition().x >= universe.getPlaneWidth() ||
                         body.getPosition().y < 0 || body.getPosition().y >= universe.getPlaneHeight())) {
-                Log.d(TAG, "Collision with level bounds detected  " + body.getPosition());
-                Log.d(TAG, "Plane bounds: " + universe.getPlaneWidth() + " x " + universe.getPlaneHeight());
+//                Log.d(TAG, "Collision with level bounds detected  " + body.getPosition());
+//                Log.d(TAG, "Plane bounds: " + universe.getPlaneWidth() + " x " + universe.getPlaneHeight());
                 body.setLifespan(0);
             }
             else {
