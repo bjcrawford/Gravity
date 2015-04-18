@@ -20,7 +20,7 @@ public class Landmark extends FixedEntity {
 // Fields ------------------------------------------------------------------------------------------
 
     /**The objects mass.*/
-    private int mass;
+    private float mass;
 
 // Constructors ------------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ public class Landmark extends FixedEntity {
      * @param lifespan The number of refresh cycles until the landmark will be discarded by the physics logic.
      * @param shapes A list of the possible shapes of the landmark.
      */
-    public Landmark(int id, Point position, int dTheta, int lifespan, List<List<Point>> shapes) {
+    public Landmark(int id, Point position, float dTheta, int lifespan, List<List<Point>> shapes) {
         this.position = position;
         this.dTheta = dTheta;
         this.lifespan = lifespan;
@@ -50,7 +50,7 @@ public class Landmark extends FixedEntity {
         try {
             this.id = selfAsJSON.getInt("id");
             this.position = new Point(selfAsJSON.getInt("x0"), selfAsJSON.getInt("y0"));
-            this.dTheta = selfAsJSON.getInt("dTheta");
+            this.dTheta = (float) selfAsJSON.getDouble("dTheta");
             this.mass = selfAsJSON.getInt("mass");
             if(selfAsJSON.getInt("lifespan") < 0) {
                 this.lifespan = Integer.MAX_VALUE;
@@ -98,7 +98,7 @@ public class Landmark extends FixedEntity {
 // General Private Functions -----------------------------------------------------------------------
 
 // Getters and Setters -----------------------------------------------------------------------------
-    public int getMass() {
+    public float getMass() {
         return this.mass;
     }
 }

@@ -53,7 +53,7 @@ public class Physics2D {
     private ArrayList<Entity> entitiesLookupTable;
 
     /**Defines the strength of gravity.*/
-    private int gravConstant;
+    private float gravConstant;
 
 // Constructors ------------------------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ public class Physics2D {
         this.bodies = new ArrayList<>();
         this.landmarks = new ArrayList<>();
         this.phenomena = new ArrayList<>();
-        this.gravConstant = 100000000;
+        this.gravConstant = 0.000001f;
 
         this.universe = new Plane2D(width, height);
     }
@@ -83,7 +83,7 @@ public class Physics2D {
         this.landmarks = new ArrayList<>();
         this.phenomena = new ArrayList<>();
         this.universe = new Plane2D(width, height);
-        this.gravConstant = 6;
+        this.gravConstant = 0.000001f;
         try{
             this.readBodies(selfAsJson.getJSONArray("bodies"));
             this.readLandmarks(selfAsJson.getJSONArray("landmarks"));
@@ -200,6 +200,8 @@ public class Physics2D {
      * With considerable constant cost at each iteration.
      */
     private void constructUniverse() {
+
+        Log.d(TAG, "Gravity Constant: " + gravConstant);
 
         for(int xNdex = 0; xNdex < this.universe.getPlaneWidth(); xNdex ++) {
             for(int yNdex = 0; yNdex < this.universe.getPlaneWidth(); yNdex ++) {

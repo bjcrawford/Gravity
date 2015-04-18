@@ -1,5 +1,7 @@
 package edu.temple.cis3238.gravity.gravity.model.physicd2d.entity;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,10 +15,10 @@ abstract public class MobileEntity extends Entity {
 // Fields ------------------------------------------------------------------------------------------
 
     /**The entity's current velocity in the x direction.*/
-    protected int dx;
+    protected float dx;
 
     /**The entity's current velocity in the y direction.*/
-    protected int dy;
+    protected float dy;
 
     /**The acceleration in the x direction currently being experienced by this entity.*/
     protected float d2x;
@@ -117,4 +119,14 @@ abstract public class MobileEntity extends Entity {
 
 // Getters and Setters -----------------------------------------------------------------------------
 
+
+    @Override
+    public int getOrientation() {
+
+
+        Log.d("Mobile Entity", "Orientation: " + this.orientation);
+        Log.d("Mobile Entity", "Velocity: x: " + this.dx + ", y: " + this.dy);
+
+        return this.orientation;
+    }
 }

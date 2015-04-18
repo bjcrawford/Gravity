@@ -27,10 +27,10 @@ public class Body extends MobileEntity {
      */
     public Body(int id) {
         this.position = new Point(0, 0);
-        this.dx = 0;
-        this.dy = 0;
-        this.d2x = 0;
-        this.d2y = 0;
+        this.dx = 0f;
+        this.dy = 0f;
+        this.d2x = 0f;
+        this.d2y = 0f;
         this.id = id;
         this.lifespan = Integer.MAX_VALUE;
         this.shapes = new ArrayList<>();
@@ -48,12 +48,12 @@ public class Body extends MobileEntity {
      *                 If the value passed is negative, the body will be assigned an infinite lifespan.
      * @param shapes A list of possible shapes of this body.
      */
-    public Body(int id, Point position, int dx0, int dy0, int lifespan, List<List<Point>> shapes) {
+    public Body(int id, Point position, float dx0, float dy0, int lifespan, List<List<Point>> shapes) {
         this.position = position;
         this.dx = dx0;
         this.dy = dy0;
-        this.d2x = 0;
-        this.d2y = 0;
+        this.d2x = 0f;
+        this.d2y = 0f;
         if(lifespan < 0) {
             this.lifespan = Integer.MAX_VALUE;
         }else {
@@ -73,10 +73,10 @@ public class Body extends MobileEntity {
         try {
             this.id = selfAsJSON.getInt("id");
             this.position = new Point(selfAsJSON.getInt("x0"), selfAsJSON.getInt("y0"));
-            this.dx = selfAsJSON.getInt("dx0");
-            this.dy = selfAsJSON.getInt("dy0");
-            this.d2x = 0;
-            this.d2y = 0;
+            this.dx = (float) selfAsJSON.getDouble("dx0");
+            this.dy = (float) selfAsJSON.getDouble("dy0");
+            this.d2x = 0f;
+            this.d2y = 0f;
             if(selfAsJSON.getInt("lifespan") < 0) {
                 this.lifespan = Integer.MAX_VALUE;
             }else {

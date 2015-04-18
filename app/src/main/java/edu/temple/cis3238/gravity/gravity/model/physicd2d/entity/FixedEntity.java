@@ -13,7 +13,7 @@ abstract public class FixedEntity extends Entity {
 // Fields ------------------------------------------------------------------------------------------
 
     /**Defines the rate at which the landmark will spin*/
-    protected int dTheta;
+    protected float dTheta;
 
 // Constructors ------------------------------------------------------------------------------------
 
