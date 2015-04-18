@@ -119,7 +119,7 @@ public class Body extends MobileEntity {
     @Override
     public void update(float deltaT) {
 
-        Log.d(TAG, toString());
+        //Log.d(TAG, toString());
 
         this.accelerate(deltaT);
         this.displace(deltaT);

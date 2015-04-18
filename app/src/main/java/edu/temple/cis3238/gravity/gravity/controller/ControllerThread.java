@@ -128,6 +128,7 @@ public class ControllerThread extends Thread {
 
             }
 
+            // TODO: Change to use a queue
             // Apply and consume swipe events
             for (SwipeGameEvent swe : pendingSwipeEvents) {
                 swe.updateDt(deltaTime);
