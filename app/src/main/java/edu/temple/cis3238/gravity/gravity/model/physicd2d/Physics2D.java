@@ -68,7 +68,7 @@ public class Physics2D {
         this.bodies = new ArrayList<>();
         this.landmarks = new ArrayList<>();
         this.phenomena = new ArrayList<>();
-        this.gravConstant = 0.000001f;
+        this.gravConstant = 0.0005f;
 
         this.universe = new Plane2D(width, height);
     }
@@ -83,7 +83,7 @@ public class Physics2D {
         this.landmarks = new ArrayList<>();
         this.phenomena = new ArrayList<>();
         this.universe = new Plane2D(width, height);
-        this.gravConstant = 0.000001f;
+        this.gravConstant = 0.0005f;
         try{
             this.readBodies(selfAsJson.getJSONArray("bodies"));
             this.readLandmarks(selfAsJson.getJSONArray("landmarks"));
@@ -243,7 +243,7 @@ public class Physics2D {
 
                     float tmpD2X = 0;
                     if(r != 0){
-                        tmpD2X = fGrav * ((float)(Math.abs(yDiff)) / ((float)r));
+                        tmpD2X = fGrav * ((float)(Math.abs(xDiff)) / ((float)r));
                     }
 
                     if(xDiff < 0) {     // If the landmark is "behind" the region...
@@ -252,7 +252,7 @@ public class Physics2D {
 
                     float tmpD2Y = 0;
                     if(r != 0){
-                        tmpD2Y = fGrav * ((float)Math.abs(xDiff) / ((float)r));
+                        tmpD2Y = fGrav * ((float)Math.abs(yDiff) / ((float)r));
                     }
 
                     if(yDiff < 0) {     // If the landmark is "below" the region...
