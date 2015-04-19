@@ -11,6 +11,7 @@ import java.util.List;
 import edu.temple.cis3238.gravity.gravity.activity.PlayGameActivity;
 import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
 import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
+import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.GamePiece;
 import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Objective;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.Graphics2D;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
@@ -74,7 +75,7 @@ public class Model {
 
         // Changed to check for zero life span rather than a null reference
         if(this.physModel.getEntity(this.playerID).getLifespan() != 0) {
-            //this.gameStateModel.updateGameState(this.physModel.getEntity(this.playerID).getPosition());
+            this.gameStateModel.updateGameState(this.physModel.getEntity(this.playerID).getPosition());
         }else {
             Log.d(TAG, "Player has zero lifespan");
             this.gameStateModel.setPlayable(false);
@@ -117,8 +118,7 @@ public class Model {
      * @return A list of entities which appear (wholly, or partially) in the given frame
      */
     public List<ImageResourceWrapper> getFrame(int xDiff, int yDiff) {
-        //TODO: remove debug statement
-        //System.out.println("xDiff: " + xDiff + " yDiff: " + yDiff);
+
         // Get the players position.
         Point center = this.physModel.getEntity(this.playerID).getPosition();
         //Log.d("Model", "Player Position: x: " + center.x + " y: " + center.y);
@@ -135,9 +135,16 @@ public class Model {
                     = this.graphModel.getEntityByID(physEntity.getId());
             int graphX = physEntity.getPosition().x - center.x;
             int graphY = physEntity.getPosition().y - center.y;
-            //TODO: remove debug statement
-            //System.out.println("Entity: " + physEntity.getId() + " graphX: " + graphX + " graphY: " + graphY);
             String imgResource = graphEntity.getImgResId(physEntity.getOrientation());
+            rtrnResources.add(new ImageResourceWrapper(new Point(graphX, graphY), imgResource));
+        }
+
+        for(GamePiece gamePiece : this.gameStateModel.observe(center, (int)(xDiff / 2), (int)(yDiff / 2))) {
+            edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
+                    = this.graphModel.getEntityByID(gamePiece.getId());
+            int graphX = gamePiece.getPosition().x - center.x;
+            int graphY = gamePiece.getPosition().y - center.y;
+            String imgResource = graphEntity.getImgResId(0);
             rtrnResources.add(new ImageResourceWrapper(new Point(graphX, graphY), imgResource));
         }
 
