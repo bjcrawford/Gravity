@@ -167,27 +167,15 @@ public class GamePlaySurface extends SurfaceView {
             }
         }
         //set part of background
-        float top = ((player.position.x * PIXELS_PER_PHYSICS_GRID  - (sf * levelWidth) )/ (levelWidth * PIXELS_PER_PHYSICS_GRID) * (float)background.getWidth()),
-            left = ((player.position.y * PIXELS_PER_PHYSICS_GRID  - (sf * levelWidth) )/ (levelHeight * PIXELS_PER_PHYSICS_GRID) * (float)background.getHeight()),
-            bottom = ((player.position.x * PIXELS_PER_PHYSICS_GRID   + (sf * levelWidth) ) / (levelWidth * PIXELS_PER_PHYSICS_GRID) * (float)background.getWidth()),
-            right = ((player.position.y * PIXELS_PER_PHYSICS_GRID  + (sf * levelWidth) ) / (levelHeight * PIXELS_PER_PHYSICS_GRID) * (float)background.getHeight());
+        float left = player.position.x * PIXELS_PER_PHYSICS_GRID  - PlayGameActivity.STANDARD_WIDTH / 2;
+        float top = player.position.y * PIXELS_PER_PHYSICS_GRID  - PlayGameActivity.STANDARD_WIDTH * this.getHeight() / this.getWidth() / 2;
+        float right = player.position.x * PIXELS_PER_PHYSICS_GRID  + PlayGameActivity.STANDARD_WIDTH / 2;
+        float bottom = player.position.y * PIXELS_PER_PHYSICS_GRID  + PlayGameActivity.STANDARD_WIDTH * this.getHeight() / this.getWidth() / 2;
 
-        // Log.d("Dimentions: ", " top " + top + " left "+ left + " buttom "+bottom+" right "+ right);
-
-        fromBackground.set(
-                (int)top,
-                (int)left,
-                (int)bottom,
-                (int)right
-        );
+        fromBackground.set((int) left, (int) top, (int) right, (int) bottom);
 
         //set the frame rect
-        toBackground.set(
-                0,
-                0,
-                this.getWidth(),
-                this.getHeight()
-        );
+        toBackground.set(0, 0, this.getWidth(), this.getHeight());
         canvas.drawBitmap(background, fromBackground, toBackground, null);
     }
 
@@ -244,12 +232,7 @@ public class GamePlaySurface extends SurfaceView {
         float minimapTop = this.getHeight() - sf * levelHeight * PlayGameActivity.STANDARD_WIDTH / 4 / levelWidth;
 
         //fix the rectangle coordinates
-        miniMapBounds.set(
-                minimapLeft,
-                minimapTop,
-                this.getWidth(),
-                this.getHeight()
-        );
+        miniMapBounds.set(minimapLeft, minimapTop, this.getWidth(), this.getHeight());
 
         //set the paint property
         //background
