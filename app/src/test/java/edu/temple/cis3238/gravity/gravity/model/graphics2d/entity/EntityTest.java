@@ -1,4 +1,4 @@
-package edu.temple.cis3238.gravity.gravity.model.graphics2d.entity;
+package edu.temple.cis3238.gravity.gravity.model.graphics2d.graphicsentity;
 
 import junit.framework.TestCase;
 
@@ -28,7 +28,7 @@ public class EntityTest extends TestCase {
     @Test
     public void testEntity() {
         try {
-            Entity entity = new Entity(new JSONObject("{" +
+            GraphicsEntity graphicsEntity = new GraphicsEntity(new JSONObject("{" +
                     "\"id\": \"5\"," +
                     "\"name\": \"Player\"," +
                     "\"img_res_id0\": \"R.drawable.player_0\"," +
@@ -44,20 +44,20 @@ public class EntityTest extends TestCase {
                     "\"img_res_id10\": \"R.drawable.player_10\"," +
                     "\"img_res_id11\": \"R.drawable.player_11\"" +
                     "}"));
-            assertEquals(5, entity.getId());
-            assertEquals("Player", entity.getName());
-            assertEquals("R.drawable.player_0", entity.getImgResId(0));
-            assertEquals("R.drawable.player_1", entity.getImgResId(1));
-            assertEquals("R.drawable.player_2", entity.getImgResId(2));
-            assertEquals("R.drawable.player_3", entity.getImgResId(3));
-            assertEquals("R.drawable.player_4", entity.getImgResId(4));
-            assertEquals("R.drawable.player_5", entity.getImgResId(5));
-            assertEquals("R.drawable.player_6", entity.getImgResId(6));
-            assertEquals("R.drawable.player_7", entity.getImgResId(7));
-            assertEquals("R.drawable.player_8", entity.getImgResId(8));
-            assertEquals("R.drawable.player_9", entity.getImgResId(9));
-            assertEquals("R.drawable.player_10", entity.getImgResId(10));
-            assertEquals("R.drawable.player_11", entity.getImgResId(11));
+            assertEquals(5, graphicsEntity.getId());
+            assertEquals("Player", graphicsEntity.getName());
+            assertEquals("R.drawable.player_0", graphicsEntity.getImgResId(0));
+            assertEquals("R.drawable.player_1", graphicsEntity.getImgResId(1));
+            assertEquals("R.drawable.player_2", graphicsEntity.getImgResId(2));
+            assertEquals("R.drawable.player_3", graphicsEntity.getImgResId(3));
+            assertEquals("R.drawable.player_4", graphicsEntity.getImgResId(4));
+            assertEquals("R.drawable.player_5", graphicsEntity.getImgResId(5));
+            assertEquals("R.drawable.player_6", graphicsEntity.getImgResId(6));
+            assertEquals("R.drawable.player_7", graphicsEntity.getImgResId(7));
+            assertEquals("R.drawable.player_8", graphicsEntity.getImgResId(8));
+            assertEquals("R.drawable.player_9", graphicsEntity.getImgResId(9));
+            assertEquals("R.drawable.player_10", graphicsEntity.getImgResId(10));
+            assertEquals("R.drawable.player_11", graphicsEntity.getImgResId(11));
         }
         catch (JSONException e) {
             e.printStackTrace();

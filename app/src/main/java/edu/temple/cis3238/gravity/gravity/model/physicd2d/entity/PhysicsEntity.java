@@ -13,7 +13,7 @@ import edu.temple.cis3238.gravity.gravity.model.Point;
  * @author Ian M. Speers
  * @version 1.0a last modified 3/21/2015
  */
-public abstract class Entity {
+public abstract class PhysicsEntity {
 
 // Fields ------------------------------------------------------------------------------------------
 

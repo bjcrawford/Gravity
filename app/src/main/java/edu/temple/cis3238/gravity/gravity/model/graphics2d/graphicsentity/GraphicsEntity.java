@@ -1,4 +1,4 @@
-package edu.temple.cis3238.gravity.gravity.model.graphics2d.entity;
+package edu.temple.cis3238.gravity.gravity.model.graphics2d.graphicsentity;
 
 
 import org.json.JSONException;
@@ -6,14 +6,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import edu.temple.cis3238.gravity.gravity.model.Point;
-
 /**
  *
  * @author Brett Crawford
  * @version 1.0b last modified 3/25/2015
  */
-public class Entity {
+public class GraphicsEntity {
 
     /**The unique identifier of the entity.*/
     protected int id;
@@ -29,7 +27,7 @@ public class Entity {
      * @param name The name of the entity.
      * @param id The id of the entity.
      * */
-    public Entity(String name, int id){
+    public GraphicsEntity(String name, int id){
         this.name = name;
         this.id = id;
     }
@@ -38,7 +36,7 @@ public class Entity {
      * representation of the object.
      * @param entityJSONObject The Entity JSONObject
      */
-    public Entity(JSONObject entityJSONObject) {
+    public GraphicsEntity(JSONObject entityJSONObject) {
         this.imgResIds = new ArrayList<String>();
         try {
             this.id = entityJSONObject.getInt("id");

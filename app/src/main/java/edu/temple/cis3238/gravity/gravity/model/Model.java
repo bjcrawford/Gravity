@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.activity.PlayGameActivity;
-import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
 import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
 import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Objective;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.Graphics2D;
-import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
+import edu.temple.cis3238.gravity.gravity.model.graphics2d.graphicsentity.GraphicsEntity;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.Physics2D;
-import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Landmark;
+import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.PhysicsEntity;
 
 /**
  *
@@ -88,18 +87,16 @@ public class Model {
     public List<ImageResourceWrapper> getMap() {
         // Declare a new list to hold the rendering info for the physics objects.
         List<ImageResourceWrapper> rtrnResources = new ArrayList<>();
-        for(edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity entity : this.physModel.getEntities()) {
+        for(PhysicsEntity physicsEntity : this.physModel.getEntities()) {
             // Get the graphics entity corresponding to the current physics entity.
-            edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
-                    = this.graphModel.getEntityByID(entity.getId());
-            String imgResource = graphEntity.getImgResId(entity.getOrientation());
-            rtrnResources.add(new ImageResourceWrapper(new Point(entity.getPosition().x, entity.getPosition().y), imgResource));
+            GraphicsEntity graphicsEntity = this.graphModel.getEntityByID(physicsEntity.getId());
+            String imgResource = graphicsEntity.getImgResId(physicsEntity.getOrientation());
+            rtrnResources.add(new ImageResourceWrapper(new Point(physicsEntity.getPosition().x, physicsEntity.getPosition().y), imgResource));
         }
         for(Objective objective : this.gameStateModel.getObjectives()) {
-            edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
-                    = this.graphModel.getEntityByID(objective.getId());
+            GraphicsEntity graphicsEntity = this.graphModel.getEntityByID(objective.getId());
             // TODO: Orientation for objectives
-            String imgResource = graphEntity.getImgResId(0);
+            String imgResource = graphicsEntity.getImgResId(0);
             rtrnResources.add(new ImageResourceWrapper(new Point(objective.getPosition().x, objective.getPosition().y), imgResource));
         }
         return rtrnResources;
@@ -123,21 +120,21 @@ public class Model {
         Point center = this.physModel.getEntity(this.playerID).getPosition();
         //Log.d("Model", "Player Position: x: " + center.x + " y: " + center.y);
         // Get a list of entities surrounding the player.
-        List<edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity> physEnts =
+        List<PhysicsEntity> physEnts =
                 this.physModel.observe(center, (int)(xDiff / 2), (int)(yDiff / 2));
 
         // Declare a new list to hold the rendering info for the physics objects.
         List<ImageResourceWrapper> rtrnResources = new ArrayList<>();
         // Package the rendering resources of the entities.
-        for(edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity physEntity : physEnts) {
+        for(PhysicsEntity physicsEntity : physEnts) {
             // Get the graphics entity corresponding to the current physics entity.
-            edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
-                    = this.graphModel.getEntityByID(physEntity.getId());
-            int graphX = physEntity.getPosition().x - center.x;
-            int graphY = physEntity.getPosition().y - center.y;
+            GraphicsEntity graphicsEntity
+                    = this.graphModel.getEntityByID(physicsEntity.getId());
+            int graphX = physicsEntity.getPosition().x - center.x;
+            int graphY = physicsEntity.getPosition().y - center.y;
             //TODO: remove debug statement
             //System.out.println("Entity: " + physEntity.getId() + " graphX: " + graphX + " graphY: " + graphY);
-            String imgResource = graphEntity.getImgResId(physEntity.getOrientation());
+            String imgResource = graphicsEntity.getImgResId(physicsEntity.getOrientation());
             rtrnResources.add(new ImageResourceWrapper(new Point(graphX, graphY), imgResource));
         }
 

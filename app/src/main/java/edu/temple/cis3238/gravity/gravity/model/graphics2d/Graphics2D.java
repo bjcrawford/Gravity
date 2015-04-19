@@ -8,8 +8,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.temple.cis3238.gravity.gravity.model.Point;
-import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
+import edu.temple.cis3238.gravity.gravity.model.graphics2d.graphicsentity.GraphicsEntity;
 
 /**
  *
@@ -20,7 +19,7 @@ import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
 public class Graphics2D {
 
     /*A list of graphics entities.*/
-    private List<Entity> entities;
+    private List<GraphicsEntity> entities;
 
     /**
      * A constructor for this object. The properties are filled using
@@ -28,7 +27,7 @@ public class Graphics2D {
      * @param graphicsJSONObject The Graphics JSONObject.
      */
     public Graphics2D(JSONObject graphicsJSONObject) {
-        entities = new ArrayList<Entity>();
+        entities = new ArrayList<GraphicsEntity>();
         try {
             JSONArray entitiesJSONArray = graphicsJSONObject.getJSONArray("entities");
             for (int i = 0; i < entitiesJSONArray.length(); i++) {
@@ -37,7 +36,7 @@ public class Graphics2D {
                 // in the case that there are unused entity ids in the level JSON.
                 // If the level has been implemented efficiently, ids should occur in a contiguous set,
                 // and this will not be an issue.
-                Entity tmpEnt = new Entity(entitiesJSONArray.getJSONObject(i));
+                GraphicsEntity tmpEnt = new GraphicsEntity(entitiesJSONArray.getJSONObject(i));
                 entities.add(tmpEnt.getId(), tmpEnt);
             }
         }
@@ -51,11 +50,11 @@ public class Graphics2D {
      * @param ids The ids of the entities to return.
      * @return A list of Entity objects
      */
-    public List<Entity> getListOfEntitiesByIds(List<Integer> ids) {
+    public List<GraphicsEntity> getListOfEntitiesByIds(List<Integer> ids) {
 
         // Refactored to run in O(n)
         // Where n is the length of the input list of ids
-        List<Entity> entitiesResult = new ArrayList<Entity>();
+        List<GraphicsEntity> entitiesResult = new ArrayList<GraphicsEntity>();
         for (Integer id : ids) {
             entitiesResult.add(this.entities.get(id));
         }
@@ -68,14 +67,14 @@ public class Graphics2D {
      * @return The graphics entity corresponding to the given id,<br>
      *     or null if the id is invalid.
      */
-    public Entity getEntityByID(int id) {
+    public GraphicsEntity getEntityByID(int id) {
         if(id < this.entities.size()) return this.entities.get(id);
         return null;
     }
 
     public JSONObject toJSON() {
         JSONArray jEntities = new JSONArray();
-        for(Entity ent : this.entities) {
+        for(GraphicsEntity ent : this.entities) {
             jEntities.put(ent.toJSON());
         }
         JSONObject selfAsJSON = new JSONObject();

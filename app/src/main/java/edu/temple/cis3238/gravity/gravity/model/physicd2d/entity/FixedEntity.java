@@ -8,7 +8,7 @@ import org.json.JSONObject;
  * @author Ian M. Speers
  * @version 1.0a last modified 3/21/2015
  */
-abstract public class FixedEntity extends Entity {
+abstract public class FixedEntity extends PhysicsEntity {
 
 // Fields ------------------------------------------------------------------------------------------
 

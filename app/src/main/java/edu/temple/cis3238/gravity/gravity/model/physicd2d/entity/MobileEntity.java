@@ -1,7 +1,5 @@
 package edu.temple.cis3238.gravity.gravity.model.physicd2d.entity;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,7 +8,7 @@ import org.json.JSONObject;
  * @author Ian M. Speers
  * @version 1.0a last modified 3/21/2015
  */
-abstract public class MobileEntity extends Entity {
+abstract public class MobileEntity extends PhysicsEntity {
 
 // Fields ------------------------------------------------------------------------------------------
 

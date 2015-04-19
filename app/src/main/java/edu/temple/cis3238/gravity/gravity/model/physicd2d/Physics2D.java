@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import edu.temple.cis3238.gravity.gravity.model.Point;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Body;
-import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Entity;
+import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.PhysicsEntity;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Landmark;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Phenomenon;
 
@@ -50,7 +50,7 @@ public class Physics2D {
      */
     private List<Phenomenon> phenomena;
 
-    private ArrayList<Entity> entitiesLookupTable;
+    private ArrayList<PhysicsEntity> entitiesLookupTable;
 
     /**Defines the strength of gravity.*/
     private float gravConstant;
@@ -265,14 +265,14 @@ public class Physics2D {
 
     private void placeEntities() {
         // For each entity in the universe...
-        for(Entity entity : this.entitiesLookupTable) {
+        for(PhysicsEntity physicsEntity : this.entitiesLookupTable) {
             // For each subsection of that entity, relative to the entitys center...
-            for(Point subsection : entity.getShape()) {
+            for(Point subsection : physicsEntity.getShape()) {
                 // Calculate that subsections absolute location.
                 Point translatedSubsection = new Point(subsection);
-                translatedSubsection.offset(entity.getPosition().x, entity.getPosition().y);
+                translatedSubsection.offset(physicsEntity.getPosition().x, physicsEntity.getPosition().y);
                 // Set the region associated with that subsection to occupied
-                this.universe.setRegionOccupied(translatedSubsection, entity.getId());
+                this.universe.setRegionOccupied(translatedSubsection, physicsEntity.getId());
             }
         }
     }
@@ -437,7 +437,7 @@ public class Physics2D {
      */
     public boolean applyAcceleratingForceToBody(int entityID, float delta_d2x, float delta_d2y) {
         // Get the entity with the given id.
-        Entity entWithID = this.getEntity(entityID);
+        PhysicsEntity entWithID = this.getEntity(entityID);
         // If the id corresponds to an invalid entity, return false.
         if(entWithID == null) return false;
         // If the entity is a body, apply acceleration.
@@ -459,8 +459,8 @@ public class Physics2D {
      * @param entityID The id of the desired entity.
      * @return
      */
-    public Entity getEntity(int entityID) {
-        Entity rtrnEnt = null;
+    public PhysicsEntity getEntity(int entityID) {
+        PhysicsEntity rtrnEnt = null;
         if(entityID < this.entitiesLookupTable.size()) {
             rtrnEnt = this.entitiesLookupTable.get(entityID);
         }
@@ -476,19 +476,19 @@ public class Physics2D {
      *              i.e range = [center.x - xDiff, frameCenter.x + xDiff]
      * @return A list of entities found in the specified region.
      */
-    public List<Entity> observe(Point center, int xDiff, int yDiff) {
-        List<Entity> subjects = new ArrayList<Entity>();
+    public List<PhysicsEntity> observe(Point center, int xDiff, int yDiff) {
+        List<PhysicsEntity> subjects = new ArrayList<PhysicsEntity>();
         // For each entity in the universe...
-        for(Entity entity : this.entitiesLookupTable) {
+        for(PhysicsEntity physicsEntity : this.entitiesLookupTable) {
             // For each subsection of that entity, relative to the entitys center...
-            for(Point subsection : entity.getShape()) {
+            for(Point subsection : physicsEntity.getShape()) {
                 // Calculate that subsections absolute location.
                 Point translatedSubsection = new Point(subsection);
-                translatedSubsection.offset(entity.getPosition().x, entity.getPosition().y);
+                translatedSubsection.offset(physicsEntity.getPosition().x, physicsEntity.getPosition().y);
                 // If the translated point is within the bounds of observation...
                 if(this.isPointContained(translatedSubsection, center, xDiff, yDiff)) {
                     // Add the entity to the list of observed subjects...
-                    subjects.add(entity);
+                    subjects.add(physicsEntity);
                     // And break to prevent duplicate observations.
                     break;
                 }
@@ -519,7 +519,7 @@ public class Physics2D {
         return new Point(this.universe.getPlaneWidth(), this.universe.getPlaneHeight());
     }
 
-    public List<Entity> getEntities() {
+    public List<PhysicsEntity> getEntities() {
         return this.entitiesLookupTable;
     }
 }
