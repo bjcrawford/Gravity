@@ -200,15 +200,17 @@ public class LevelFragment extends Fragment implements
         super.onPause();
         Log.d(TAG, "onPause() fired");
 
-        // Unregister the preference changes listener
-        PreferenceManager.getDefaultSharedPreferences(getActivity())
-                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop() fired");
+
+
+        // Unregister the preference changes listener
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .unregisterOnSharedPreferenceChangeListener(this);
 
         // The activity is stopping, shut down the thread
         controllerThread.setRun(false);
