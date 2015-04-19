@@ -142,7 +142,7 @@ public class Model {
     }
 
     public void receiveInput(float delta_d2x, float delta_d2y) {
-        Log.i(TAG, "Received input: delta_d2x: " + delta_d2x + ", delta_d2y: " + delta_d2y);
+        //Log.i(TAG, "Received input: delta_d2x: " + delta_d2x + ", delta_d2y: " + delta_d2y);
         this.physModel.applyAcceleratingForceToBody(this.playerID, delta_d2x, delta_d2y);
     }
 

@@ -172,7 +172,7 @@ public class GamePlaySurface extends SurfaceView {
             bottom = ((player.position.x * PIXELS_PER_PHYSICS_GRID  + this.getWidth()) / (float)(levelWidth *PIXELS_PER_PHYSICS_GRID) * (float)background.getWidth()),
             right = ((player.position.y * PIXELS_PER_PHYSICS_GRID  + this.getHeight()) / (float)(levelHeight * PIXELS_PER_PHYSICS_GRID)) * (float)background.getHeight();
 
-        Log.d("Dimentions: ", " top " + top + " left "+ left + " buttom "+bottom+" right "+ right);
+        // Log.d("Dimentions: ", " top " + top + " left "+ left + " buttom "+bottom+" right "+ right);
 
         fromBackground.set(
                 (int)top,
