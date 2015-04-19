@@ -230,8 +230,8 @@ public class Physics2D {
                      *
                      *           <- Fx
                     */
-                    int xDiff = landmark.getPosition().x - xNdex;
-                    int yDiff = landmark.getPosition().y - yNdex;
+                    float xDiff = landmark.getPosition().x - xNdex;
+                    float yDiff = landmark.getPosition().y - yNdex;
                     int r = (int) Math.sqrt((double) ((xDiff * xDiff) + (yDiff * yDiff)));      // sqrt(a^2 + b^2)
                     float fGrav = 0;
                     if(r != 0) {
@@ -368,7 +368,7 @@ public class Physics2D {
 
                 body.update(deltaT);
 
-                int xPos = body.getPosition().x, yPos = body.getPosition().y;
+                float xPos = body.getPosition().x, yPos = body.getPosition().y;
                 // Add the body's occupied space projection to the plane.
                 for (Point subsection : body.getShape()) {
                     // Copy each of the points in the body's shape, and translate them by the current <x, y> offset of the body.
@@ -412,7 +412,7 @@ public class Physics2D {
                 phenomenon.applyAcceleratingForce(tempRegion.getD2xGrav(), tempRegion.getD2yGrav());
             }
 
-            int xPos = phenomenon.getPosition().x, yPos = phenomenon.getPosition().y;
+            float xPos = phenomenon.getPosition().x, yPos = phenomenon.getPosition().y;
             // Add the phenomenon's occupied space projection to the plane.
             for (Point subsection : phenomenon.getShape()) {
                 // Copy each of the points in the phenomenon's shape, and translate them by the current <x, y> offset of the phenomenon.

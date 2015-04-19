@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,8 +43,8 @@ public class GamePlaySurface extends SurfaceView {
     private float sf;
     private float standardScreenWidth;
     private float standardScreenHeight;
-    private int levelWidth;
-    private int levelHeight;
+    private float levelWidth;
+    private float levelHeight;
     private RectF miniMapBounds;
     private Rect fromBackground = new Rect();
     private Rect toBackground = new Rect();

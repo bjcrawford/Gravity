@@ -9,7 +9,6 @@ import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.model.Point;
 import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Event;
-import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.GamePiece;
 import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Objective;
 import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Player;
 
@@ -90,8 +89,8 @@ public class GameState {
     private boolean areProximal(Point p1, Point p2, int proximity) {
         // sqrt( a^2 + b^2 ) = c
         // return true if c <= proximity
-        int a = p1.x - p2.x, b = p1.y - p2.y;
-        int c = (a * a) + (b * b);
+        float a = p1.x - p2.x, b = p1.y - p2.y;
+        float c = (a * a) + (b * b);
         if(c <= proximity) {
             return true;
         }else {
@@ -135,8 +134,8 @@ public class GameState {
      * @param yDiff One half of the height of the desired region.
      * @return A list of all game pieces found within the given region.
      */
-    public List<GamePiece> observe(Point center, int xDiff, int yDiff) {
-        List<GamePiece> subjects = new ArrayList<GamePiece>();
+    public List<Objective> observe(Point center, int xDiff, int yDiff) {
+        List<Objective> subjects = new ArrayList<>();
 
         for(Objective objective : this.objectives) {
             // If the objective is within the region of observation

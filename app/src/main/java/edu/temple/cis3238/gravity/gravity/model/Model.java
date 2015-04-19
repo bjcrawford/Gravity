@@ -9,14 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.activity.PlayGameActivity;
-import edu.temple.cis3238.gravity.gravity.event.SwipeGameEvent;
 import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
 import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.GamePiece;
 import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Objective;
 import edu.temple.cis3238.gravity.gravity.model.graphics2d.Graphics2D;
-import edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity;
 import edu.temple.cis3238.gravity.gravity.model.physicd2d.Physics2D;
-import edu.temple.cis3238.gravity.gravity.model.physicd2d.entity.Landmark;
 
 /**
  *
@@ -133,8 +130,8 @@ public class Model {
             // Get the graphics entity corresponding to the current physics entity.
             edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
                     = this.graphModel.getEntityByID(physEntity.getId());
-            int graphX = physEntity.getPosition().x - center.x;
-            int graphY = physEntity.getPosition().y - center.y;
+            float graphX = physEntity.getPosition().x - center.x;
+            float graphY = physEntity.getPosition().y - center.y;
             String imgResource = graphEntity.getImgResId(physEntity.getOrientation());
             rtrnResources.add(new ImageResourceWrapper(new Point(graphX, graphY), imgResource));
         }
@@ -142,8 +139,8 @@ public class Model {
         for(GamePiece gamePiece : this.gameStateModel.observe(center, (int)(xDiff / 2), (int)(yDiff / 2))) {
             edu.temple.cis3238.gravity.gravity.model.graphics2d.entity.Entity graphEntity
                     = this.graphModel.getEntityByID(gamePiece.getId());
-            int graphX = gamePiece.getPosition().x - center.x;
-            int graphY = gamePiece.getPosition().y - center.y;
+            float graphX = gamePiece.getPosition().x - center.x;
+            float graphY = gamePiece.getPosition().y - center.y;
             String imgResource = graphEntity.getImgResId(0);
             rtrnResources.add(new ImageResourceWrapper(new Point(graphX, graphY), imgResource));
         }

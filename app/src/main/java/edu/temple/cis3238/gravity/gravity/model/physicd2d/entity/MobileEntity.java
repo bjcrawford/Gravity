@@ -1,7 +1,5 @@
 package edu.temple.cis3238.gravity.gravity.model.physicd2d.entity;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,8 +49,8 @@ abstract public class MobileEntity extends Entity {
     protected void displace(float deltaT) {
         // Calculate the displacement experienced by the entity during the given interval:
         // delta_x = dx*deltaT + 1/2*d2x*deltaT^2 and similarly for delta_y.
-        int xDisplacement = (int) ((this.dx * deltaT) + (0.5 * this.d2x * deltaT * deltaT));
-        int yDisplacement = (int) ((this.dy * deltaT) + (0.5 * this.d2y * deltaT * deltaT));
+        float xDisplacement = (float) ((this.dx * deltaT) + (0.5 * this.d2x * deltaT * deltaT));
+        float yDisplacement = (float) ((this.dy * deltaT) + (0.5 * this.d2y * deltaT * deltaT));
 
         // Apply displacement to the entity's position
         this.position.offset(xDisplacement, yDisplacement);

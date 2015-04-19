@@ -7,16 +7,16 @@ package edu.temple.cis3238.gravity.gravity.model;
  */
 public class Point {
 
-    public int x;
+    public float x;
 
-    public int y;
+    public float y;
 
     public Point() {
         this.x = 0;
         this.y = 0;
     }
 
-    public Point(int x, int y) {
+    public Point(float x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -26,7 +26,7 @@ public class Point {
         this.y = pCpy.y;
     }
 
-    public void offset(int deltaX, int deltaY) {
+    public void offset(float deltaX, float deltaY) {
         this.x += deltaX;
         this.y += deltaY;
     }

@@ -60,7 +60,7 @@ public class Plane2D {
         // If the given point lies within the boundaries of the world.
         if(position.x < this.planeWidth && position.y < this.planeHeight && position.x >= 0 && position.y >= 0) {
             // Calculate the 1D index corresponding to the given 2D point.
-            int packedIndex = (this.planeWidth * position.y) + position.x;
+            int packedIndex = (int) ((this.planeWidth * position.y) + position.x);
             // If the desired region has not been initialized, Instantiate a new Region2D object with default constructor.
             if(this.plane[packedIndex] == null) {
                 this.plane[packedIndex] = new Region2D();
@@ -80,7 +80,7 @@ public class Plane2D {
         // If the given point lies within the boundaries of the world.
         if(position.x < this.planeWidth && position.y < this.planeHeight && position.x >= 0 && position.y >= 0) {
             // Calculate the 1D index corresponding to the given 2D point.
-            int packedIndex = (this.planeWidth * position.y) + position.x;
+            int packedIndex = (int) ((this.planeWidth * position.y) + position.x);
             this.plane[packedIndex] = region;
         }
     }
