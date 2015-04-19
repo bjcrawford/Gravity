@@ -120,16 +120,6 @@ public class LevelFragment extends Fragment implements
         gestureView.setClickable(true);
         gestureView.setFocusable(true);
 
-        // Temporary placement for testing level end fragment on loss
-        ((Button) view.findViewById(R.id.win_button)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GameState gamestate = new GameState(null, null, null);
-                gamestate.setGameWon(true);
-                onLevelEnd(gamestate, level);
-            }
-        });
-
         // Set up the surface view, it is instantiated by the xml layout, fragment_level.xml,
         // and we get a reference to it here.
         gameSurfaceView = (GamePlaySurface) view.findViewById(R.id.game_play_surfaceview);
