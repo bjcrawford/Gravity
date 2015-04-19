@@ -13,7 +13,7 @@
                     {
                         "name": "Test Level 0",
                         "thumb": "R.drawable.thumb_test_level0",
-                        "description": "This is a level for testing.",
+                        "description": "Avoid the blue planets and head for the orange objective as quickly as possible.",
                         "scoring": {
                             "gold": "0:00",
                             "silver": "0:00",
