@@ -1,19 +1,24 @@
-package edu.temple.cis3238.gravity.gravity;
+package edu.temple.cis3238.gravity.gravity.activity;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.util.Log;
 
+import edu.temple.cis3238.gravity.gravity.R;
 
+/**
+ * The options activity.
+ *
+ * @author Brett Crawford
+ * @version 1.0a last modified 3/15/2015
+ */
 public class OptionsActivity extends PreferenceActivity {
 
     private static final String TAG = "OptionsActivity";
 
     // Some constants for referencing the shared preferences
-    public static final String PREF_CHECKBOX_KEY = "pref_checkbox";
-    public static final String PREF_EDITTEXT_KEY = "pref_edittext";
-    public static final String PREF_LIST_KEY = "pref_list";
+    public static final String PREF_DIFFICULTY_KEY = "pref_difficulty";
 
     // This is an inner class used to promote modularity. Different
     // fragments can easily be created to provide different options
