@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.event.GameEvent;
@@ -123,18 +124,22 @@ public class ControllerThread extends Thread {
             while ((gameEvent = eventQueue.poll()) != null) {
 
                 if (gameEvent instanceof SwipeGameEvent) {
+                    Log.d(TAG, "sx: " + ((SwipeGameEvent) gameEvent).getSx() +
+                          ", sy: " + ((SwipeGameEvent) gameEvent).getSy());
                     pendingSwipeEvents.add((SwipeGameEvent) gameEvent);
                 }
 
             }
 
-            // TODO: Change to use a queue
             // Apply and consume swipe events
-            for (SwipeGameEvent swe : pendingSwipeEvents) {
+            // Fixed for safe removal for iterator
+            Iterator<SwipeGameEvent> eventIterator = pendingSwipeEvents.iterator();
+            while (eventIterator.hasNext()) {
+                SwipeGameEvent swe = eventIterator.next();
                 swe.updateDt(deltaTime);
                 model.receiveInput(swe.getSx(), swe.getSy());
                 if (swe.getDt() < 0) {
-                    pendingSwipeEvents.remove(swe);
+                    eventIterator.remove();
                 }
             }
 
