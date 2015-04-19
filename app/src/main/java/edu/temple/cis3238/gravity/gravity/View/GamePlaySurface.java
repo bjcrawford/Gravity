@@ -237,10 +237,16 @@ public class GamePlaySurface extends SurfaceView {
         List<ImageResourceWrapper> imgList = model.getMap();
         Paint paint = new Paint();
 
+        // This uses 1/4 of the screen size for minimap width
+        float minimapLeft = this.getWidth() - sf * PlayGameActivity.STANDARD_WIDTH / 4;
+
+        // This adjusts the height to the proper ratio based on the width
+        float minimapTop = this.getHeight() - sf * levelHeight * PlayGameActivity.STANDARD_WIDTH / 4 / levelWidth;
+
         //fix the rectangle coordinates
         miniMapBounds.set(
-                this.getWidth() - sf * levelWidth,
-                this.getHeight() - sf * levelHeight,
+                minimapLeft,
+                minimapTop,
                 this.getWidth(),
                 this.getHeight()
         );
@@ -275,9 +281,11 @@ public class GamePlaySurface extends SurfaceView {
             //finally draw
             //set the object location
             //TODO modify to accept a map instead of a frame
+
+            float minimapScaleRatio = PlayGameActivity.STANDARD_WIDTH / 4f / levelWidth;
             canvas.drawCircle(
-                    this.getWidth() - sf * levelWidth + sf * img.position.x,
-                    this.getHeight() - sf * levelHeight + sf * img.position.y,
+                    minimapLeft + sf * img.position.x * minimapScaleRatio,
+                    minimapTop + sf * img.position.y * minimapScaleRatio,
                     3*sf,
                     paint
             );
