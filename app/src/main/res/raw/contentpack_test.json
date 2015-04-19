@@ -1,0 +1,354 @@
+{
+    "contentpack": {
+        "name": "Test Content Pack",
+        "release_date": "March 2015",
+        "author": "Gravity Team",
+        "notes": "This is a test content pack.",
+        "stories": [
+            {
+                "name": "Test Story 0",
+                "thumb": "R.drawable.thumb_test_story0",
+                "description": "This is a story for testing. It contains only a single level.",
+                "levels": [
+                    {
+                        "name": "Test Level 0",
+                        "thumb": "R.drawable.thumb_test_level0",
+                        "description": "This is a level for testing.",
+                        "scoring": {
+                            "gold": "0:00",
+                            "silver": "0:00",
+                            "bronze": "0:00"
+                        },
+                        "model": {
+                            "width": "2560",
+                            "height": "1920",
+                            "player_width": "60",
+                            "player_height": "60",
+                            "physics": {
+                                "bodies": [
+                                    {
+                                        "id": "0",
+                                        "name": "player",
+                                        "x0": "320",
+                                        "y0": "960",
+                                        "dx0": "0",
+                                        "dy0": "0",
+                                        "lifespan": "-1",
+                                        "img_res_id0": "player0",
+                                        "img_res_id1": "player1",
+                                        "img_res_id2": "player2",
+                                        "img_res_id3": "player3",
+                                        "img_res_id4": "player4",
+                                        "img_res_id5": "player5",
+                                        "img_res_id6": "player6",
+                                        "img_res_id7": "player7",
+                                        "img_res_id8": "player8",
+                                        "img_res_id9": "player9",
+                                        "img_res_id10": "player10",
+                                        "img_res_id11": "player11"
+                                    }
+                                ],
+                                "phenomena": [
+                                ],
+                                "landmarks": [
+                                    {
+                                        "id": "1",
+                                        "name": "planet_1",
+                                        "x0": "800",
+                                        "y0": "960",
+                                        "dx0": "0",
+                                        "dy0": "0",
+                                        "mass": "3000",
+                                        "dTheta": "0",
+                                        "lifespan": "0",
+                                        "img_res_id0": "planet0",
+                                        "img_res_id1": "planet1",
+                                        "img_res_id2": "planet2",
+                                        "img_res_id3": "planet3",
+                                        "img_res_id4": "planet4",
+                                        "img_res_id5": "planet5",
+                                        "img_res_id6": "planet6",
+                                        "img_res_id7": "planet7",
+                                        "img_res_id8": "planet8",
+                                        "img_res_id9": "planet9",
+                                        "img_res_id10": "planet10",
+                                        "img_res_id11": "planet11"
+                                    },
+                                    {
+                                        "id": "2",
+                                        "name": "planet_2",
+                                        "x0": "1920",
+                                        "y0": "240",
+                                        "dx0": "0",
+                                        "dy0": "0",
+                                        "mass": "3000",
+                                        "dTheta": "0",
+                                        "lifespan": "0",
+                                        "img_res_id0": "planet0",
+                                        "img_res_id1": "planet1",
+                                        "img_res_id2": "planet2",
+                                        "img_res_id3": "planet3",
+                                        "img_res_id4": "planet4",
+                                        "img_res_id5": "planet5",
+                                        "img_res_id6": "planet6",
+                                        "img_res_id7": "planet7",
+                                        "img_res_id8": "planet8",
+                                        "img_res_id9": "planet9",
+                                        "img_res_id10": "planet10",
+                                        "img_res_id11": "planet11"
+                                    },
+                                    {
+                                        "id": "3",
+                                        "name": "planet_3",
+                                        "x0": "1920",
+                                        "y0": "1440",
+                                        "dx0": "0",
+                                        "dy0": "0",
+                                        "mass": "3000",
+                                        "dTheta": "0",
+                                        "lifespan": "0",
+                                        "img_res_id0": "planet0",
+                                        "img_res_id1": "planet1",
+                                        "img_res_id2": "planet2",
+                                        "img_res_id3": "planet3",
+                                        "img_res_id4": "planet4",
+                                        "img_res_id5": "planet5",
+                                        "img_res_id6": "planet6",
+                                        "img_res_id7": "planet7",
+                                        "img_res_id8": "planet8",
+                                        "img_res_id9": "planet9",
+                                        "img_res_id10": "planet10",
+                                        "img_res_id11": "planet11"
+                                    }
+                                ]
+                            },
+                            "gamestate": {
+                                "events": [
+                                ],
+                                "objectives": [
+                                    {
+                                        "id": "4",
+                                        "name": "objective_1",
+                                        "x0": "2240",
+                                        "y0": "960",
+                                        "proximity": "150",
+                                        "img_res_id0": "objective0",
+                                        "img_res_id1": "objective1",
+                                        "img_res_id2": "objective2",
+                                        "img_res_id3": "objective3",
+                                        "img_res_id4": "objective4",
+                                        "img_res_id5": "objective5",
+                                        "img_res_id6": "objective6",
+                                        "img_res_id7": "objective7",
+                                        "img_res_id8": "objective8",
+                                        "img_res_id9": "objective9",
+                                        "img_res_id10": "objective10",
+                                        "img_res_id11": "objective11"
+                                    }
+                                ]
+                            },
+                            "graphics": {
+                                "entities": [
+                                    {
+                                        "id": "0",
+                                        "name": "player",
+                                        "img_res_id0": "player0",
+                                        "img_res_id1": "player1",
+                                        "img_res_id2": "player2",
+                                        "img_res_id3": "player3",
+                                        "img_res_id4": "player4",
+                                        "img_res_id5": "player5",
+                                        "img_res_id6": "player6",
+                                        "img_res_id7": "player7",
+                                        "img_res_id8": "player8",
+                                        "img_res_id9": "player9",
+                                        "img_res_id10": "player10",
+                                        "img_res_id11": "player11"
+                                    },
+                                    {
+                                        "id": "1",
+                                        "name": "planet_1",
+                                        "img_res_id0": "planet0",
+                                        "img_res_id1": "planet1",
+                                        "img_res_id2": "planet2",
+                                        "img_res_id3": "planet3",
+                                        "img_res_id4": "planet4",
+                                        "img_res_id5": "planet5",
+                                        "img_res_id6": "planet6",
+                                        "img_res_id7": "planet7",
+                                        "img_res_id8": "planet8",
+                                        "img_res_id9": "planet9",
+                                        "img_res_id10": "planet10",
+                                        "img_res_id11": "planet11"
+                                    },
+                                    {
+                                        "id": "2",
+                                        "name": "planet_2",
+                                        "img_res_id0": "planet0",
+                                        "img_res_id1": "planet1",
+                                        "img_res_id2": "planet2",
+                                        "img_res_id3": "planet3",
+                                        "img_res_id4": "planet4",
+                                        "img_res_id5": "planet5",
+                                        "img_res_id6": "planet6",
+                                        "img_res_id7": "planet7",
+                                        "img_res_id8": "planet8",
+                                        "img_res_id9": "planet9",
+                                        "img_res_id10": "planet10",
+                                        "img_res_id11": "planet11"
+                                    },
+                                    {
+                                        "id": "3",
+                                        "name": "planet_3",
+                                        "img_res_id0": "planet0",
+                                        "img_res_id1": "planet1",
+                                        "img_res_id2": "planet2",
+                                        "img_res_id3": "planet3",
+                                        "img_res_id4": "planet4",
+                                        "img_res_id5": "planet5",
+                                        "img_res_id6": "planet6",
+                                        "img_res_id7": "planet7",
+                                        "img_res_id8": "planet8",
+                                        "img_res_id9": "planet9",
+                                        "img_res_id10": "planet10",
+                                        "img_res_id11": "planet11"
+                                    },
+                                    {
+                                        "id": "4",
+                                        "name": "objective_1",
+                                        "img_res_id0": "objective0",
+                                        "img_res_id1": "objective1",
+                                        "img_res_id2": "objective2",
+                                        "img_res_id3": "objective3",
+                                        "img_res_id4": "objective4",
+                                        "img_res_id5": "objective5",
+                                        "img_res_id6": "objective6",
+                                        "img_res_id7": "objective7",
+                                        "img_res_id8": "objective8",
+                                        "img_res_id9": "objective9",
+                                        "img_res_id10": "objective10",
+                                        "img_res_id11": "objective11"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "Test Level 1",
+                        "thumb": "R.drawable.thumb_test_level1",
+                        "description": "Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.",
+                        "width": "2560",
+                        "height": "1920",
+                        "player_width": "60",
+                        "player_height": "60",
+                        "scoring": {
+                            "gold": "0:00",
+                            "silver": "0:00",
+                            "bronze": "0:00"
+                        },
+                        "physics": {
+                            "bodies": [
+                            ],
+                            "phenomena": [
+                            ],
+                            "landmarks": [
+                            ]
+                        },
+                        "gamestate": {
+                            "events": [
+                            ],
+                            "objectives": [
+                            ]
+                        },
+                        "graphics": {
+                            "entities": [
+                            ]
+                        }
+                    },
+                    {
+                        "name": "Test Level 2",
+                        "thumb": "R.drawable.thumb_test_level2",
+                        "description": "Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.",
+                        "width": "2560",
+                        "height": "1920",
+                        "player_width": "60",
+                        "player_height": "60",
+                        "scoring": {
+                            "gold": "0:00",
+                            "silver": "0:00",
+                            "bronze": "0:00"
+                        },
+                        "physics": {
+                            "bodies": [
+                            ],
+                            "phenomena": [
+                            ],
+                            "landmarks": [
+                            ]
+                        },
+                        "gamestate": {
+                            "events": [
+                            ],
+                            "objectives": [
+                            ]
+                        },
+                        "graphics": {
+                            "entities": [
+                            ]
+                        }
+                    },
+                    {
+                        "name": "Test Level 3",
+                        "thumb": "R.drawable.thumb_test_level3",
+                        "description": "Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.",
+                        "width": "2560",
+                        "height": "1920",
+                        "player_width": "60",
+                        "player_height": "60",
+                        "scoring": {
+                            "gold": "0:00",
+                            "silver": "0:00",
+                            "bronze": "0:00"
+                        },
+                         "physics": {
+                             "bodies": [
+                             ],
+                             "phenomena": [
+                             ],
+                             "landmarks": [
+                             ]
+                         },
+                         "gamestate": {
+                             "events": [
+                             ],
+                             "objectives": [
+                             ]
+                         },
+                         "graphics": {
+                             "entities": [
+                             ]
+                         }
+                    }
+                ]
+            },
+            {
+                "name": "Test Story 1",
+                "thumb": "R.drawable.thumb_test_story1",
+                "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+                "levels": []
+            },
+            {
+                "name": "Test Story 2",
+                "thumb": "R.drawable.thumb_test_story2",
+                "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ",
+                "levels": []
+            },
+            {
+                "name": "Test Story 3",
+                "thumb": "R.drawable.thumb_test_story3",
+                "description": "Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.",
+                "levels": []
+            }
+        ]
+    }
+}

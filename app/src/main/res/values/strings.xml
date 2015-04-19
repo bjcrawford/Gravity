@@ -7,31 +7,24 @@
     <string name="title_main_menu">Main Menu Activity</string>
 
   <!-- Options activity strings -->
-    <string name="pref_category1">Preference Category 1</string>
-    <string name="pref_category2">Preference Category 2</string>
-
-    <string name="pref_checkbox">CheckBox Preference</string>
-    <string name="pref_checkbox_desc">CheckBox description</string>
-
-    <string name="pref_edittext">EditText Preference</string>
-    <string name="pref_edittext_desc">EditText description</string>
-    <string name="pref_edittext_default"></string>
-
-    <string name="pref_list">List Select Preference</string>
-    <string-array name="pref_list_entries">
-        <item>Preference Item 1</item>
-        <item>Preference Item 2</item>
-        <item>Preference Item 3</item>
+    <string name="pref_game_settings">Game Settings</string>
+    <string name="pref_difficulty">Difficulty</string>
+    <string-array name="pref_difficulty_entries">
+        <item>Light</item>
+        <item>Medium</item>
+        <item>Heavy</item>
     </string-array>
-    <string-array name="pref_list_values">
-        <item>Preference Item 1 Value</item>
-        <item>Preference Item 2 Value</item>
-        <item>Preference Item 3 Value</item>
+    <string-array name="pref_difficulty_values">
+        <item>0.00001</item>
+        <item>0.00005</item>
+        <item>0.00009</item>
     </string-array>
-    <string name="pref_list_default">Preference Item 1 Value</string>
+    <string name="pref_difficulty_default">0.00001</string>
 
   <!-- Play game activity strings -->
     <string name="play_game_title">Play Game Activity</string>
+    <string name="story_select_title">Select a story</string>
+    <string name="level_select_title">Select a level</string>
 
   <!-- Button strings -->
     <string name="play_game_button">Play Game</string>
@@ -40,6 +33,20 @@
     <string name="main_menu_button">Main Menu</string>
     <string name="pause_button">Pause</string>
     <string name="resume_button">Resume</string>
+    <string name="next_level_button">Next Level</string>
+    <string name="retry_level_button">Retry Level</string>
+    <string name="win_button">Win</string>
+    <string name="lose_button">Lose</string>
+
+  <!-- Level end fragment strings -->
+    <string name="win_title">Level completed</string>
+    <string name="grade_title">Grade: </string>
+    <string name="grade_placeholder">XXXXXX</string>
+    <string name="score_title">Score: </string>
+    <string name="score_placeholder">XX,XXX</string>
+    <string name="time_title">Time: </string>
+    <string name="time_placeholder">X:XX:XXXX</string>
+    <string name="loss_title">Level failed</string>
 
   <!-- Pause dialog string -->
     <string name="pause_dialog_title">Pause Menu</string>

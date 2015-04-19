@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Activity themes -->
-    <style name="Theme.Base" parent="android:Theme.Holo.Light">
+    <style name="Theme.Base" parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
 
     </style>
 
