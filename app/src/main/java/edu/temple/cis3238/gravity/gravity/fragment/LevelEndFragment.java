@@ -12,6 +12,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import edu.temple.cis3238.gravity.gravity.R;
 import edu.temple.cis3238.gravity.gravity.model.Level;
 import edu.temple.cis3238.gravity.gravity.model.game_state.GameState;
@@ -52,6 +56,9 @@ public class LevelEndFragment extends Fragment {
     /* The level to use on next level button presses */
     private Level nextLevel;
 
+    /* The time of successful completion, 0 on level failure */
+    private long time;
+
 
     /**
      * The required public empty constructor
@@ -65,11 +72,12 @@ public class LevelEndFragment extends Fragment {
      *
      * @return A LevelEndFragment.
      */
-    public static LevelEndFragment newInstance(GameState gamestate, Level retryLevel, Level nextLevel) {
+    public static LevelEndFragment newInstance(GameState gamestate, Level retryLevel, Level nextLevel, long time) {
         LevelEndFragment lef = new LevelEndFragment();
         lef.setGameState(gamestate);
         lef.setRetryLevel(retryLevel);
         lef.setNextLevel(nextLevel);
+        lef.setTime(time);
         return lef;
     }
 
@@ -83,6 +91,10 @@ public class LevelEndFragment extends Fragment {
 
     private void setNextLevel(Level nextLevel) {
         this.nextLevel = nextLevel;
+    }
+
+    private void setTime(long time) {
+        this.time = time;
     }
 
 
@@ -117,15 +129,20 @@ public class LevelEndFragment extends Fragment {
 
             // TODO: Set level end info
             //((TextView) view.findViewById(R.id.grade)).setText("");
+
             ((TextView) view.findViewById(R.id.score)).setText("" + gamestate.getScore());
-            //((TextView) view.findViewById(R.id.time)).setText("");
+
+            Date date = new Date(time);
+            DateFormat formatter = new SimpleDateFormat("mm:ss:SSS");
+            String timeText = formatter.format(date);
+            ((TextView) view.findViewById(R.id.time)).setText(timeText);
 
             nextLevelButton = (Button) view.findViewById(R.id.next_level_button);
             nextLevelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "Next level button pressed");
-                    Toast.makeText(getActivity(), "Not yet working...", Toast.LENGTH_LONG);
+                    Toast.makeText(getActivity(), "Not yet working...", Toast.LENGTH_LONG).show();
                 }
             });
 

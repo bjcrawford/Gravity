@@ -40,7 +40,7 @@ public class LevelFragment extends Fragment implements
 
     /* An interface for communicating with the parent activity (PlayGameActivity) */
     public interface OnLevelFragmentInteractionListener {
-        public void OnLevelFragmentEnd(GameState gamestate, Level currentLevel);
+        public void OnLevelFragmentEnd(GameState gamestate, Level currentLevel, long time);
     }
 
     /* The interface to communicate with the parent activity (PlayGameActivity) */
@@ -235,9 +235,9 @@ public class LevelFragment extends Fragment implements
      * @param gamestate The game state component
      * @param currentLevel The current level
      */
-    public void onLevelEnd(GameState gamestate, Level currentLevel) {
+    public void onLevelEnd(GameState gamestate, Level currentLevel, long time) {
         if (listener != null) {
-            listener.OnLevelFragmentEnd(gamestate, currentLevel);
+            listener.OnLevelFragmentEnd(gamestate, currentLevel, time);
         }
     }
 
@@ -263,8 +263,8 @@ public class LevelFragment extends Fragment implements
     }
 
     @Override
-    public void OnControllerThreadEnd(GameState gamestate) {
-        onLevelEnd(gamestate, level);
+    public void OnControllerThreadEnd(GameState gamestate, long time) {
+        onLevelEnd(gamestate, level, time);
     }
 
     /**

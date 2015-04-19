@@ -13,7 +13,10 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -137,7 +140,7 @@ public class GamePlaySurface extends SurfaceView {
      * draws all graphics entities on the screen
      * @throws Exception
      */
-    public void drawScene(Canvas canvas) throws Exception {
+    public void drawScene(Canvas canvas, long time) throws Exception {
 
         //make sure the surface is ready
         if(canvas == null) throw new Exception("Canvas is null: the canvas have not been constructed on the surfaceView");
@@ -146,6 +149,7 @@ public class GamePlaySurface extends SurfaceView {
         //draw the separate layers on the screen
         drawEntities(canvas);
         drawMap(canvas);
+        drawTimer(canvas, time);
         drawScore(canvas);
     }
 
@@ -287,6 +291,34 @@ public class GamePlaySurface extends SurfaceView {
      * @param canvas
      */
     private void drawScore(Canvas canvas){}
+
+    private void drawTimer(Canvas canvas, Long time) {
+
+        RectF timerBgBounds = new RectF();
+        timerBgBounds.set(0, 0, sf * PlayGameActivity.STANDARD_WIDTH / 7, sf * PlayGameActivity.STANDARD_WIDTH / 32);
+
+        // Draw black background
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(timerBgBounds, paint);
+
+        // Draw white outline
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(2);
+        canvas.drawRect(timerBgBounds, paint);
+
+        Date date = new Date(time);
+        DateFormat formatter = new SimpleDateFormat("mm:ss:SSS");
+        String timeText = formatter.format(date);
+
+        // Draw text
+        Paint p = new Paint();
+        p.setTextSize(70);
+        p.setColor(Color.WHITE);
+        canvas.drawText(timeText, 15, sf * PlayGameActivity.STANDARD_WIDTH / 32 - 10, p);
+    }
 
 }
 

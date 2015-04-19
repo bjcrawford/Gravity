@@ -28,7 +28,7 @@ public class ControllerThread extends Thread {
 
     /* An interface for communicating with the level fragment */
     public interface OnControllerThreadInteractionListener {
-        public void OnControllerThreadEnd(GameState gamestate);
+        public void OnControllerThreadEnd(GameState gamestate, long time);
     }
 
     /* The interface to communicate with the level fragment */
@@ -89,6 +89,8 @@ public class ControllerThread extends Thread {
         long testFPS = 0;
         boolean wasPaused = false;
 
+        long gameStartTime = currentTime;
+
         //game loop
         while (run) {
 
@@ -112,6 +114,7 @@ public class ControllerThread extends Thread {
             if (wasPaused) {
                 // Add length of pause to the current time
                 currentTime += (System.currentTimeMillis() - pauseStartTime);
+                gameStartTime += (System.currentTimeMillis() - pauseStartTime);
                 wasPaused = false;
             }
 
@@ -156,7 +159,7 @@ public class ControllerThread extends Thread {
             if(canvas != null){
                 synchronized (gamePlaySurface.getHolder()) {
                     try {
-                        gamePlaySurface.drawScene(canvas);
+                        gamePlaySurface.drawScene(canvas, System.currentTimeMillis() - gameStartTime);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -192,7 +195,7 @@ public class ControllerThread extends Thread {
         // Empty contents of event queue checking for loop ending states
 
         // Call to level fragment levelFragmentListener reporting loop ending state
-        onControllerThreadEnd(model.getGameStateModel());
+        onControllerThreadEnd(model.getGameStateModel(), (System.currentTimeMillis() - gameStartTime));
 
 
     }
@@ -203,9 +206,9 @@ public class ControllerThread extends Thread {
      *
      * @param gamestate The end level gamestate
      */
-    public void onControllerThreadEnd(GameState gamestate) {
+    public void onControllerThreadEnd(GameState gamestate, long time) {
         if (levelFragmentListener != null) {
-            levelFragmentListener.OnControllerThreadEnd(gamestate);
+            levelFragmentListener.OnControllerThreadEnd(gamestate, time);
         }
     }
 

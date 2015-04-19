@@ -144,9 +144,9 @@ public class PlayGameActivity extends Activity implements
      * @param currentLevel The level that was played
      */
     @Override
-    public void OnLevelFragmentEnd(GameState gamestate, Level currentLevel) {
+    public void OnLevelFragmentEnd(GameState gamestate, Level currentLevel, long time) {
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        currentFrag = LevelEndFragment.newInstance(gamestate, currentLevel, null);
+        currentFrag = LevelEndFragment.newInstance(gamestate, currentLevel, null, time);
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, currentFrag, LEVEL_END_FRAG_TAG)
                 .commit();
