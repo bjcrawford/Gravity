@@ -38,4 +38,8 @@ public class Player extends GamePiece {
 
 // Getters and Setters -----------------------------------------------------------------------------
 
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
 }

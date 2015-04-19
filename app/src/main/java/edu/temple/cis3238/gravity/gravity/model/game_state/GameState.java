@@ -9,6 +9,7 @@ import java.util.List;
 
 import edu.temple.cis3238.gravity.gravity.model.Point;
 import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Event;
+import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.GamePiece;
 import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Objective;
 import edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece.Player;
 
@@ -103,11 +104,15 @@ public class GameState {
 // Public ------------------------------------------------------------------------------------------
 
     public void updateGameState(Point playerPosition) {
+        //this.player.setPosition(playerPosition);
         // If there are objectives remaining.
         if(this.objectives.size() > 0) {
+            System.out.println("Multiple objectives: True");
             // If the Player is proximal to the next objective.
-            if(this.areProximal(this.player.getPosition(), this.objectives.get(0).getPosition(),
-                    this.player.getProximity() + this.objectives.get(0). getProximity())) {
+            if(this.areProximal(playerPosition,
+                    this.objectives.get(0).getPosition(),
+                    200 + this.objectives.get(0). getProximity())) {
+                System.out.println("Are proximal: True");
                 this.objectives.remove(0);
             }
         }
@@ -119,6 +124,31 @@ public class GameState {
             this.playable = false;
             this.gameWon = true;
         }
+        System.out.println("Playable: " + this.playable);
+        System.out.println("Game Won: " + this.gameWon);
+    }
+
+    /**
+     * Gathers a list of game pieces within the given bounds.
+     * @param center The center of the region of observation.
+     * @param xDiff One half of the width of the desired region.
+     * @param yDiff One half of the height of the desired region.
+     * @return A list of all game pieces found within the given region.
+     */
+    public List<GamePiece> observe(Point center, int xDiff, int yDiff) {
+        List<GamePiece> subjects = new ArrayList<GamePiece>();
+
+        for(Objective objective : this.objectives) {
+            // If the objective is within the region of observation
+            if(objective.getPosition().x >= center.x - xDiff - objective.getProximity()
+                    && objective.getPosition().x <= center.x + xDiff + objective.getProximity()
+                    && objective.getPosition().y >= center.y - yDiff - objective.getProximity()
+                    && objective.getPosition().y <= center.y + yDiff + objective.getProximity()) {
+                // Add it to the list of subjects
+                subjects.add(objective);
+            }
+        }
+        return subjects;
     }
 
     public JSONObject toJSON() {
