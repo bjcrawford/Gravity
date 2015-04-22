@@ -1,0 +1,16 @@
+edu.temple.cis3238.gravity.gravity.activity
+edu.temple.cis3238.gravity.gravity.controller
+edu.temple.cis3238.gravity.gravity.event
+edu.temple.cis3238.gravity.gravity.fragment
+edu.temple.cis3238.gravity.gravity.gesture_detection
+edu.temple.cis3238.gravity.gravity.levellistitem
+edu.temple.cis3238.gravity.gravity.model
+edu.temple.cis3238.gravity.gravity.model.game_state
+edu.temple.cis3238.gravity.gravity.model.game_state.gamepiece
+edu.temple.cis3238.gravity.gravity.model.graphics2d
+edu.temple.cis3238.gravity.gravity.model.graphics2d.graphicsentity
+edu.temple.cis3238.gravity.gravity.model.physicd2d
+edu.temple.cis3238.gravity.gravity.model.physicd2d.entity
+edu.temple.cis3238.gravity.gravity.storylistitem
+edu.temple.cis3238.gravity.gravity.util
+edu.temple.cis3238.gravity.gravity.view
