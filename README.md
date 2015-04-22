@@ -81,4 +81,4 @@ UI and logic. Each represents a self-contained screen.
 
 ### Java Documentation
 
-You can view the java docs at [http://bcrawford.github.io/Gravity](http://bcrawford.github.io/Gravity).
+You can view the java docs at [http://bjcrawford.github.io/Gravity](http://bjcrawford.github.io/Gravity).
